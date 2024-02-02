@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "Welcome to my Website! Hopefully, I can share something that brings you a sense of relaxation!"
+title: "About me"
 excerpt: "About me"
 author_profile: true
 redirect_from: 
@@ -8,7 +8,8 @@ redirect_from:
   - /about.html
 ---
 
-This is the front page of a website that is powered by the [academicpages template](https://github.com/academicpages/academicpages.github.io) and hosted on GitHub pages. [GitHub pages](https://pages.github.com) is a free service in which websites are built and hosted from code and data stored in a GitHub repository, automatically updating when a new commit is made to the respository. This template was forked from the [Minimal Mistakes Jekyll Theme](https://mmistakes.github.io/minimal-mistakes/) created by Michael Rose, and then extended to support the kinds of content that academics have: publications, talks, teaching, a portfolio, blog posts, and a dynamically-generated CV. You can fork [this repository](https://github.com/academicpages/academicpages.github.io) right now, modify the configuration and markdown files, add your own PDFs and other content, and have your own site for free, with no ads! An older version of this template powers my own personal website at [stuartgeiger.com](http://stuartgeiger.com), which uses [this Github repository](https://github.com/staeiou/staeiou.github.io).
+I'm gonna be a First-year Ph.D. student at a university in VA State. previously, I acquired my B.S. in UESTC (2020) and M.S. in NUS (2022).
+At UESTC I worked with Dr. [Zeheng Wang](https://people.csiro.au/W/Z/zeheng-wang) who introduced me to the world of research and sparked my curiosity in pushing the frontiers of science. At NUS, I completed my Master's research projects under the supervision of [Dr.John Ho](https://www.ece.nus.edu.sg/stfpage/hsyj/people.html) and Dr.Xi Tian. Then I started my AI research experience as a remote intern under the supervision of Dr. Xuejiao Zhao, I appreciate for this research opportunity to expand my potential to engage in the AI field. 
 
 A data-driven personal website
 ======
