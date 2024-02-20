@@ -4,14 +4,30 @@ excerpt: "Short description of portfolio item number 1<br/><img src='/images/DSC
 collection: portfolio
 ---
 
-This is an item in your portfolio. It can be have images or nice text. If you name the file .md, it will be parsed as markdown. If you name the file .html, it will be parsed as HTML. 
-
-This is an item in your portfolio. It showcases various scenes in SG. Below are some of the images captured around the city.
-
-<img src="/images/DSC03335.jpg" alt="Image description 1" title="Title 1" style="width: 100%; max-width: 600px; height: auto; margin: 20px 0;">
-
-<img src="/images/DSC03715.jpg" alt="Image description 2" title="Title 2" style="width: 100%; max-width: 600px; height: auto; margin: 20px 0;">
-
-<img src="/images/DSC03851.jpg" alt="Image description 3" title="Title 3" style="width: 100%; max-width: 600px; height: auto; margin: 20px 0;">
-
 You can continue to describe your images or portfolio items here. Markdown supports both HTML and its own syntax, so you can mix and match as needed for your content.
+
+<style>
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Creates a 9-column grid */
+  grid-gap: 10px; /* Adjust the gap between images */
+}
+.grid-item img {
+  width: 100%; /* Makes images fill their container */
+  height: auto; /* Keeps the aspect ratio of the images */
+}
+</style>
+
+<div class="grid-container">
+  <!-- Repeat this block for each of your 81 images -->
+  <div class="grid-item"><img src="/images/DSC03335.jpg" alt="Image description"></div>
+  <div class="grid-item"><img src="/images/DSC03335.jpg" alt="Image description"></div>
+  <div class="grid-item"><img src="/images/DSC03335.jpg" alt="Image description"></div>
+  <div class="grid-item"><img src="/images/DSC03335.jpg" alt="Image description"></div>
+  <div class="grid-item"><img src="/images/DSC03335.jpg" alt="Image description"></div>
+  <div class="grid-item"><img src="/images/DSC03335.jpg" alt="Image description"></div>
+  <div class="grid-item"><img src="/images/DSC03335.jpg" alt="Image description"></div>
+  <div class="grid-item"><img src="/images/DSC03335.jpg" alt="Image description"></div>
+  <div class="grid-item"><img src="/images/DSC03335.jpg" alt="Image description"></div>
+  <!-- Add more <div class="grid-item"> blocks until you have all 81 images -->
+</div>
