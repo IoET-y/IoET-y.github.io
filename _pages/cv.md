@@ -12,29 +12,22 @@ redirect_from:
 Education
 ======
 * B.S. in Microelectronic Sci. & Eng., University of Electronic Science and Technology of China, 2016-2020
-* M.S. in Electrical Engineering, National University Of Singapore, 2021-2022
-* Ph.D in DS/AI, Not decided yet University in USA, 2024-2028 (expected)
+* M.S. in Electrical Engineering, National University of Singapore, 2021-2022
+* Ph.D in DS/AI, The College of William & Mary, 2024-2028 (expected)
 
 Work experience
 ======
-* Summer 2015: Research Assistant
-  * Github University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
+* 2023-2024: Remote Research intern
+  * research topic: Zero-shot triplets extraction with LLMs
+  * Supervisor: Dr. Zhao
 
-* Fall 2015: Research Assistant
-  * Github University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
+* 2022.09-2024.06: Front-End digital IC engineer
+  * The Cambricon.
+  * Duties included: Design specialization development. End-to-end verification strategy development for BT and ST. 
   
 Skills
 ======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
+* ...
 
 Publications
 ======
