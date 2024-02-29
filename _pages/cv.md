@@ -13,7 +13,7 @@ Education
 ======
 * B.S. in Microelectronic Sci. & Eng., University of Electronic Science and Technology of China, 2016-2020
 * M.S. in Electrical Engineering, National University of Singapore, 2021-2022
-* Ph.D in DS/AI, The College of William & Mary, 2024-2028 (expected)
+* Ph.D. in DS/AI, The College of William & Mary, 2024-2028 (expected)
 
 Work experience
 ======
