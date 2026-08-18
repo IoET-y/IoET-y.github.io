@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Di Yang | Ph.D. Student in Data Science | William & Mary</title>
+  <meta name="description" content="Di Yang is a Ph.D. student in Data Science at The College of William & Mary. Research focus on Deep Reinforcement Learning, VLA Models, Multi-Agent Systems, and 3D Simulation.">
+  <meta name="author" content="Di Yang">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Di Yang | Academic Homepage">
+  <meta property="og:description" content="Ph.D. Student in Data Science at William & Mary. Deep RL, VLA Models, Multi-Agent Systems, 3D Simulation.">
+  <meta property="og:image" content="images/probio.png">
+  <meta property="og:url" content="https://ioet-y.github.io/">
+  <meta property="og:type" content="website">
+
+  <!-- Favicon -->
+  <link rel="icon" href="images/site-logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="images/probio.png">
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Site Navigation Header -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="#hero" class="nav-brand">
+        <span>Di Yang</span>
+        <span class="brand-badge">W&M CS/DS</span>
+      </a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#about" class="active">About</a></li>
+        <li><a href="#news">News</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#gallery">Life & Hobbies</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle-btn" title="Switch Theme" aria-label="Toggle Theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle mobile menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero / Profile Section -->
+    <section id="hero" class="hero-section">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-content">
+            <h1>Di Yang <span class="cn-name">杨迪</span></h1>
+            <div class="subtitle">Ph.D. Student in Data Science</div>
+            
+            <div class="hero-meta">
+              <div class="meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M3 7v14M21 7v14M6 11h4M6 15h4M14 11h4M14 15h4M12 3L2 7h20l-10-4z"/></svg>
+                <span>The College of William & Mary</span>
+              </div>
+              <div class="meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20"/></svg>
+                <span>Advisor: <a href="https://scholar.google.com/citations?user=zgw24FAAAAAJ" target="_blank" rel="noopener">Dr. Yanhai Xiong</a></span>
+              </div>
+              <div class="meta-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>Williamsburg, VA, USA</span>
+              </div>
+            </div>
+
+            <div class="hero-bio" id="about">
+              <p>
+                I am a Ph.D. student in the Department of Data Science at <strong>The College of William & Mary</strong>, supervised by <a href="https://scholar.google.com/citations?user=zgw24FAAAAAJ" target="_blank" rel="noopener">Dr. Yanhai Xiong</a>. Previously, I obtained my M.Sc. in Electrical Engineering from the <strong>National University of Singapore (NUS)</strong> (advised by Dr. John S. Ho) and B.Eng. in Microelectronic Science and Engineering from <strong>University of Electronic Science and Technology of China (UESTC)</strong>.
+              </p>
+              <p>
+                Prior to my Ph.D., I worked as a Digital Logic Engineer at <strong>Cambricon Technologies</strong>, focusing on the verification and latency optimization of large-scale AI accelerator chips. Currently, I am also a research collaborator at <strong>SparcAI</strong> (advised by Dr. Yufei Wang).
+              </p>
+              <p>
+                My research interests encompass <strong>Deep Reinforcement Learning (PPO, SAC, GRPO)</strong>, <strong>Vision-Language-Action (VLA) Models</strong>, <strong>Multi-Agent Systems & 3D Simulation Environments</strong>, and <strong>LLM Inference Optimization (Speculative Decoding & KV Cache)</strong>.
+              </p>
+            </div>
+
+            <div class="social-links-bar">
+              <a href="mailto:dyang06@wm.edu" class="btn btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <span>Email</span>
+              </a>
+              <a href="https://scholar.google.com/citations?user=ehPJeUgAAAAJ&hl=en" target="_blank" rel="noopener" class="btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.838 3.94A8 8 0 0 1 12 9a8 8 0 0 1 7.162 4.44L24 9.5z"/></svg>
+                <span>Google Scholar</span>
+              </a>
+              <a href="https://openreview.net/profile?id=~Di_Yang10" target="_blank" rel="noopener" class="btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                <span>OpenReview</span>
+              </a>
+              <a href="https://github.com/IoET-y" target="_blank" rel="noopener" class="btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                <span>GitHub</span>
+              </a>
+              <a href="images/probio.png" class="btn" title="Download CV">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                <span>CV (PDF)</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="hero-avatar-box">
+            <div class="avatar-wrapper">
+              <img src="images/probio.png" alt="Di Yang" class="avatar-img" onerror="this.src='images/profile.png'">
+            </div>
+            <div class="status-badge">
+              <span class="status-dot"></span>
+              <span>Open to Collaboration</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- News & Updates Section -->
+    <section id="news" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+            <span>News & Updates</span>
+          </h2>
+          <p class="section-subtitle">Latest academic milestones, publications, and updates</p>
+        </div>
+
+        <div class="news-list">
+          <div class="news-item">
+            <span class="news-date">Feb 2026</span>
+            <div class="news-text">Conceptualized a novel <strong>Vision-Language-Action (VLA)</strong> framework for large-scale Combinatorial Optimization problems (MIS, VRP, Bin Packing).</div>
+          </div>
+          <div class="news-item">
+            <span class="news-date">Jan 2026</span>
+            <div class="news-text">Joined <strong>SparcAI</strong> as Research Collaborator (Advisor: Dr. Yufei Wang), achieving a <strong>2.34x speedup</strong> in Trellis2 3D generation via FreeFlow distillation.</div>
+          </div>
+          <div class="news-item">
+            <span class="news-date">Dec 2025</span>
+            <div class="news-text">Formulated an <strong>RL-Guided Auxiliary Policy</strong> for Dynamic Speculative Decoding to accelerate LLM inference tokens-per-second (TPS).</div>
+          </div>
+          <div class="news-item">
+            <span class="news-date">Aug 2025</span>
+            <div class="news-text">🎉 Our paper <em>"UP-Bench: A Benchmark for Underwater Path Planning Algorithms"</em> was accepted for an <strong>Oral Presentation</strong> at <strong>KDD 2025 (Benchmark Track)</strong>!</div>
+          </div>
+          <div class="news-item">
+            <span class="news-date">Jun 2025</span>
+            <div class="news-text">Awarded the <strong>Summer Research Fellowship</strong> at The College of William & Mary.</div>
+          </div>
+          <div class="news-item">
+            <span class="news-date">Sep 2024</span>
+            <div class="news-text">Started my Ph.D. journey in Data Science at <strong>The College of William & Mary</strong> under the supervision of Dr. Yanhai Xiong.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Research Focus Pillars -->
+    <section id="research" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            <span>Research Focus</span>
+          </h2>
+          <p class="section-subtitle">Core research pillars spanning reinforcement learning, multimodal decision-making, and simulation</p>
+        </div>
+
+        <div class="focus-grid">
+          <div class="focus-card">
+            <div class="focus-card-icon">⚡</div>
+            <h3>Deep RL & LLM Inference</h3>
+            <p>Formulating speculative decoding draft tree expansion as an MDP, applying PPO, SAC & GRPO with Behavior Cloning, and solving KV Cache slippage to maximize Tokens-Per-Second (TPS).</p>
+          </div>
+
+          <div class="focus-card">
+            <div class="focus-card-icon">🎯</div>
+            <h3>VLA & Decision Making</h3>
+            <p>Developing Vision-Language-Action frameworks for large-scale Combinatorial Optimization (MIS, VRP, Bin Packing) to overcome spatial grounding limits of pure VLMs.</p>
+          </div>
+
+          <div class="focus-card">
+            <div class="focus-card-icon">🌊</div>
+            <h3>3D Simulation & MAPF</h3>
+            <p>Building realistic simulation platforms (UP-Bench for underwater dynamics) and novel Multi-Agent Pathfinding architectures (LENS) decoupling macro U-Net spatial reasoning from collision avoidance.</p>
+          </div>
+
+          <div class="focus-card">
+            <div class="focus-card-icon">🚀</div>
+            <h3>Generative AI & Distillation</h3>
+            <p>Accelerating 3D diffusion pipelines (Trellis2 3D generation) via non-data-driven FreeFlow distillation methods, achieving over 2.34x speedup without paired datasets.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Selected Publications Section -->
+    <section id="publications" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <span>Selected Publications & Manuscripts</span>
+          </h2>
+          <p class="section-subtitle">Peer-reviewed papers, benchmark platforms, and preprints</p>
+        </div>
+
+        <div class="pub-filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="benchmark">Benchmark & Simulation</button>
+          <button class="filter-btn" data-filter="co">Combinatorial Optimization</button>
+          <button class="filter-btn" data-filter="mapf">Multi-Agent & Robotics</button>
+          <button class="filter-btn" data-filter="sciml">SciML & PDE</button>
+        </div>
+
+        <div class="pub-list">
+          <!-- Paper 1: UP-Bench -->
+          <div class="pub-card" data-category="benchmark mapf">
+            <div class="pub-header">
+              <h3 class="pub-title">UP-Bench: A Benchmark for Underwater Path Planning Algorithms</h3>
+              <span class="badge badge-oral">🏆 KDD 2025 Oral</span>
+            </div>
+            <div class="pub-authors">
+              <span class="author-me">Di Yang</span>, Yanhai Xiong
+            </div>
+            <div class="pub-venue">ACM SIGKDD Conference on Knowledge Discovery and Data Mining (KDD 2025, Benchmark Track Oral)</div>
+            <div class="pub-description">
+              A highly configurable open-source 3D simulation benchmark platform incorporating realistic fluid dynamics, partial observability, and dynamic obstacles. Comprehensive benchmarking of learning-based Deep Reinforcement Learning (SAC) and classical planning algorithms.
+            </div>
+            <div class="pub-actions">
+              <a href="https://scholar.google.com/citations?user=ehPJeUgAAAAJ" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Paper</a>
+              <a href="https://github.com/IoET-y" target="_blank" rel="noopener" class="btn btn-sm">Code / Platform</a>
+              <button class="btn btn-sm btn-bibtex" data-target="bib-upbench">BibTeX</button>
+            </div>
+            <div class="bibtex-box" id="bib-upbench">
+              <button class="btn btn-sm bibtex-copy-btn">Copy</button>
+              <code>@inproceedings{yang2025upbench,
+  title={UP-Bench: A Benchmark for Underwater Path Planning Algorithms},
+  author={Yang, Di and Xiong, Yanhai},
+  booktitle={Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining (KDD)},
+  year={2025}
+}</code>
+            </div>
+          </div>
+
+          <!-- Paper 2: HyCO -->
+          <div class="pub-card" data-category="co">
+            <div class="pub-header">
+              <h3 class="pub-title">HyCO: A Theoretically-Grounded Hybrid Neural Solver for Combinatorial Optimization</h3>
+              <span class="badge badge-review">Under Review (ICML 2026)</span>
+            </div>
+            <div class="pub-authors">
+              <span class="author-me">Di Yang</span> et al.
+            </div>
+            <div class="pub-venue">International Conference on Machine Learning (ICML 2026, Under Review)</div>
+            <div class="pub-description">
+              Bridges sequential Reinforcement Learning solvers and global Diffusion Models with an adaptive trigger based on RL policy entropy and KL-divergence, mitigating compounding step-errors in high-dimensional decision spaces.
+            </div>
+            <div class="pub-actions">
+              <a href="https://openreview.net/profile?id=~Di_Yang10" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Preprint</a>
+              <a href="https://github.com/IoET-y" target="_blank" rel="noopener" class="btn btn-sm">Code</a>
+              <button class="btn btn-sm btn-bibtex" data-target="bib-hyco">BibTeX</button>
+            </div>
+            <div class="bibtex-box" id="bib-hyco">
+              <button class="btn btn-sm bibtex-copy-btn">Copy</button>
+              <code>@article{yang2026hyco,
+  title={HyCO: A Theoretically-Grounded Hybrid Neural Solver for Combinatorial Optimization},
+  author={Yang, Di and others},
+  journal={Under Review at ICML},
+  year={2026}
+}</code>
+            </div>
+          </div>
+
+          <!-- Paper 3: LENS -->
+          <div class="pub-card" data-category="mapf benchmark">
+            <div class="pub-header">
+              <h3 class="pub-title">LENS: Learning to Navigate with Active Search for Partially Observable MAPF in Unknown Environments</h3>
+              <span class="badge badge-review">Under Review (TMLR)</span>
+            </div>
+            <div class="pub-authors">
+              <span class="author-me">Di Yang</span> et al.
+            </div>
+            <div class="pub-venue">Transactions on Machine Learning Research (TMLR, Under Review)</div>
+            <div class="pub-description">
+              Proposes a hybrid Multi-Agent Pathfinding (MAPF) architecture decoupling macro-topological spatial reasoning (via U-Nets) from micro-level collision avoidance, achieving out-of-distribution generalization with &lt;0.2% training data.
+            </div>
+            <div class="pub-actions">
+              <a href="https://openreview.net/profile?id=~Di_Yang10" target="_blank" rel="noopener" class="btn btn-sm btn-primary">OpenReview</a>
+              <button class="btn btn-sm btn-bibtex" data-target="bib-lens">BibTeX</button>
+            </div>
+            <div class="bibtex-box" id="bib-lens">
+              <button class="btn btn-sm bibtex-copy-btn">Copy</button>
+              <code>@article{yang2026lens,
+  title={LENS: Learning to Navigate with Active Search for Partially Observable MAPF in Unknown Environments},
+  author={Yang, Di and others},
+  journal={Transactions on Machine Learning Research (TMLR)},
+  year={2026}
+}</code>
+            </div>
+          </div>
+
+          <!-- Paper 4: Latent Space PDE -->
+          <div class="pub-card" data-category="sciml">
+            <div class="pub-header">
+              <h3 class="pub-title">Latent Space Learning for PDE Systems with Complex Boundary Conditions</h3>
+              <span class="badge badge-review">Under Review (TMLR)</span>
+            </div>
+            <div class="pub-authors">
+              <span class="author-me">Di Yang</span> et al.
+            </div>
+            <div class="pub-venue">Transactions on Machine Learning Research (TMLR, Under Review)</div>
+            <div class="pub-description">
+              Formulates an efficient latent representation learning framework for non-linear Partial Differential Equation (PDE) systems subject to intricate physical boundary constraints.
+            </div>
+            <div class="pub-actions">
+              <a href="https://openreview.net/profile?id=~Di_Yang10" target="_blank" rel="noopener" class="btn btn-sm btn-primary">OpenReview</a>
+              <button class="btn btn-sm btn-bibtex" data-target="bib-pde">BibTeX</button>
+            </div>
+            <div class="bibtex-box" id="bib-pde">
+              <button class="btn btn-sm bibtex-copy-btn">Copy</button>
+              <code>@article{yang2026latentpde,
+  title={Latent Space Learning for PDE Systems with Complex Boundary Conditions},
+  author={Yang, Di and others},
+  journal={Transactions on Machine Learning Research (TMLR)},
+  year={2026}
+}</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience & Timeline Section -->
+    <section id="experience" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            <span>Research & Industry Experience</span>
+          </h2>
+          <p class="section-subtitle">Academic research collaborations, engineering roles, and appointments</p>
+        </div>
+
+        <div class="timeline">
+          <!-- SparcAI -->
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-header">
+                <div class="timeline-role">Research Collaborator</div>
+                <div class="timeline-date">Jan 2026 – Present</div>
+              </div>
+              <div class="timeline-org">SparcAI (Remote) • Advisor: Dr. Yufei Wang</div>
+              <div class="timeline-body">
+                <ul>
+                  <li>Accelerated the open-source <strong>Trellis2 3D generation</strong> framework via a non-data-driven <strong>FreeFlow</strong> method, eliminating reliance on large paired datasets.</li>
+                  <li>Conducted post-training optimization with discrete-time trajectory prediction, yielding a <strong>2.34x speedup</strong> in texture generation and <strong>1.3x speedup</strong> in shape generation.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- William & Mary Research -->
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-header">
+                <div class="timeline-role">Ph.D. Researcher & Graduate Assistant</div>
+                <div class="timeline-date">Sep 2024 – Present</div>
+              </div>
+              <div class="timeline-org">The College of William & Mary • Advisor: Dr. Yanhai Xiong</div>
+              <div class="timeline-body">
+                <ul>
+                  <li><strong>RL-Guided Auxiliary Speculative Decoding:</strong> Formulated draft tree expansion as MDP; trained policy via Behavior Cloning + PPO/SAC/GRPO to maximize Tokens-Per-Second (TPS) and resolve KV cache slippage.</li>
+                  <li><strong>Vision-Language-Action (VLA) for Combinatorial Optimization:</strong> Decoupled pre-trained VLM backbone with continuous-action Actor network trained via BC & RL.</li>
+                  <li><strong>Underwater 3D Simulation & MAPF:</strong> Created UP-Bench (KDD 2025 Oral) with HoloOcean and designed LENS MAPF architecture.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cambricon Technologies -->
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-header">
+                <div class="timeline-role">Digital Logic Engineer</div>
+                <div class="timeline-date">Aug 2022 – Jul 2024</div>
+              </div>
+              <div class="timeline-org">Cambricon Technologies Co., Ltd. (AI Chip Unicorn, Beijing)</div>
+              <div class="timeline-body">
+                <ul>
+                  <li>Designed and executed rigorous verification pipelines for large-scale AI accelerator chips under tight timing constraints.</li>
+                  <li>Optimized system performance verification, focusing on low-latency data flow and robust error handling mechanisms for real-time AI serving.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- NUS -->
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-header">
+                <div class="timeline-role">Graduate Researcher</div>
+                <div class="timeline-date">Jan 2021 – Jan 2022</div>
+              </div>
+              <div class="timeline-org">National University of Singapore (NUS) • Advisor: Dr. John S. Ho</div>
+              <div class="timeline-body">
+                <ul>
+                  <li>Conducted graduate research in electrical & computer engineering, wireless and intelligent micro-systems.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education, Honors & Skills Section -->
+    <section id="education" class="section">
+      <div class="container">
+        <div class="two-col-grid">
+          <!-- Education Card -->
+          <div class="card">
+            <h3 class="section-title" style="font-size:1.3rem; margin-bottom:1.25rem;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              <span>Education</span>
+            </h3>
+
+            <div class="edu-item">
+              <div class="edu-degree">Ph.D. in Data Science</div>
+              <div class="edu-school">The College of William & Mary</div>
+              <div class="edu-meta">Sep 2024 – Present • Advisor: Dr. Yanhai Xiong</div>
+            </div>
+
+            <div class="edu-item">
+              <div class="edu-degree">M.Sc. in Electrical Engineering</div>
+              <div class="edu-school">National University of Singapore (NUS)</div>
+              <div class="edu-meta">Jan 2021 – Jan 2022 • Advisor: Dr. John S. Ho</div>
+            </div>
+
+            <div class="edu-item">
+              <div class="edu-degree">B.Eng. in Microelectronic Science and Engineering</div>
+              <div class="edu-school">University of Electronic Science and Technology of China (UESTC)</div>
+              <div class="edu-meta">Sep 2016 – Jul 2020 • Chengdu, China</div>
+            </div>
+          </div>
+
+          <!-- Honors & Technical Skills Card -->
+          <div class="card">
+            <h3 class="section-title" style="font-size:1.3rem; margin-bottom:1.25rem;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+              <span>Honors & Skills</span>
+            </h3>
+
+            <div class="honor-item">
+              <div class="edu-degree">Summer Research Fellowship</div>
+              <div class="edu-school">The College of William & Mary</div>
+              <div class="edu-meta">2025</div>
+            </div>
+
+            <div class="honor-item">
+              <div class="edu-degree">Scholarship for Model Student</div>
+              <div class="edu-school">University of Electronic Science and Technology of China</div>
+              <div class="edu-meta">2018, 2019</div>
+            </div>
+
+            <div style="margin-top:1.25rem;">
+              <div style="font-weight:700; font-size:0.9rem; margin-bottom:0.4rem; color:var(--text-primary);">Technical Skills</div>
+              <div class="skills-tags">
+                <span class="skill-tag">Deep RL (PPO/SAC/GRPO)</span>
+                <span class="skill-tag">VLA & LLMs</span>
+                <span class="skill-tag">Speculative Decoding</span>
+                <span class="skill-tag">Diffusion Models</span>
+                <span class="skill-tag">PyTorch</span>
+                <span class="skill-tag">JAX</span>
+                <span class="skill-tag">CUDA</span>
+                <span class="skill-tag">HoloOcean</span>
+                <span class="skill-tag">MAPF</span>
+                <span class="skill-tag">Linux</span>
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">C/C++</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Life & Photography Section -->
+    <section id="gallery" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span>Life & Photography</span>
+          </h2>
+          <p class="section-subtitle">Outside the lab, I am passionate about Downhill Mountain Biking, Rock Climbing, Basketball, Cooking & Photography</p>
+        </div>
+
+        <div class="gallery-grid">
+          <div class="gallery-card">
+            <img src="images/DSC00394.jpg" alt="Photography by Di Yang" loading="lazy">
+            <div class="gallery-overlay">Moments & Light</div>
+          </div>
+          <div class="gallery-card">
+            <img src="images/DSC00564.jpg" alt="Photography by Di Yang" loading="lazy">
+            <div class="gallery-overlay">Nature & Trails</div>
+          </div>
+          <div class="gallery-card">
+            <img src="images/DSC00569-已增强.jpg" alt="Photography by Di Yang" loading="lazy">
+            <div class="gallery-overlay">Exploration</div>
+          </div>
+          <div class="gallery-card">
+            <img src="images/DSC00996.jpg" alt="Photography by Di Yang" loading="lazy">
+            <div class="gallery-overlay">Serenity</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>© 2026 Di Yang (杨迪) • All Rights Reserved.</p>
+      <p>Hosted on <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> • Built with modern semantic HTML5, CSS3 & JavaScript.</p>
+    </div>
+  </footer>
+
+  <!-- Back to top button -->
+  <button id="back-to-top" class="back-to-top" title="Back to top" aria-label="Back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <!-- JavaScript -->
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
