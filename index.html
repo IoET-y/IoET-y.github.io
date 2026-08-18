@@ -93,13 +93,13 @@
 
             <div class="hero-bio" id="about">
               <p>
-                I am a Ph.D. student in the Department of Data Science at <strong>The College of William & Mary</strong>, advised by <a href="https://scholar.google.com/citations?user=zgw24FAAAAAJ" target="_blank" rel="noopener">Dr. Yanhai Xiong</a>. I also work closely with <a href="https://wyf0912.github.io/" target="_blank" rel="noopener">Dr. Yufei Wang</a>. Previously, I obtained my M.Sc. in Electrical Engineering from the <strong>National University of Singapore (NUS)</strong> (advised by Dr. John S. Ho) and B.Eng. in Microelectronic Science and Engineering from <strong>University of Electronic Science and Technology of China (UESTC)</strong>.
+                I am a Ph.D. student in the Department of Data Science at <strong>The College of William & Mary</strong>, advised by <a href="https://scholar.google.com/citations?user=zgw24FAAAAAJ" target="_blank" rel="noopener">Dr. Yanhai Xiong</a>. I also work in close collaboration with <a href="https://wyf0912.github.io/" target="_blank" rel="noopener">Dr. Yufei Wang</a>. Previously, I obtained my M.Sc. in Electrical Engineering from the <strong>National University of Singapore (NUS)</strong> (advised by Dr. John S. Ho) and B.Eng. in Microelectronic Science and Engineering from <strong>University of Electronic Science and Technology of China (UESTC)</strong>.
               </p>
               <p>
-                Prior to my Ph.D., I served as a Digital Logic Engineer at <strong>Cambricon Technologies</strong>, specializing in the verification and latency optimization of large-scale AI accelerator chips.
+                Prior to my Ph.D., I gained industry experience as a Digital Logic Engineer at <strong>Cambricon Technologies</strong>, specializing in functional verification and latency optimization of large-scale AI accelerator chips.
               </p>
               <p>
-                My current research focuses on <strong>World Models</strong>, <strong>World Action Models</strong>, <strong>Multi-Agent World Models</strong>, and <strong>Next-Generation 4D World State Representations</strong>, alongside foundational 3D Generation & Simulation and Deep Reinforcement Learning.
+                My research interests focus on <strong>World Models</strong>, <strong>World Action Models</strong>, <strong>Multi-Agent World Models</strong>, and <strong>Next-Generation 4D World State Representations</strong>, alongside scalable 3D Generation & Simulation and Deep Reinforcement Learning.
               </p>
             </div>
 
@@ -158,7 +158,7 @@
           </div>
           <div class="news-item">
             <span class="news-date">Jan 2026</span>
-            <div class="news-text">Released our latest research <strong>"Channel Match: Calibrating Shape Latents for Few-Step 3D Generation"</strong>, introducing few-step continuous self-consistency distillation and latent calibration for TRELLIS.2 (1024³ resolution).</div>
+            <div class="news-text">Released <strong>"Channel Match: Calibrating Shape Latents for Few-Step 3D Generation"</strong>, introducing continuous self-consistency distillation and latent calibration for TRELLIS.2 (1024³ resolution).</div>
           </div>
           <div class="news-item">
             <span class="news-date">Aug 2025</span>
@@ -191,7 +191,7 @@
           <div class="focus-card">
             <div class="focus-card-icon">🌐</div>
             <h3>World Models & 4D Representation</h3>
-            <p>Building predictive generative world models and next-generation 4D world state representations that capture spatiotemporal physics and environment dynamics for autonomous systems.</p>
+            <p>Building predictive generative world models and next-generation 4D world state representations that capture spatiotemporal physics and environment dynamics for autonomous agents.</p>
           </div>
 
           <div class="focus-card">
@@ -209,7 +209,7 @@
           <div class="focus-card">
             <div class="focus-card-icon">⚡</div>
             <h3>Few-Step 3D Distillation</h3>
-            <p>Accelerating native 3D foundation models (Channel Match for TRELLIS.2) via continuous self-consistency, custom fused JVP FlashAttention kernels, and training-free latent statistics alignment.</p>
+            <p>Accelerating native 3D foundation models (Channel Match for TRELLIS.2) via continuous self-consistency, custom fused JVP FlashAttention kernels, and training-free latent statistics calibration.</p>
           </div>
         </div>
       </div>
@@ -223,12 +223,13 @@
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
             <span>Selected Publications & Manuscripts</span>
           </h2>
-          <p class="section-subtitle">Peer-reviewed papers, accepted articles, and preprints</p>
+          <p class="section-subtitle">Peer-reviewed papers, accepted articles, and research manuscripts</p>
         </div>
 
         <div class="pub-filters">
           <button class="filter-btn active" data-filter="all">All</button>
           <button class="filter-btn" data-filter="3d">3D Generation & Distillation</button>
+          <button class="filter-btn" data-filter="co">Combinatorial Optimization</button>
           <button class="filter-btn" data-filter="mapf">Multi-Agent & Robotics</button>
           <button class="filter-btn" data-filter="benchmark">Benchmark & Simulation</button>
           <button class="filter-btn" data-filter="sciml">SciML & PDE</button>
@@ -246,7 +247,7 @@
             </div>
             <div class="pub-venue">Research Manuscript, 2026</div>
             <div class="pub-description">
-              Presents a scalable few-step distillation framework for native 3D flow models enabled by continuous self-consistency training on sparse structured 3D latents with a custom JVP FlashAttention kernel. Discovers and solves sampling-induced latent distribution drift via <strong>Channel Match</strong>, achieving <strong>4.5× faster geometry sampling</strong> on TRELLIS.2 (1024³ resolution) while restoring downstream PBR texture quality without retraining.
+              Presents a scalable few-step distillation framework for native 3D flow models enabled by continuous self-consistency training on sparse structured 3D latents with a custom JVP FlashAttention kernel. Proposes <strong>Channel Match</strong>, a training-free adaptive per-channel latent calibration method that eliminates PBR texture artifacts, achieving <strong>4.5× faster geometry sampling</strong> on TRELLIS.2 (1024³ resolution).
             </div>
             <div class="pub-actions">
               <a href="#contact" class="btn btn-sm btn-primary">Preprint / PDF</a>
@@ -257,13 +258,42 @@
               <code>@article{yang2026channelmatch,
   title={Channel Match: Calibrating Shape Latents for Few-Step 3D Generation},
   author={Yang, Di and others},
-  journal={arXiv preprint / Manuscript},
+  journal={Research Manuscript},
   year={2026}
 }</code>
             </div>
           </div>
 
-          <!-- Paper 2: LENS (Accepted by TMLR) -->
+          <!-- Paper 2: HyCO (Under Review) -->
+          <div class="pub-card" data-category="co">
+            <div class="pub-header">
+              <h3 class="pub-title">HyCO: A Hybrid Neural Solver for Combinatorial Optimization</h3>
+              <span class="badge badge-review">Under Review (2026)</span>
+            </div>
+            <div class="pub-authors">
+              <span class="author-me">Di Yang</span> et al.
+            </div>
+            <div class="pub-venue">Research Manuscript, Under Review (2026)</div>
+            <div class="pub-description">
+              Bridges sequential Reinforcement Learning solvers and global Diffusion Models with an adaptive trigger based on RL policy entropy and KL-divergence, mitigating compounding step-errors and high-dimensional regret in complex decision-making benchmarks.
+            </div>
+            <div class="pub-actions">
+              <a href="https://openreview.net/profile?id=~Di_Yang10" target="_blank" rel="noopener" class="btn btn-sm btn-primary">Preprint</a>
+              <a href="https://github.com/IoET-y" target="_blank" rel="noopener" class="btn btn-sm">Code</a>
+              <button class="btn btn-sm btn-bibtex" data-target="bib-hyco">BibTeX</button>
+            </div>
+            <div class="bibtex-box" id="bib-hyco">
+              <button class="btn btn-sm bibtex-copy-btn">Copy</button>
+              <code>@article{yang2026hyco,
+  title={HyCO: A Hybrid Neural Solver for Combinatorial Optimization},
+  author={Yang, Di and others},
+  journal={Under Review},
+  year={2026}
+}</code>
+            </div>
+          </div>
+
+          <!-- Paper 3: LENS (Accepted by TMLR) -->
           <div class="pub-card" data-category="mapf benchmark">
             <div class="pub-header">
               <h3 class="pub-title">LENS: Learning to Navigate with Active Search for Partially Observable MAPF in Unknown Environments</h3>
@@ -291,7 +321,7 @@
             </div>
           </div>
 
-          <!-- Paper 3: UP-Bench (KDD 2025 Oral) -->
+          <!-- Paper 4: UP-Bench (KDD 2025 Oral) -->
           <div class="pub-card" data-category="benchmark mapf">
             <div class="pub-header">
               <h3 class="pub-title">UP-Bench: A Benchmark for Underwater Path Planning Algorithms</h3>
@@ -320,7 +350,7 @@
             </div>
           </div>
 
-          <!-- Paper 4: Latent Space PDE -->
+          <!-- Paper 5: Latent Space PDE -->
           <div class="pub-card" data-category="sciml">
             <div class="pub-header">
               <h3 class="pub-title">Latent Space Learning for PDE Systems with Complex Boundary Conditions</h3>
@@ -392,7 +422,7 @@
               <div class="timeline-org">The College of William & Mary • Advisor: <a href="https://scholar.google.com/citations?user=zgw24FAAAAAJ" target="_blank" rel="noopener">Dr. Yanhai Xiong</a></div>
               <div class="timeline-body">
                 <ul>
-                  <li><strong>World Models & 4D Representations:</strong> Researching spatiotemporal dynamics, multi-agent world models, and action-conditioned predictive systems.</li>
+                  <li><strong>World Models & 4D State Representation:</strong> Researching spatiotemporal dynamics, multi-agent world models, and action-conditioned predictive systems.</li>
                   <li><strong>Multi-Agent Pathfinding (LENS):</strong> Designed LENS hybrid MAPF architecture decoupling macro spatial reasoning from micro collision avoidance (<strong>Accepted by TMLR 2026</strong>).</li>
                   <li><strong>Underwater 3D Simulation (UP-Bench):</strong> Built and open-sourced UP-Bench with fluid dynamics and partial observability (<strong>KDD 2025 Oral</strong>).</li>
                 </ul>
@@ -493,6 +523,7 @@
                 <span class="skill-tag">World Models</span>
                 <span class="skill-tag">4D State Representation</span>
                 <span class="skill-tag">3D Generation (TRELLIS.2)</span>
+                <span class="skill-tag">Combinatorial Optimization (HyCO)</span>
                 <span class="skill-tag">Deep RL (PPO/SAC/GRPO)</span>
                 <span class="skill-tag">JVP FlashAttention</span>
                 <span class="skill-tag">PyTorch</span>
@@ -514,9 +545,9 @@
         <div class="section-header">
           <h2 class="section-title">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-            <span>Life & Hobbies</span>
+            <span>Life & Gallery</span>
           </h2>
-          <p class="section-subtitle">Capturing moments through the lens, enjoying the basketball court, and cooking delicious recipes</p>
+          <p class="section-subtitle">Moments through the camera lens, homemade culinary dishes, and outdoor sports</p>
         </div>
 
         <!-- Gallery Tabs -->
@@ -570,38 +601,42 @@
           </div>
         </div>
 
-        <!-- Tab 2: Culinary Arts / Cooking Gallery (Dedicated placeholder slots ready for photos) -->
+        <!-- Tab 2: Culinary Arts / Cooking Gallery (Actual Dishes Loaded!) -->
         <div class="gallery-pane" id="tab-culinary">
           <div class="culinary-welcome">
             <div class="culinary-icon">👨‍🍳</div>
             <div>
               <h3 style="font-size:1.15rem; font-weight:700; margin-bottom:0.3rem;">Culinary Creations & Home Cooking (我的私房菜展区)</h3>
               <p style="color:var(--text-secondary); font-size:0.9rem; line-height:1.6;">
-                Cooking is my creative outlet outside research. Balancing flavors and perfecting cooking techniques is just like training good models. Here is a dedicated showcase for my culinary experiments and gourmet dishes!
+                Cooking is my favorite creative passion outside academic research. Balancing rich spices, mastering heat, and plating beautiful dishes brings the same joy as training great models. Here are some of my recent homemade specialties!
               </p>
             </div>
           </div>
 
           <div class="gallery-grid">
-            <div class="culinary-card-slot">
-              <div class="slot-icon">🥘</div>
-              <div class="slot-title">Signature Special (拿手好菜)</div>
-              <div class="slot-desc">Drop your photo in <code>images/culinary/</code> to display your favorite dish here!</div>
+            <div class="gallery-card">
+              <img src="images/culinary/culinary_1.jpg" alt="Homemade Dish by Di Yang" loading="lazy">
+              <div class="gallery-overlay">Specialty Dish I</div>
             </div>
-            <div class="culinary-card-slot">
-              <div class="slot-icon">🥩</div>
-              <div class="slot-title">Gourmet Entrée (主菜创作)</div>
-              <div class="slot-desc">Ready for your hearty steak, stew, or stir-fry showcase.</div>
+            <div class="gallery-card">
+              <img src="images/culinary/culinary_2.jpg" alt="Homemade Dish by Di Yang" loading="lazy">
+              <div class="gallery-overlay">Gourmet Flavor II</div>
             </div>
-            <div class="culinary-card-slot">
-              <div class="slot-icon">🍜</div>
-              <div class="slot-title">Comfort Noodles & Bowls (风味面食)</div>
-              <div class="slot-desc">Warm home-cooked comfort dishes and noodle bowls.</div>
+            <div class="gallery-card">
+              <img src="images/culinary/culinary_3.jpg" alt="Homemade Dish by Di Yang" loading="lazy">
+              <div class="gallery-overlay">Savory Feast III</div>
             </div>
-            <div class="culinary-card-slot">
-              <div class="slot-icon">🍰</div>
-              <div class="slot-title">Dessert & Baking (烘焙与甜点)</div>
-              <div class="slot-desc">Sweet delights and weekend culinary experiments.</div>
+            <div class="gallery-card">
+              <img src="images/culinary/culinary_4.jpg" alt="Homemade Dish by Di Yang" loading="lazy">
+              <div class="gallery-overlay">Home Delicacy IV</div>
+            </div>
+            <div class="gallery-card">
+              <img src="images/culinary/culinary_5.jpg" alt="Homemade Dish by Di Yang" loading="lazy">
+              <div class="gallery-overlay">Hearty Entrée V</div>
+            </div>
+            <div class="gallery-card">
+              <img src="images/culinary/culinary_6.jpg" alt="Homemade Dish by Di Yang" loading="lazy">
+              <div class="gallery-overlay">Signature Dish VI</div>
             </div>
           </div>
         </div>
@@ -611,23 +646,23 @@
           <div class="card" style="padding:1.75rem;">
             <h3 style="font-size:1.15rem; font-weight:700; margin-bottom:0.75rem; color:var(--text-primary);">Staying Active & Outdoor Passions</h3>
             <p style="color:var(--text-secondary); font-size:0.95rem; line-height:1.7; margin-bottom:1rem;">
-              Outside the laboratory and computing cluster, I maintain high energy and focus through active sports:
+              Outside the laboratory and GPU cluster, I maintain focus, high energy, and mental clarity through sports:
             </p>
             <div class="focus-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
               <div class="focus-card" style="padding:1rem;">
                 <div class="focus-card-icon">🏀</div>
                 <h3>Basketball</h3>
-                <p>Enjoying team chemistry, court vision, and competitive games.</p>
+                <p>Enjoying team chemistry, court vision, and competitive matches.</p>
               </div>
               <div class="focus-card" style="padding:1rem;">
                 <div class="focus-card-icon">🚵‍♂️</div>
                 <h3>Downhill Biking</h3>
-                <p>Speed, precision lines, and adrenaline rush on mountain trails.</p>
+                <p>Speed, technical line choices, and adrenaline on mountain trails.</p>
               </div>
               <div class="focus-card" style="padding:1rem;">
                 <div class="focus-card-icon">🧗‍♂️</div>
                 <h3>Rock Climbing</h3>
-                <p>Solving complex physical beta, grip strength, and bouldering problems.</p>
+                <p>Solving complex physical beta, grip technique, and bouldering problems.</p>
               </div>
             </div>
           </div>
