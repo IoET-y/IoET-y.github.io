@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initNav();
   initPubFilters();
   initBibTeX();
+  initGalleryTabs();
+  initLightbox();
   initBackToTop();
 });
 
@@ -148,6 +150,61 @@ function initBibTeX() {
         });
       }
     });
+  });
+}
+
+function initGalleryTabs() {
+  const tabBtns = document.querySelectorAll(".gallery-tab-btn");
+  const panes = document.querySelectorAll(".gallery-pane");
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      tabBtns.forEach(b => b.classList.remove("active"));
+      panes.forEach(p => p.classList.remove("active"));
+
+      btn.classList.add("active");
+      const targetPane = document.getElementById(btn.getAttribute("data-tab"));
+      if (targetPane) {
+        targetPane.classList.add("active");
+      }
+    });
+  });
+}
+
+function initLightbox() {
+  const modal = document.getElementById("lightbox-modal");
+  const modalImg = document.getElementById("lightbox-img");
+  const closeBtn = document.getElementById("lightbox-close");
+  const cards = document.querySelectorAll(".gallery-card");
+
+  if (!modal || !modalImg) return;
+
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+      const img = card.querySelector("img");
+      if (img) {
+        modalImg.src = img.src;
+        modal.classList.add("show");
+      }
+    });
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      modal.classList.remove("show");
+    });
+  }
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.remove("show");
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal.classList.contains("show")) {
+      modal.classList.remove("show");
+    }
   });
 }
 
