@@ -79,6 +79,10 @@
       <h2 class="section-heading">News & Updates</h2>
       <div class="news-items">
         <div class="news-row">
+          <span class="news-date">2026.09</span>
+          <span class="news-desc">🎉🎉 Double acceptance! Both <em>"VTV-FM"</em> and <em>"HyCO"</em> have been <strong>Accepted by NeurIPS 2026</strong>!</span>
+        </div>
+        <div class="news-row">
           <span class="news-date">2026.02</span>
           <span class="news-desc">🎉 Our paper <em>"LENS: Learning to Navigate with Active Search for Partially Observable MAPF in Unknown Environments"</em> was <strong>Accepted by Transactions on Machine Learning Research (TMLR)</strong>!</span>
         </div>
@@ -130,7 +134,60 @@
 
       <div class="pub-subheading">Peer-Reviewed</div>
 
-      <!-- Paper 1: LENS (Published & Accepted) -->
+      <!-- Paper 1: HyCO (NeurIPS 2026 Accepted) -->
+      <div class="pub-item">
+        <div class="pub-title">
+          <a href="https://openreview.net/forum?id=ncwBmlZFlv" target="_blank" rel="noopener">HyCO: A Hybrid Neural Solver for Combinatorial Optimization</a>
+        </div>
+        <div class="pub-authors">Y. Li, <span class="me">Di Yang*</span>, H. Chen, Y. Xiong (*Co-first author)</div>
+        <div class="pub-venue"><span class="venue-name">Annual Conference on Neural Information Processing Systems (NeurIPS)</span>, 2026 <span class="pub-badge accepted">NeurIPS 2026</span></div>
+        <div class="pub-summary">
+          Designs an RL-to-diffusion handover using policy entropy and model disagreement to combine sequential construction with generative solution completion, reducing TSP-1000 optimality gap from 15.4% to 4.6%.
+        </div>
+        <div class="pub-links">
+          <a href="https://openreview.net/forum?id=ncwBmlZFlv" target="_blank" rel="noopener" class="paper-link">[OpenReview]</a>
+          <a href="https://arxiv.org/abs/2609.07990" target="_blank" rel="noopener" class="paper-link">[arXiv]</a>
+          <a href="https://arxiv.org/pdf/2609.07990" target="_blank" rel="noopener" class="paper-link">[PDF]</a>
+          <button class="paper-link btn-bibtex" data-target="bib-hyco">[BibTeX]</button>
+        </div>
+        <div class="bibtex-card" id="bib-hyco">
+          <button class="bibtex-copy">Copy</button>
+          <code>@inproceedings{li2026hyco,
+  title={HyCO: A Hybrid Neural Solver for Combinatorial Optimization},
+  author={Li, Y. and Yang, Di and Chen, H. and Xiong, Y.},
+  booktitle={Advances in Neural Information Processing Systems (NeurIPS)},
+  year={2026}
+}</code>
+        </div>
+      </div>
+
+      <!-- Paper 2: VTV-FM (NeurIPS 2026 Accepted) -->
+      <div class="pub-item">
+        <div class="pub-title">
+          <a href="https://openreview.net/forum?id=QkeTySGSs0" target="_blank" rel="noopener">VTV-FM: Flow Matching through Variational Terminal-Velocity Closure</a>
+        </div>
+        <div class="pub-authors">H. Jiang, Y. Li, <span class="me">Di Yang*</span>, Y. Xiong, H. Chen, Y. He (*Co-first author)</div>
+        <div class="pub-venue"><span class="venue-name">Annual Conference on Neural Information Processing Systems (NeurIPS)</span>, 2026 <span class="pub-badge accepted">NeurIPS 2026</span></div>
+        <div class="pub-summary">
+          Co-developed phase-space flow matching with cubic Hermite trajectories and a closed-form minimum-acceleration variational closure, achieving FID 2.99 on CIFAR-10 versus 3.45-3.73 for baselines.
+        </div>
+        <div class="pub-links">
+          <a href="https://openreview.net/forum?id=QkeTySGSs0" target="_blank" rel="noopener" class="paper-link">[OpenReview]</a>
+          <a href="https://openreview.net/pdf?id=QkeTySGSs0" target="_blank" rel="noopener" class="paper-link">[PDF]</a>
+          <button class="paper-link btn-bibtex" data-target="bib-vtv">[BibTeX]</button>
+        </div>
+        <div class="bibtex-card" id="bib-vtv">
+          <button class="bibtex-copy">Copy</button>
+          <code>@inproceedings{jiang2026vtvfm,
+  title={VTV-FM: Flow Matching through Variational Terminal-Velocity Closure},
+  author={Jiang, H. and Li, Y. and Yang, Di and Xiong, Y. and Chen, H. and He, Y.},
+  booktitle={Advances in Neural Information Processing Systems (NeurIPS)},
+  year={2026}
+}</code>
+        </div>
+      </div>
+
+      <!-- Paper 3: LENS (Published & Accepted) -->
       <div class="pub-item">
         <div class="pub-title">
           <a href="https://openreview.net/forum?id=DuNU6ZN5GG" target="_blank" rel="noopener">LENS: Learning to Navigate with Active Search for Partially Observable MAPF in Unknown Environments</a>
@@ -156,7 +213,7 @@
         </div>
       </div>
 
-      <!-- Paper 2: UP-Bench (Published Oral) -->
+      <!-- Paper 4: UP-Bench (Published Oral) -->
       <div class="pub-item">
         <div class="pub-title">
           <a href="https://dl.acm.org/doi/abs/10.1145/3711896.3737424" target="_blank" rel="noopener">UP-Bench: A Benchmark for Underwater Path Planning Algorithms</a>
@@ -185,33 +242,7 @@
 
       <div class="pub-subheading">Manuscripts Under Review</div>
 
-      <!-- Paper 3: HyCO (Released on arXiv) -->
-      <div class="pub-item">
-        <div class="pub-title">
-          <a href="https://arxiv.org/abs/2609.07990" target="_blank" rel="noopener">HyCO: A Hybrid Neural Solver for Combinatorial Optimization</a>
-        </div>
-        <div class="pub-authors">Y. Li, <span class="me">Di Yang*</span>, H. Chen, Y. Xiong (*Co-first author)</div>
-        <div class="pub-venue"><span class="venue-name">Under review at NeurIPS 2026</span> <span class="pub-badge preprint">arXiv:2609.07990</span></div>
-        <div class="pub-summary">
-          Designs an RL-to-diffusion handover using policy entropy and model disagreement to combine sequential construction with generative solution completion, reducing TSP-1000 optimality gap from 15.4% to 4.6%.
-        </div>
-        <div class="pub-links">
-          <a href="https://arxiv.org/abs/2609.07990" target="_blank" rel="noopener" class="paper-link">[arXiv]</a>
-          <a href="https://arxiv.org/pdf/2609.07990" target="_blank" rel="noopener" class="paper-link">[PDF]</a>
-          <button class="paper-link btn-bibtex" data-target="bib-hyco">[BibTeX]</button>
-        </div>
-        <div class="bibtex-card" id="bib-hyco">
-          <button class="bibtex-copy">Copy</button>
-          <code>@article{li2026hyco,
-  title={HyCO: A Hybrid Neural Solver for Combinatorial Optimization},
-  author={Li, Y. and Yang, Di and Chen, H. and Xiong, Y.},
-  journal={arXiv preprint arXiv:2609.07990},
-  year={2026}
-}</code>
-        </div>
-      </div>
-
-      <!-- Paper 4: Channel Match (Under Review - No released link yet, so NO paper button) -->
+      <!-- Paper 5: Channel Match (Under Review - No released link yet, so NO paper button) -->
       <div class="pub-item">
         <div class="pub-title">Channel Match: Calibrating Shape Latents for Few-Step 3D Generation</div>
         <div class="pub-authors"><span class="me">Di Yang</span>, Z. Li, Y. Xiong, <a href="https://wyf0912.github.io/" target="_blank" rel="noopener">Y. Wang</a></div>
@@ -227,28 +258,6 @@
           <code>@article{yang2026channelmatch,
   title={Channel Match: Calibrating Shape Latents for Few-Step 3D Generation},
   author={Yang, Di and Li, Z. and Xiong, Y. and Wang, Y.},
-  journal={Under Review},
-  year={2026}
-}</code>
-        </div>
-      </div>
-
-      <!-- Paper 5: VTV-FM (Under Review - No released link yet, so NO paper button) -->
-      <div class="pub-item">
-        <div class="pub-title">VTV-FM: Flow Matching through Variational Terminal-Velocity Closure</div>
-        <div class="pub-authors">H. Jiang, Y. Li, <span class="me">Di Yang*</span>, Y. Xiong, H. Chen, Y. He (*Co-first author)</div>
-        <div class="pub-venue"><span class="venue-name">Under review at NeurIPS 2026</span> <span class="pub-badge review">Under Review</span></div>
-        <div class="pub-summary">
-          Co-developed phase-space flow matching with cubic Hermite trajectories and a closed-form minimum-acceleration variational closure, achieving FID 2.99 on CIFAR-10 versus 3.45-3.73 for baselines.
-        </div>
-        <div class="pub-links">
-          <button class="paper-link btn-bibtex" data-target="bib-vtv">[BibTeX]</button>
-        </div>
-        <div class="bibtex-card" id="bib-vtv">
-          <button class="bibtex-copy">Copy</button>
-          <code>@article{jiang2026vtvfm,
-  title={VTV-FM: Flow Matching through Variational Terminal-Velocity Closure},
-  author={Jiang, H. and Li, Y. and Yang, Di and Xiong, Y. and Chen, H. and He, Y.},
   journal={Under Review},
   year={2026}
 }</code>
@@ -284,9 +293,9 @@
           <div class="entry-org">The College of William & Mary • Advisor: <a href="https://scholar.google.com/citations?hl=en&user=Zil3Y2QAAAAJ&view_op=list_works&sortby=pubdate" target="_blank" rel="noopener">Dr. Yanhai Xiong</a></div>
           <div class="entry-desc">
             <ul>
-              <li><strong>HyCO:</strong> Designed RL-to-diffusion handover for combinatorial optimization; reduced TSP-1000 optimality gap from 15.4% to 4.6% (NeurIPS 2026 Under Review, arXiv:2609.07990).</li>
-              <li><strong>LENS & UP-Bench:</strong> Proposed LENS (TMLR Accepted) for partially observable MAPF; designed UP-Bench (KDD 2025 Oral) 3D underwater simulation benchmark.</li>
-              <li><strong>VTV-FM:</strong> Co-developed second-order phase-space flow matching with variational terminal-velocity closure (NeurIPS 2026 Under Review).</li>
+              <li><strong>HyCO:</strong> Designed RL-to-diffusion handover for combinatorial optimization; reduced TSP-1000 optimality gap from 15.4% to 4.6% (NeurIPS 2026, arXiv:2609.07990).</li>
+              <li><strong>LENS & UP-Bench:</strong> Proposed LENS (TMLR) for partially observable MAPF; designed UP-Bench (KDD 2025 Oral) 3D underwater simulation benchmark.</li>
+              <li><strong>VTV-FM:</strong> Co-developed second-order phase-space flow matching with variational terminal-velocity closure (NeurIPS 2026).</li>
             </ul>
           </div>
         </div>
