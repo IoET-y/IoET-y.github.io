@@ -252,7 +252,7 @@
         <div class="pub-authors"><span class="me">Di Yang</span>, Yanhai Xiong, Yufei Wang</div>
         <div class="pub-venue"><span class="venue-name">Preprint / Work in Progress</span>, 2026 <span class="pub-badge preprint">Preprint</span></div>
         <div class="pub-summary">
-          A feed-forward autoencoder encoding monocular videos into a compact, sparse 4D scene state by sharing static features and compressing dynamic motion into spatially anchored temporal slots. Decodes directly into 2D Gaussian surfels, achieving competitive novel-view synthesis (21.51 dB on MultiCamVideo) at ~0.6M state size (~12× smaller than single-frame baselines) with zero-shot transfer to real handheld DyCheck videos—advancing towards next-generation dynamic world models.
+          A feed-forward autoencoder encoding monocular videos into a compact, sparse 4D scene state by sharing static features and compressing dynamic motion into spatially anchored temporal slots. Decodes directly into 2D Gaussian surfels, achieving competitive novel-view synthesis (21.51 dB on MultiCamVideo) at ~0.6M state size (~12× smaller than single-frame baselines) with zero-shot transfer to real handheld DyCheck videos.
         </div>
         <div class="pub-links">
           <a href="files/Sparc4D.pdf" target="_blank" class="paper-link">[PDF]</a>
@@ -307,7 +307,8 @@
             <ul>
               <li><strong>VLA Policy Manipulation:</strong> Integrating robot-centric point maps into a 5B VLA policy for metric spatial manipulation; built OmniGibson/BEHAVIOR pipelines with failure-case data augmentation.</li>
               <li><strong>Channel Match (Few-Step 3D Distillation):</strong> Distilled a native 3D generator to 2 steps with continuous self-consistency (4.5× faster shape sampling); implemented a custom Triton JVP FlashAttention kernel.</li>
-              <li><strong>4D World Representation & Next-Gen World Models (Sparc4D):</strong> Developed Sparc4D as an explicit 4D tokenizer for dynamic scenes via sparse temporal slots with 2D Gaussian surfels (~12× smaller state than single-frame baselines); actively advancing towards next-generation World Models and unified physical world state tokenizers.</li>
+              <li><strong>Explicit 4D Representation (Sparc4D):</strong> Developed Sparc4D, a compact explicit 4D autoencoder for dynamic scenes compressing time-varying features into temporal slots with 2D Gaussian surfels (~12× smaller state than single-frame baselines).</li>
+              <li><strong>Next-Gen World Models (Ongoing Exploration):</strong> Actively exploring the potential of extending dynamic 4D representations towards next-generation World Models and unified physical world state tokenizers.</li>
             </ul>
           </div>
         </div>
