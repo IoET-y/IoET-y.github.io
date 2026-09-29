@@ -242,9 +242,34 @@
         </div>
       </div>
 
-      <div class="pub-subheading">Manuscripts Under Review</div>
+      <div class="pub-subheading">Preprints & Under Review</div>
 
-      <!-- Paper 5: Channel Match (Under Review - No released link yet, so NO paper button) -->
+      <!-- Paper 5: Sparc4D (Preprint / Work in Progress) -->
+      <div class="pub-item">
+        <div class="pub-title">
+          <a href="files/Sparc4D.pdf" target="_blank">Sparc4D: A Compact Explicit 4D Representation for Dynamic Scenes</a>
+        </div>
+        <div class="pub-authors"><span class="me">Di Yang</span>, Yanhai Xiong, Yufei Wang</div>
+        <div class="pub-venue"><span class="venue-name">Preprint / Work in Progress</span>, 2026 <span class="pub-badge preprint">Preprint</span></div>
+        <div class="pub-summary">
+          A feed-forward autoencoder encoding monocular videos into a compact, sparse 4D scene state by sharing static features and compressing dynamic motion into spatially anchored temporal slots. Decodes directly into 2D Gaussian surfels, achieving competitive novel-view synthesis (21.51 dB on MultiCamVideo) at ~0.6M state size (~12× smaller than single-frame baselines) with zero-shot transfer to real handheld DyCheck videos.
+        </div>
+        <div class="pub-links">
+          <a href="files/Sparc4D.pdf" target="_blank" class="paper-link">[PDF]</a>
+          <button class="paper-link btn-bibtex" data-target="bib-sparc4d">[BibTeX]</button>
+        </div>
+        <div class="bibtex-card" id="bib-sparc4d">
+          <button class="bibtex-copy">Copy</button>
+          <code>@article{yang2026sparc4d,
+  title={Sparc4D: A Compact Explicit 4D Representation for Dynamic Scenes},
+  author={Yang, Di and Xiong, Yanhai and Wang, Yufei},
+  journal={arXiv preprint},
+  year={2026}
+}</code>
+        </div>
+      </div>
+
+      <!-- Paper 6: Channel Match (Under Review - No released link yet, so NO paper button) -->
       <div class="pub-item">
         <div class="pub-title">Channel Match: Calibrating Shape Latents for Few-Step 3D Generation</div>
         <div class="pub-authors"><span class="me">Di Yang</span>, Z. Li, Y. Xiong, Y. Wang</div>
@@ -282,7 +307,7 @@
             <ul>
               <li><strong>VLA Policy Manipulation:</strong> Integrating robot-centric point maps into a 5B VLA policy for metric spatial manipulation; built OmniGibson/BEHAVIOR pipelines with failure-case data augmentation.</li>
               <li><strong>Channel Match (Few-Step 3D Distillation):</strong> Distilled a native 3D generator to 2 steps with continuous self-consistency (4.5× faster shape sampling); implemented a custom Triton JVP FlashAttention kernel.</li>
-              <li><strong>4D World Representation:</strong> Developing explicit 4D tokenizers for dynamic scenes, advancing towards next-generation world state representation tokenizers (in progress).</li>
+              <li><strong>4D World Representation (Sparc4D):</strong> Developed Sparc4D, a compact explicit 4D representation for dynamic scenes compressing time-varying features into temporal slots with 2D Gaussian surfels (~12× smaller state than single-frame baselines).</li>
             </ul>
           </div>
         </div>
