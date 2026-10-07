@@ -481,6 +481,20 @@ a:hover {
   border-color: #cbd5e1;
 }
 
+.paper-link.coming-soon {
+  color: var(--text-muted);
+  background: var(--bg-subtle);
+  border: 1px dashed #cbd5e1;
+  cursor: default;
+  font-weight: 500;
+  user-select: none;
+}
+
+.paper-link.coming-soon:hover {
+  background: var(--bg-subtle);
+  border-color: #cbd5e1;
+}
+
 .bibtex-card {
   display: none;
   margin-top: 0.6rem;
