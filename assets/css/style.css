@@ -455,6 +455,21 @@ a:hover {
   margin-bottom: 0.5rem;
 }
 
+.pub-note {
+  margin-top: 0.5rem;
+  padding: 0.45rem 0.75rem;
+  background: #f8fafc;
+  border-left: 3px solid #3b82f6;
+  border-radius: 0 4px 4px 0;
+  font-size: 0.825rem;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.pub-note strong {
+  color: #1e293b;
+}
+
 .pub-links {
   display: flex;
   flex-wrap: wrap;
