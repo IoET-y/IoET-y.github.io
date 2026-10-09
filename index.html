@@ -369,7 +369,7 @@
             <ul>
               <li><strong>VLA Policy Manipulation:</strong> Integrating robot-centric point maps into a 5B VLA policy for metric spatial manipulation; built OmniGibson/BEHAVIOR pipelines with failure-case data augmentation.</li>
               <li><strong>Channel Match (Few-Step 3D Distillation):</strong> Distilled a native 3D generator to 2 steps with continuous self-consistency (4.5× faster shape sampling); implemented a custom Triton JVP FlashAttention kernel.</li>
-              <li><strong>Explicit 4D Representation (Sparc4D):</strong> Developed Sparc4D, a compact explicit 4D autoencoder for dynamic scenes compressing time-varying features into temporal slots with 2D Gaussian surfels (~12× smaller state than single-frame baselines).</li>
+              <li><strong>Explicit 4D Representation (Sparc4D):</strong> Developed Sparc4D, a compact explicit 4D autoencoder for dynamic scenes compressing time-varying features into temporal slots with 2D Gaussian surfels (~12× smaller state than single-frame baselines). Successfully matched predictive planning performance on the <em>StackCube</em> benchmark (vs. <em>Structured 4D Latent Predictive Model</em>, Li et al.) using drastically fewer tokens (~1,170 tokens by decoupling persistent static context from sparse dynamic motion).</li>
               <li><strong>Next-Gen World Models (Ongoing Exploration):</strong> Actively exploring the potential of extending dynamic 4D representations towards next-generation World Models and unified physical world state tokenizers.</li>
             </ul>
           </div>
