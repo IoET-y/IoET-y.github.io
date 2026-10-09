@@ -188,6 +188,65 @@
     <section id="publications" class="section">
       <h2 class="section-heading">Selected Publications</h2>
 
+      <div class="pub-subheading">Preprints & Under Review</div>
+
+      <!-- Paper 5: Sparc4D (Preprint) -->
+      <div class="pub-item">
+        <div class="pub-title">
+          <a href="https://arxiv.org/abs/2610.01229" target="_blank" rel="noopener">Sparc4D: A Compact Explicit 4D Representation for Dynamic Scenes</a>
+        </div>
+        <div class="pub-authors"><span class="me">Di Yang</span>, Zhihao Li, Yanhai Xiong, Yufei Wang</div>
+        <div class="pub-venue"><span class="venue-name">arXiv:2610.01229</span>, 2026 <span class="pub-badge preprint">Preprint</span></div>
+        <div class="pub-summary">
+          A feed-forward autoencoder encoding monocular videos into a compact, sparse 4D scene state by sharing static features and compressing dynamic motion into spatially anchored temporal slots. Decodes directly into 2D Gaussian surfels, achieving competitive novel-view synthesis (21.51 dB on MultiCamVideo) at ~0.6M state size (~12× smaller than single-frame baselines) with zero-shot transfer to real handheld DyCheck videos.
+          <div class="pub-note">
+            <strong>Note:</strong> This is the initial preprint release. An updated, refined version featuring a robot manipulation downstream application demo is coming soon!
+          </div>
+        </div>
+        <div class="pub-links">
+          <a href="https://arxiv.org/abs/2610.01229" target="_blank" rel="noopener" class="paper-link">[arXiv]</a>
+          <a href="https://arxiv.org/pdf/2610.01229" target="_blank" rel="noopener" class="paper-link">[PDF]</a>
+          <span class="paper-link coming-soon">[Code (Coming Soon)]</span>
+          <span class="paper-link coming-soon">[Demo (Coming Soon)]</span>
+          <button class="paper-link btn-bibtex" data-target="bib-sparc4d">[BibTeX]</button>
+        </div>
+        <div class="bibtex-card" id="bib-sparc4d">
+          <button class="bibtex-copy">Copy</button>
+          <code>@article{yang2026sparc4d,
+  title={Sparc4D: A Compact Explicit 4D Representation for Dynamic Scenes},
+  author={Yang, Di and Li, Zhihao and Xiong, Yanhai and Wang, Yufei},
+  journal={arXiv preprint arXiv:2610.01229},
+  year={2026}
+}</code>
+        </div>
+      </div>
+
+      <!-- Paper 6: Channel Match (Still under review) -->
+      <div class="pub-item">
+        <div class="pub-title">
+          <a href="files/channel_match.pdf" target="_blank" rel="noopener">Channel Match: Calibrating Shape Latents for Few-Step 3D Generation</a>
+        </div>
+        <div class="pub-authors"><span class="me">Di Yang</span>, Z. Li, Y. Xiong, Y. Wang</div>
+        <div class="pub-venue"><span class="venue-name">Still under review</span> <span class="pub-badge review">Under Review</span></div>
+        <div class="pub-summary">
+          Distills a native 3D generator into a two-step student via continuous self-consistency training with a custom JVP FlashAttention kernel. Channel Match calibrates sampling-induced latent distribution drift, achieving 4.5× faster geometry sampling on TRELLIS.2 (1024³ resolution) without texture artifacts.
+        </div>
+        <div class="pub-links">
+          <a href="files/channel_match.pdf" target="_blank" rel="noopener" class="paper-link">[PDF]</a>
+          <span class="paper-link coming-soon">[Code (Coming Soon)]</span>
+          <button class="paper-link btn-bibtex" data-target="bib-cm">[BibTeX]</button>
+        </div>
+        <div class="bibtex-card" id="bib-cm">
+          <button class="bibtex-copy">Copy</button>
+          <code>@article{yang2026channelmatch,
+  title={Channel Match: Calibrating Shape Latents for Few-Step 3D Generation},
+  author={Yang, Di and Li, Z. and Xiong, Y. and Wang, Y.},
+  journal={Under Review},
+  year={2026}
+}</code>
+        </div>
+      </div>
+
       <div class="pub-subheading">Peer-Reviewed</div>
 
       <!-- Paper 1: HyCO (NeurIPS 2026 Accepted) -->
@@ -294,65 +353,6 @@
   author={Yang, Di and Xiong, Yanhai},
   booktitle={Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery and Data Mining},
   year={2025}
-}</code>
-        </div>
-      </div>
-
-      <div class="pub-subheading">Preprints & Under Review</div>
-
-      <!-- Paper 5: Sparc4D (Preprint) -->
-      <div class="pub-item">
-        <div class="pub-title">
-          <a href="https://arxiv.org/abs/2610.01229" target="_blank" rel="noopener">Sparc4D: A Compact Explicit 4D Representation for Dynamic Scenes</a>
-        </div>
-        <div class="pub-authors"><span class="me">Di Yang</span>, Zhihao Li, Yanhai Xiong, Yufei Wang</div>
-        <div class="pub-venue"><span class="venue-name">arXiv:2610.01229</span>, 2026 <span class="pub-badge preprint">Preprint</span></div>
-        <div class="pub-summary">
-          A feed-forward autoencoder encoding monocular videos into a compact, sparse 4D scene state by sharing static features and compressing dynamic motion into spatially anchored temporal slots. Decodes directly into 2D Gaussian surfels, achieving competitive novel-view synthesis (21.51 dB on MultiCamVideo) at ~0.6M state size (~12× smaller than single-frame baselines) with zero-shot transfer to real handheld DyCheck videos.
-          <div class="pub-note">
-            <strong>Note:</strong> This is the initial preprint release. An updated, refined version featuring a robot manipulation downstream application demo is coming soon!
-          </div>
-        </div>
-        <div class="pub-links">
-          <a href="https://arxiv.org/abs/2610.01229" target="_blank" rel="noopener" class="paper-link">[arXiv]</a>
-          <a href="https://arxiv.org/pdf/2610.01229" target="_blank" rel="noopener" class="paper-link">[PDF]</a>
-          <span class="paper-link coming-soon">[Code (Coming Soon)]</span>
-          <span class="paper-link coming-soon">[Demo (Coming Soon)]</span>
-          <button class="paper-link btn-bibtex" data-target="bib-sparc4d">[BibTeX]</button>
-        </div>
-        <div class="bibtex-card" id="bib-sparc4d">
-          <button class="bibtex-copy">Copy</button>
-          <code>@article{yang2026sparc4d,
-  title={Sparc4D: A Compact Explicit 4D Representation for Dynamic Scenes},
-  author={Yang, Di and Li, Zhihao and Xiong, Yanhai and Wang, Yufei},
-  journal={arXiv preprint arXiv:2610.01229},
-  year={2026}
-}</code>
-        </div>
-      </div>
-
-      <!-- Paper 6: Channel Match (Still under review) -->
-      <div class="pub-item">
-        <div class="pub-title">
-          <a href="files/channel_match.pdf" target="_blank" rel="noopener">Channel Match: Calibrating Shape Latents for Few-Step 3D Generation</a>
-        </div>
-        <div class="pub-authors"><span class="me">Di Yang</span>, Z. Li, Y. Xiong, Y. Wang</div>
-        <div class="pub-venue"><span class="venue-name">Still under review</span> <span class="pub-badge review">Under Review</span></div>
-        <div class="pub-summary">
-          Distills a native 3D generator into a two-step student via continuous self-consistency training with a custom JVP FlashAttention kernel. Channel Match calibrates sampling-induced latent distribution drift, achieving 4.5× faster geometry sampling on TRELLIS.2 (1024³ resolution) without texture artifacts.
-        </div>
-        <div class="pub-links">
-          <a href="files/channel_match.pdf" target="_blank" rel="noopener" class="paper-link">[PDF]</a>
-          <span class="paper-link coming-soon">[Code (Coming Soon)]</span>
-          <button class="paper-link btn-bibtex" data-target="bib-cm">[BibTeX]</button>
-        </div>
-        <div class="bibtex-card" id="bib-cm">
-          <button class="bibtex-copy">Copy</button>
-          <code>@article{yang2026channelmatch,
-  title={Channel Match: Calibrating Shape Latents for Few-Step 3D Generation},
-  author={Yang, Di and Li, Z. and Xiong, Y. and Wang, Y.},
-  journal={Under Review},
-  year={2026}
 }</code>
         </div>
       </div>
