@@ -157,7 +157,15 @@ a:hover {
   font-size: 1.05rem;
   color: var(--text-muted);
   font-weight: 500;
-  margin-bottom: 0.85rem;
+  margin-bottom: 0.45rem;
+}
+
+.hero-keywords {
+  font-size: 0.925rem;
+  font-weight: 600;
+  color: #1d4ed8;
+  margin-bottom: 1rem;
+  letter-spacing: 0.01em;
 }
 
 .hero-meta-list {
