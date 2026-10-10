@@ -1,0 +1,82 @@
+/* Blog styles — additive to assets/css/style.css (reuses its tokens: --text-main, --text-body, --text-muted, --border, ...). */
+
+.blog-main { padding-bottom: 2rem; }
+
+/* ---- index ---- */
+.blog-intro { padding: 2.75rem 0 1.25rem; }
+.blog-intro h1 { font-size: 2rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 0.6rem; }
+.blog-intro p { color: var(--text-muted); max-width: 640px; }
+.post-list { list-style: none; border-top: 1px solid var(--border-light); }
+.post-item { padding: 1.5rem 0; border-bottom: 1px solid var(--border-light); }
+.post-item .post-kicker { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text-light); margin-bottom: 0.3rem; }
+.post-item h2 { font-size: 1.25rem; font-weight: 700; line-height: 1.35; margin-bottom: 0.4rem; }
+.post-item h2 a { color: var(--text-main); }
+.post-item h2 a:hover { color: var(--link); text-decoration: none; }
+.post-item p { color: var(--text-body); font-size: 0.95rem; }
+.post-item .post-meta-line { margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted); }
+.tag { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.1rem 0.5rem; border-radius: 999px; background: var(--tag-bg); color: var(--tag-text); margin-right: 0.3rem; }
+
+/* ---- article ---- */
+.post { max-width: 760px; margin: 0 auto; padding: 2.5rem 0 1rem; }
+.post-title { font-size: 2.05rem; font-weight: 800; color: var(--text-main); line-height: 1.22; letter-spacing: -0.02em; margin-bottom: 0.9rem; }
+.post-byline { font-size: 0.98rem; color: var(--text-body); margin-bottom: 0.15rem; }
+.post-byline strong { color: var(--text-main); }
+.post-affil { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.15rem; }
+.post-date { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.1rem; }
+.status-note { font-size: 0.88rem; background: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #2563eb; border-radius: 6px; padding: 0.7rem 1rem; margin: 1rem 0 1.5rem; color: var(--text-main); }
+.status-note a { font-weight: 600; }
+.link-row { display: flex; flex-wrap: wrap; gap: 0.5rem 0.9rem; font-size: 0.9rem; margin-bottom: 1.6rem; }
+
+.abstract { background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 8px; padding: 1.1rem 1.3rem; margin-bottom: 2rem; }
+.abstract h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 0.5rem; border: 0; padding: 0; }
+.abstract p { font-size: 0.97rem; color: var(--text-main); }
+
+.post h2 { font-size: 1.4rem; font-weight: 700; color: var(--text-main); letter-spacing: -0.01em; margin: 2.4rem 0 0.8rem; padding-top: 1.4rem; border-top: 1px solid var(--border-light); }
+.post h3 { font-size: 1.07rem; font-weight: 700; color: var(--text-main); margin: 1.6rem 0 0.5rem; }
+.post p { margin-bottom: 1rem; }
+.post ul, .post ol { margin: 0 0 1rem 1.4rem; }
+.post li { margin-bottom: 0.35rem; }
+.post blockquote { margin: 0 0 1rem; padding: 0.6rem 1rem; border-left: 3px solid var(--border); background: var(--bg-subtle); color: var(--text-body); font-size: 0.95rem; }
+.post code { font-family: var(--font-mono); font-size: 0.86em; background: var(--tag-bg); padding: 0.08rem 0.32rem; border-radius: 4px; }
+.post pre { background: #0f172a; color: #e2e8f0; border-radius: 8px; padding: 0.9rem 1.1rem; overflow-x: auto; margin: 0 0 1.2rem; font-size: 0.83rem; line-height: 1.55; }
+.post pre code { background: none; padding: 0; color: inherit; }
+.eq { margin: 0.2rem 0 1.1rem; padding: 0.7rem 1rem; background: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: 6px; overflow-x: auto; font-size: 0.95rem; color: var(--text-main); line-height: 1.9; }
+.eq i { font-family: "Times New Roman", Times, serif; font-size: 1.05em; }
+.key { font-weight: 600; color: var(--text-main); }
+
+figure.figure { margin: 1.6rem 0 1.8rem; }
+figure.figure img { width: 100%; height: auto; display: block; border: 1px solid var(--border-light); border-radius: 6px; background: #fff; }
+figcaption { font-size: 0.86rem; color: var(--text-muted); margin-top: 0.5rem; line-height: 1.55; }
+figcaption b { color: var(--text-main); }
+
+.table-wrap { overflow-x: auto; margin: 0 0 1.3rem; }
+table.data { border-collapse: collapse; width: 100%; font-size: 0.86rem; line-height: 1.45; }
+table.data th, table.data td { padding: 0.42rem 0.65rem; border-bottom: 1px solid var(--border-light); text-align: left; vertical-align: top; }
+table.data th { font-weight: 700; color: var(--text-main); border-bottom: 1.5px solid var(--border); background: var(--bg-subtle); white-space: nowrap; }
+table.data td.num, table.data th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+table.data tr.grp td { font-weight: 700; color: var(--text-main); background: var(--bg-subtle); }
+table.data tr.sel td { background: #eff6ff; }
+.table-caption { font-size: 0.86rem; color: var(--text-muted); margin: -0.6rem 0 1.4rem; }
+.table-caption b { color: var(--text-main); }
+details.data-view { margin: -0.9rem 0 1.6rem; font-size: 0.85rem; }
+details.data-view summary { cursor: pointer; color: var(--link); }
+details.data-view .table-wrap { margin-top: 0.6rem; }
+
+.refs { margin-left: 1.3rem; font-size: 0.9rem; color: var(--text-body); }
+.refs li { margin-bottom: 0.5rem; }
+.cite-box { font-family: var(--font-mono); font-size: 0.8rem; background: var(--bg-subtle); border: 1px solid var(--border); border-radius: 6px; padding: 0.8rem 1rem; white-space: pre-wrap; word-break: break-word; color: var(--text-main); }
+.invite { background: #f0fdf4; border: 1px solid #bbf7d0; border-left: 4px solid #16a34a; border-radius: 6px; padding: 1rem 1.2rem; margin: 1rem 0 1.4rem; color: var(--text-main); }
+.invite p:last-child { margin-bottom: 0; }
+.back-link { display: inline-block; margin-top: 1.5rem; font-size: 0.92rem; }
+sup.fn a { text-decoration: none; font-size: 0.75em; }
+
+.nav-links a.is-current { color: var(--text-main); font-weight: 600; }
+
+@media (max-width: 720px) {
+  .post-title { font-size: 1.6rem; }
+  .blog-intro h1 { font-size: 1.6rem; }
+  .post { padding-top: 1.6rem; }
+  .nav-links { display: flex !important; gap: 0.9rem; }
+  .nav-links li:not(.keep) { display: none; }
+  .nav-brand span { display: none; }
+}

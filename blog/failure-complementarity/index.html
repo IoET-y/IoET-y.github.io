@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Failure-Conditioned Recovery Between Coding Agents | Di Yang</title>
+  <meta name="description" content="A controlled pilot on SWE-bench Pro V2: when a coding agent fails, does handing the failed workspace to a different model help? With matched open-weight models we find no detectable benefit from switching models, from the failed workspace, or from a handoff note; one nominally significant effect failed to replicate. Code, protocol and data released.">
+  <meta name="author" content="Di Yang">
+  <link rel="canonical" href="https://ioet-y.github.io/blog/failure-complementarity/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ioet-y.github.io/blog/failure-complementarity/">
+  <meta property="og:title" content="Failure-Conditioned Recovery Between Coding Agents | Di Yang">
+  <meta property="og:description" content="A controlled pilot on SWE-bench Pro V2: when a coding agent fails, does handing the failed workspace to a different model help? With matched open-weight models we find no detectable benefit from switching models, from the failed workspace, or from a handoff note; one nominally significant effect failed to replicate. Code, protocol and data released.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Failure-Conditioned Recovery Between Coding Agents | Di Yang">
+  <meta name="twitter:description" content="A controlled pilot on SWE-bench Pro V2: when a coding agent fails, does handing the failed workspace to a different model help? With matched open-weight models we find no detectable benefit from switching models, from the failed workspace, or from a handoff note; one nominally significant effect failed to replicate. Code, protocol and data released.">
+  <link rel="icon" href="../../images/site-logo.png" type="image/png">
+  <link rel="stylesheet" href="../../assets/css/style.css">
+  <link rel="stylesheet" href="../../assets/css/blog.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "headline": "Does a Failed Agent’s Workspace Help the Next One? A Controlled Pilot on Failure-Conditioned Recovery Between Coding Agents",
+  "description": "A controlled pilot on SWE-bench Pro V2: when a coding agent fails, does handing the failed workspace to a different model help? With matched open-weight models we find no detectable benefit from switching models, from the failed workspace, or from a handoff note; one nominally significant effect failed to replicate. Code, protocol and data released.",
+  "author": {
+    "@type": "Person",
+    "name": "Di Yang",
+    "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "William & Mary"
+    },
+    "email": "dyang06@wm.edu"
+  },
+  "datePublished": "2026-10-10",
+  "url": "https://ioet-y.github.io/blog/failure-complementarity/",
+  "codeRepository": "https://github.com/IoET-y/failure-complementarity",
+  "inLanguage": "en"
+}
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-inner">
+      <a href="../../index.html#hero" class="nav-brand">Di Yang <span>/ William &amp; Mary</span></a>
+      <ul class="nav-links">
+        <li><a href="../../index.html#about">About</a></li>
+        <li><a href="../../index.html#research">Research</a></li>
+        <li><a href="../../index.html#publications">Publications</a></li>
+        <li class="keep"><a href="../../blog/" class="is-current">Blog</a></li>
+        <li class="keep"><a href="../../index.html#hero">Home</a></li>
+      </ul>
+    </div>
+  </header>
+  <main class="container blog-main">
+
+<article class="post">
+  <h1 class="post-title">Does a Failed Agent’s Workspace Help the Next One? A Controlled Pilot on Failure-Conditioned Recovery Between Coding Agents</h1>
+  <p class="post-byline"><strong>Di Yang</strong></p>
+  <p class="post-affil">Ph.D. student, Data Science, William &amp; Mary &nbsp;·&nbsp; <a href="mailto:dyang06@wm.edu">dyang06@wm.edu</a></p>
+  <p class="post-date">October 10, 2026 &nbsp;·&nbsp; exploratory pilot, not peer reviewed</p>
+  <div class="link-row">
+    <a href="https://github.com/IoET-y/failure-complementarity" target="_blank" rel="noopener">[Code &amp; data]</a>
+    <a href="https://github.com/IoET-y/failure-complementarity/blob/main/docs/experiment_protocol.md" target="_blank" rel="noopener">[Protocol]</a>
+    <a href="https://github.com/IoET-y/failure-complementarity/blob/main/docs/decisions.md" target="_blank" rel="noopener">[Decision log]</a>
+    <a href="#invitation">[Collaborate]</a>
+    <a href="#cite">[Cite]</a>
+  </div>
+
+  <div class="abstract">
+    <h2>Abstract</h2>
+    <p>When a coding agent fails on a repository task, a common design hands the task to another agent — sometimes a different model —
+    on the assumption that diversity helps and that the failed attempt is a useful starting point. We test both assumptions in a
+    controlled pilot on SWE-bench Pro V2. The agent harness is held fixed (mini-SWE-agent with a single <code>bash</code> tool)
+    and only the model varies. For each task on which a primary agent fails, the exact container filesystem it leaves behind is
+    archived and fresh agents are started from byte-identical restores: the same model, a different model and, as a control,
+    the different model on the <em>pristine</em> repository. This splits the benefit of switching models into a
+    capability/complementarity term and a failed-state term. With two matched open-weight models (Devstral Small 2 and
+    GLM-4.7-Flash; 60 tasks, 87 failed workspaces, three replicates of 448 rescue and control runs each) we detect no benefit from
+    switching models (HRG +0.015, 95% CI [−0.042, +0.071]), no benefit from the failed workspace (FTV −0.059, [−0.130, +0.006]), and no
+    benefit from a self-written handoff note (CTV 0.000, [−0.045, +0.050]). With an unmatched pair, an apparent gain from switching
+    models (+0.26) was explained by the stronger model alone, and an effect that was nominally significant in the first run
+    (exact p = 0.016) reversed in the second replicate. The study is small, exploratory and limited to mid-sized open-weight models and one
+    harness. We release the framework, protocol, decision log and data, and we invite collaboration at larger scale.</p>
+  </div>
+
+  <h2 id="intro">1&ensp;Introduction</h2>
+  <p>A common way to handle a failed agent run is <em>escalation</em>: a run that fails, stalls or is
+  rejected by a verifier is retried by a fresh agent, sometimes a different model or a different product. Two intuitions underlie
+  this practice. The first is <span class="key">complementarity</span>: models fail on different tasks, so a second, different model
+  should rescue some of the first one’s failures. The second is <span class="key">reuse of partial work</span>: the repository the first
+  agent left behind contains edits, scripts and diagnoses that a successor can build on. Both intuitions can be wrong. A second model
+  may simply be a <em>stronger</em> model, in which case the gain says nothing about complementarity; and a failed attempt can
+  <em>anchor</em> its successor on a wrong hypothesis, leaving it worse off than a clean start.</p>
+  <p>This pilot asks a deliberately narrow question under controlled conditions:</p>
+  <blockquote>When one repository-level coding agent fails, is a fresh <em>heterogeneous</em> agent better at recovering the failed
+  workspace than a fresh instance of the <em>same</em> agent — and is the failed workspace itself an asset or a liability?</blockquote>
+  <p>“Heterogeneous” here means a different model family and vendor behind the <em>same</em> harness, prompts, tools, budget and
+  environment, so that the model is the only thing that changes. The quantity of interest is not ordinary task success but the
+  conditional success of the rescuer given the primary’s failure and the actual state it left behind.</p>
+  <p><b>Contributions.</b></p>
+  <ol>
+    <li><b>A protocol</b> that separates three effects — switching models (HRG), starting from the failed workspace rather than from scratch
+    (FTV), and handing over a written note (CTV) — by pairing every rescue with a same-model rescue and a pristine-repository control on
+    byte-identical start states (Section 3).</li>
+    <li><b>An open, auditable framework</b> that archives and restores the exact failed filesystem, isolates every branch, grades with the
+    unchanged official verifier on a pristine image, never counts infrastructure faults as agent failures, and logs every deviation
+    (Section 4; <a href="https://github.com/IoET-y/failure-complementarity" target="_blank" rel="noopener">code and data</a>).</li>
+    <li><b>Empirical results, including null results and a failed replication</b>: with matched models, switching gives no detectable gain and the failed
+    workspace gives none either (Section 5), plus methodological lessons for evaluating agents (Sections 6 and 8).</li>
+  </ol>
+
+  <h2 id="related">2&ensp;Related work</h2>
+  <p><b>Benchmarks and harnesses.</b> SWE-bench <a href="#r1">[1]</a> evaluates language models on resolving real GitHub issues; SWE-Bench Pro
+  <a href="#r2">[2]</a> is a harder, longer-horizon benchmark; we use the validated V2 release of its public split (642 tasks from 11 repositories, with a
+  51-task HARD subset). SWE-agent <a href="#r3">[3]</a> introduced custom agent–computer interfaces for automated software engineering;
+  mini-SWE-agent <a href="#r10">[10]</a> is a deliberately minimal harness in which the model’s only tool is a shell, which we use. Agentless
+  <a href="#r4">[4]</a> asks whether complex autonomous agents are necessary at all, a reminder that scaffold choices and model choices are entangled
+  — a point we return to when two candidate models proved incompatible with our harness (Section 5.3).</p>
+  <p><b>Learning from a failed attempt.</b> Reflexion <a href="#r5">[5]</a> lets an agent reflect verbally on feedback from a failed trial and keep that text in memory
+  for the next trial. Huang et al. <a href="#r6">[6]</a> report that language models struggle to self-correct reasoning without external feedback and can
+  even get worse. Our same-model rescue and our handoff-note condition probe a loosely related question in a software setting, where the environment
+  itself carries the failed attempt’s state and the verifier’s hidden tests provide an external check only at the end.</p>
+  <p><b>Multiple agents.</b> Mixture-of-Agents <a href="#r7">[7]</a> composes several models in layers, each conditioning on the previous layer’s outputs.
+  Cemri et al. <a href="#r8">[8]</a> catalogue why multi-agent LLM systems fail and note that their benchmark gains are often small. We study a narrower
+  mechanism than either: the hand-off of an <em>environment state</em> at a failure boundary, with an explicit pristine-start control, so that
+  “the second agent was better” can be separated from “the first agent’s leftovers helped”.</p>
+
+  <h2 id="setting">3&ensp;Problem setting and metrics</h2>
+  <p>Let <i>A</i> and <i>B</i> be models run inside the same harness. A task is a <em>primary failure</em> of <i>A</i> if a run of <i>A</i> from the
+  pristine repository <i>Repo</i><sub>0</sub> ends (for any reason) and the official evaluator marks the final state unsolved. Let
+  <i>Repo</i><sub><i>t</i></sub><sup><i>A</i></sup> be the complete filesystem state <i>A</i> left behind. For each such task we start fresh
+  agents — with no access to <i>A</i>’s conversation — from independent restores of that state:</p>
+  <ul>
+    <li><b>V0 rescue</b> by <i>B</i> (<i>B</i> = <i>A</i> or another model): the original task statement preceded by a fixed notice: “A previous coding agent
+    attempted this task but did not solve it. Independently inspect the current repository state and complete the original task. Existing
+    modifications may be correct, partially correct, or incorrect. You may keep, modify, or revert them. Do not assume the previous agent’s
+    approach or hypotheses were correct. Run the relevant tests and make whatever repository changes are necessary.”</li>
+    <li><b>Note rescue</b>: as V0, plus a short <em>handoff note</em> written by <i>A</i> itself (one tool-free request to <i>A</i>’s model, shown its own full
+    conversation; at most 400 words; no reasoning content is passed on) and presented as a hint to be checked, not trusted.</li>
+    <li><b>Pristine control</b>: <i>B</i> on <i>Repo</i><sub>0</sub> with the ordinary task prompt, with the same budget as a rescue.</li>
+  </ul>
+  <p>Writing <i>R</i><sub><i>A→B</i></sub> for the success probability of the V0 rescue, <i>R</i><sup>note</sup><sub><i>A→B</i></sub> for the note rescue and
+  <i>C</i><sub><i>B</i></sub> for the pristine control on <i>A</i>’s failure set:</p>
+  <div class="eq">
+    <i>HRG</i><sub><i>A→B</i></sub> = <i>R</i><sub><i>A→B</i></sub> − <i>R</i><sub><i>A→A</i></sub> &nbsp;&nbsp; (heterogeneous rescue gain)<br>
+    <i>FTV</i><sub><i>A→B</i></sub> = <i>R</i><sub><i>A→B</i></sub> − <i>C</i><sub><i>B</i></sub> &nbsp;&nbsp; (failure-state transfer value)<br>
+    <i>CTV</i><sub><i>A→B</i></sub> = <i>R</i><sup>note</sup><sub><i>A→B</i></sub> − <i>R</i><sub><i>A→B</i></sub> &nbsp;&nbsp; (context transfer value)
+  </div>
+  <p>Because <i>R</i><sub><i>A→B</i></sub> = <i>C</i><sub><i>B</i></sub> + <i>FTV</i><sub><i>A→B</i></sub>, the gain from switching models decomposes exactly:</p>
+  <div class="eq"><i>HRG</i><sub><i>A→B</i></sub> = [ <i>C</i><sub><i>B</i></sub> − <i>C</i><sub><i>A</i></sub> ] + [ <i>FTV</i><sub><i>A→B</i></sub> − <i>FTV</i><sub><i>A→A</i></sub> ]</div>
+  <p>The first bracket is a <em>capability/complementarity</em> term — how much better <i>B</i> is than <i>A</i> on the tasks <i>A</i> failed, with no
+  failed state involved. The second is a <em>state</em> term — whether <i>B</i> exploits <i>A</i>’s leftovers better than <i>A</i> exploits its own. A
+  positive HRG is evidence for “diversity helps” only if the second bracket, or a first bracket that is not merely “<i>B</i> is stronger”, carries it.
+  A negative FTV means the failed workspace is a liability relative to starting clean.</p>
+  <p><b>Estimation.</b> The task is the unit of analysis. Per-task success is averaged over replicates, contrasts are averaged over tasks, and 95% intervals
+  come from a bootstrap that resamples <em>tasks</em> (5,000 draws). “Pooled” estimates average the four rescue directions; they involve
+  50 distinct tasks, because a task can be in both models’ failure sets. Per direction we also report how many tasks have a positive or negative three-replicate mean difference, for orientation only.
+  The analysis is exploratory and was not pre-registered.</p>
+
+  <h2 id="framework">4&ensp;Experimental framework</h2>
+  <ul>
+    <li><b>Benchmark.</b> SWE-bench Pro V2, release v2.0.0 (pinned commit; task and checksum verification at start-up). A task is eligible only if, under our runtime, the
+    official gold patch is graded solved and an empty patch unsolved (an outcome-blind gate run before any model is evaluated).</li>
+    <li><b>Harness.</b> mini-SWE-agent 2.4.6 with the official V2 prompt templates, unmodified (only the provider-specific <code>reasoning_effort</code> setting is dropped); a single <code>bash</code> tool; 30-minute wall clock, 250 steps, 60 s per command,
+    131k-token context, four concurrent agents per model endpoint. Models are served with vLLM 0.31.0 behind an OpenAI-compatible endpoint, one 80 GB H100 per model,
+    at each vendor’s recommended sampling settings (Appendix A).</li>
+    <li><b>Sandbox.</b> One writable Apptainer container per branch, running as root with <em>no network</em>; the model is reached from the host. Branches share nothing.</li>
+    <li><b>Exact checkpoints.</b> At the end of a primary run the <em>entire</em> container filesystem is archived (<code>tar.zst</code> plus a per-file SHA-256 manifest and tree hash), not
+    just the repository diff, so untracked files, deletions, generated files and edits outside the repository are all preserved. Every rescue restores the archive into a fresh
+    directory and verifies the tree hash; restoring twice and mutating one copy leaves the other unchanged (unit-tested). Processes are not part of the state.</li>
+    <li><b>Grading.</b> The final diff relative to the pristine state is applied to a <em>fresh</em> pristine image and the unchanged official verifier is run there, never in the agent’s sandbox.</li>
+    <li><b>Failures.</b> Infrastructure faults (model endpoint, container, harness, evaluator) are classified separately from task failures, never counted as agent failures, and retried identically
+    for all models. Every attempt is kept.</li>
+    <li><b>Auditability.</b> A run manifest fingerprints the science-relevant configuration and refuses to resume under a different one; each protocol change is a dated entry in a decision log
+    (36 entries at the time of writing).</li>
+  </ul>
+
+  <h2 id="results">5&ensp;Experiments and results</h2>
+
+  <h3 id="phase0">5.1&ensp;Phase 0: an unmatched pair and a floor effect</h3>
+  <p>We started with Qwen3-Coder-30B-A3B and Devstral Small 2 on 10 HARD and 10 non-HARD tasks. Neither model solved a HARD task (0/10 each); on non-HARD tasks Qwen solved 0/10 and Devstral 4/10.
+  All 40 runs ended because the agent <em>submitted</em>; none exhausted the budget. Under our original failure definition (“budget exhausted <em>and</em> unsolved”) the recovery set would
+  have been empty. We therefore redefined a primary failure as “the run ended and the evaluator marks it unsolved” (a confident wrong submission is exactly the failed state of interest),
+  moved the main experiments to non-HARD tasks, and recorded both changes before running any recovery branch.</p>
+
+  <h3 id="v1">5.2&ensp;An unmatched pair: switching looks useful, but it is the stronger model</h3>
+  <p>On 40 non-HARD tasks, Qwen3-Coder solved 9 and Devstral 24; the tasks Qwen solved were a strict subset of Devstral’s (0 solved by Qwen only, 15 by Devstral only).
+  Rescue results are in Table 1.</p>
+  <div class="table-wrap"><table class="data"><thead><tr><th class="">failed agent</th><th class="num">same model, from failed workspace</th><th class="num">other model, from failed workspace</th><th class="num">other model, from pristine repo</th></tr></thead><tbody><tr class=""><td class="">Qwen3-Coder failed (N = 31)</td><td class="num">3/31</td><td class="num">11/31</td><td class="num">12/31</td></tr><tr class=""><td class="">Devstral failed (N = 16)</td><td class="num">1/16</td><td class="num">0/16</td><td class="num">0/16</td></tr></tbody></table></div>
+  <p class="table-caption"><b>Table 1.</b> Successes out of failed tasks in pilot v1 (single run per cell).</p>
+  <p>Handing Qwen’s failures to Devstral rescued 11/31 against 3/31 for Qwen itself (HRG +0.26). Taken alone this looks like a strong case
+  for heterogeneous rescue. But Devstral restarting from a <em>pristine</em> repository solved 12/31 of the same tasks, more than the 11 it solved from Qwen’s workspace (FTV = −0.03). A same-model pristine control for
+  Qwen (Qwen from scratch on its own failures: 2/31) was added in a follow-up experiment and gives the exact decomposition HRG = +0.26 = +0.32 (capability: <i>C</i><sub>Devstral</sub> − <i>C</i><sub>Qwen</sub>) + (−0.06) (failed-state term).
+  The gain is more than accounted for by the capability gap; the failed-state term is slightly negative. In the other direction Qwen rescued 0/16 of Devstral’s failures from either start state — a floor effect.
+  Without the pristine control these numbers would have been read as evidence for heterogeneous rescue.</p>
+
+  <h3 id="screening">5.3&ensp;Choosing a matched pair</h3>
+  <p>To test complementarity rather than strength, we screened five further open-weight models on the same 40 tasks (single primary run each, same harness and settings). Results are in Table 2 and Figure 1.</p>
+  <div class="table-wrap"><table class="data"><thead><tr><th class="">model</th><th class="">notes</th><th class="num">solved</th><th class="num">rate</th><th class="num">95% Wilson CI (%)</th></tr></thead><tbody><tr class=""><td class="">Qwen3.6-27B</td><td class="">dense, FP8, reasoning</td><td class="num">32/40</td><td class="num">80%</td><td class="num">[65, 90]</td></tr><tr class=""><td class="">Qwen3.6-35B-A3B</td><td class="">MoE (≈3B active), FP8, reasoning</td><td class="num">31/40</td><td class="num">78%</td><td class="num">[62, 88]</td></tr><tr class="sel"><td class="">Devstral Small 2</td><td class="">dense 24B, FP8</td><td class="num">24/40</td><td class="num">60%</td><td class="num">[45, 74]</td></tr><tr class="sel"><td class="">GLM-4.7-Flash</td><td class="">MoE, BF16, reasoning</td><td class="num">18/40</td><td class="num">45%</td><td class="num">[31, 60]</td></tr><tr class=""><td class="">Qwen3-Coder-30B-A3B</td><td class="">MoE (≈3B active), FP8</td><td class="num">9/40</td><td class="num">22%</td><td class="num">[12, 38]</td></tr><tr class=""><td class="">Nemotron-3-Nano-30B-A3B</td><td class="">excluded: 23 of 40 runs ended on repeated calls to a tool the harness does not provide</td><td class="num">4/40</td><td class="num">10%</td><td class="num">[4, 23]</td></tr><tr class=""><td class="">gpt-oss-120b</td><td class="">excluded: all 40 runs ended on malformed tool-call JSON</td><td class="num">3/40</td><td class="num">8%</td><td class="num">[3, 20]</td></tr></tbody></table></div>
+  <p class="table-caption"><b>Table 2.</b> Screening on 40 non-HARD tasks; the two selected models are shaded. Qwen3-Coder is from pilot v1.</p>
+  <figure class="figure">
+    <img src="figures/fig1_screening.svg" alt="Horizontal bar chart of the share of 40 screening tasks solved by seven models, from Qwen3.6-27B at 80 percent down to gpt-oss-120b at 8 percent, with 95 percent Wilson intervals. Devstral Small 2 (60 percent) and GLM-4.7-Flash (45 percent) are highlighted as the selected pair; Nemotron-3-Nano and gpt-oss-120b are hatched as excluded." loading="lazy">
+    <figcaption><b>Figure 1.</b> Screening solve rates (single runs). Two models were excluded because of <em>harness incompatibility</em>, not weakness per se: Nemotron-3-Nano repeatedly called a file-editing tool (<code>str_replace_editor</code>) that this harness does not offer, and gpt-oss-120b repeatedly produced invalid JSON in its tool-call arguments (typically when writing long multi-line patch-style commands), exhausting the consecutive-format-error limit in every run. Because the harness is held fixed, the study partly measures how well a model adapts to an unfamiliar scaffold.</figcaption>
+  </figure>
+  <p>Pairs of interest are compared in Table 3. Qwen3.6-35B and Qwen3.6-27B are nearly identical in strength but come from one family and leave few failures; Devstral and GLM-4.7-Flash come from different vendors, differ by 15 points on the screening tasks, and each solves tasks the other does not (Devstral-only 8, GLM-only 2). We chose this pair.</p>
+  <div class="table-wrap"><table class="data"><thead><tr><th class="">pair (A vs B)</th><th class=""></th><th class="num">both solve</th><th class="num">only A</th><th class="num">only B</th><th class="num">neither</th><th class="num">exact McNemar p</th></tr></thead><tbody><tr class="sel"><td class="">Devstral Small 2 vs GLM-4.7-Flash</td><td class="">selected</td><td class="num">16</td><td class="num">8</td><td class="num">2</td><td class="num">14</td><td class="num">0.109</td></tr><tr class=""><td class="">Qwen3.6-35B-A3B vs Qwen3.6-27B</td><td class="">same family</td><td class="num">27</td><td class="num">4</td><td class="num">5</td><td class="num">4</td><td class="num">1.000</td></tr><tr class=""><td class="">Devstral Small 2 vs Qwen3.6-35B-A3B</td><td class=""></td><td class="num">23</td><td class="num">1</td><td class="num">8</td><td class="num">8</td><td class="num">0.039</td></tr><tr class=""><td class="">Qwen3-Coder-30B-A3B vs Devstral Small 2</td><td class="">first pair (pilot v1)</td><td class="num">9</td><td class="num">0</td><td class="num">15</td><td class="num">16</td><td class="num">&lt;0.001</td></tr></tbody></table></div>
+  <p class="table-caption"><b>Table 3.</b> Paired outcomes on the 40 screening tasks.</p>
+  <p><b>A caveat on selection.</b> The pair was chosen after seeing single-run results on tasks that overlap with the main experiment’s non-HARD tasks. All primary runs of the main experiment were re-run from scratch,
+  and the realised gap shrank (Devstral 17/40, GLM 15/40 on non-HARD tasks) — consistent with a selection
+  made on noisy single runs. Devstral’s solve count on the same 40 tasks fell from 24 to 17 between two independent runs (discordant tasks 9 vs 2, exact p = 0.065); GLM’s went from 18 to 15.</p>
+
+  <h3 id="main">5.4&ensp;Main experiment: Devstral Small 2 and GLM-4.7-Flash</h3>
+  <p><b>Setup.</b> 60 tasks: the 40 non-HARD tasks plus the first 20 gated HARD tasks in a seeded order. Primary runs: Devstral 17/60
+  (17/40 non-HARD, 0/20 HARD), GLM-4.7-Flash 16/60 (15/40, 1/20).
+  The two models agree on 47 of 60 tasks and disagree on 13 (7 Devstral-only, 6 GLM-only), so the failure sets (Devstral 43, GLM 44 tasks) overlap partly.
+  111 of the 120 primary runs ended by submitting. For every primary failure we ran six conditions — V0 rescue, note rescue and pristine control, each by the same and by the other model — and
+  repeated all 448 resulting runs three times (the original run and two replicates) on <em>identical</em> archived workspaces and identical notes, so that only the rescuer’s sampling varies.</p>
+  <div class="table-wrap"><table class="data"><thead><tr><th class="">rescuer</th><th class="num">failed workspace (V0)</th><th class="num">failed workspace + handoff note</th><th class="num">pristine repo (control)</th></tr></thead><tbody><tr class="grp"><td colspan="4">Devstral failed — N = 43 tasks</td></tr><tr class=""><td class="">same model: Devstral</td><td class="num">14.0% (18/129)</td><td class="num">13.2% (17/129)</td><td class="num">17.1% (22/129)</td></tr><tr class=""><td class="">other model: GLM-4.7-Flash</td><td class="num">10.1% (13/129)</td><td class="num">11.6% (15/129)</td><td class="num">17.8% (23/129)</td></tr><tr class="grp"><td colspan="4">GLM-4.7-Flash failed — N = 44 tasks</td></tr><tr class=""><td class="">same model: GLM-4.7-Flash</td><td class="num">9.8% (13/132)</td><td class="num">12.1% (16/132)</td><td class="num">18.9% (25/132)</td></tr><tr class=""><td class="">other model: Devstral</td><td class="num">16.7% (22/132)</td><td class="num">13.6% (18/132)</td><td class="num">20.5% (27/132)</td></tr></tbody></table></div>
+  <p class="table-caption"><b>Table 4.</b> Pooled success of the rescuing run over three replicates (rate and successes/runs; per-replicate counts are in the data table below Figure 2). A pristine control is one run per task, model and replicate, and is reused in every failure set that contains the task.</p>
+  <figure class="figure">
+    <img src="figures/fig2_recovery.svg" alt="Two-panel bar chart. For tasks Devstral failed (43) and tasks GLM-4.7-Flash failed (44), bars show the pooled success rate of rescuing runs for the same model and the other model, under three conditions: starting from the failed workspace, from the failed workspace plus a handoff note, and from a pristine repository. Rates are between about 10 and 20 percent everywhere; the pristine-repository bars are the highest or tied in every group. Open circles show the three replicates." loading="lazy">
+    <figcaption><b>Figure 2.</b> Rescue success by condition (bars: pooled over three replicates; circles: individual replicates). Starting from a pristine repository (green) is highest or tied in every group; the handoff note (orange) does not systematically help.</figcaption>
+  </figure>
+  <details class="data-view"><summary>Show the data behind Figure 2</summary><div class="table-wrap"><table class="data"><thead><tr><th class="">failure set</th><th class="">condition</th><th class="num">pooled rate</th><th class="num">replicates 1 / 2 / 3</th></tr></thead><tbody><tr class=""><td class="">Devstral failed</td><td class="">V0: devstral → devstral</td><td class="num">14.0%</td><td class="num">7/43 / 6/43 / 5/43</td></tr><tr class=""><td class="">Devstral failed</td><td class="">note: devstral → devstral</td><td class="num">13.2%</td><td class="num">6/43 / 5/43 / 6/43</td></tr><tr class=""><td class="">Devstral failed</td><td class="">pristine control: devstral</td><td class="num">17.1%</td><td class="num">7/43 / 8/43 / 7/43</td></tr><tr class=""><td class="">Devstral failed</td><td class="">V0: devstral → glm47flash</td><td class="num">10.1%</td><td class="num">3/43 / 3/43 / 7/43</td></tr><tr class=""><td class="">Devstral failed</td><td class="">note: devstral → glm47flash</td><td class="num">11.6%</td><td class="num">5/43 / 5/43 / 5/43</td></tr><tr class=""><td class="">Devstral failed</td><td class="">pristine control: glm47flash</td><td class="num">17.8%</td><td class="num">5/43 / 11/43 / 7/43</td></tr><tr class=""><td class="">GLM-4.7-Flash failed</td><td class="">V0: glm47flash → devstral</td><td class="num">16.7%</td><td class="num">8/44 / 6/44 / 8/44</td></tr><tr class=""><td class="">GLM-4.7-Flash failed</td><td class="">note: glm47flash → devstral</td><td class="num">13.6%</td><td class="num">6/44 / 6/44 / 6/44</td></tr><tr class=""><td class="">GLM-4.7-Flash failed</td><td class="">pristine control: devstral</td><td class="num">20.5%</td><td class="num">9/44 / 9/44 / 9/44</td></tr><tr class=""><td class="">GLM-4.7-Flash failed</td><td class="">V0: glm47flash → glm47flash</td><td class="num">9.8%</td><td class="num">1/44 / 9/44 / 3/44</td></tr><tr class=""><td class="">GLM-4.7-Flash failed</td><td class="">note: glm47flash → glm47flash</td><td class="num">12.1%</td><td class="num">8/44 / 4/44 / 4/44</td></tr><tr class=""><td class="">GLM-4.7-Flash failed</td><td class="">pristine control: glm47flash</td><td class="num">18.9%</td><td class="num">6/44 / 11/44 / 8/44</td></tr></tbody></table></div></details>
+  <p><b>Contrasts.</b> Figure 3 and Table 5 give the three effects, pooled and per direction.</p>
+  <figure class="figure">
+    <img src="figures/fig3_contrasts.svg" alt="Forest plot of effect estimates with 95 percent intervals for heterogeneous rescue gain, failure-state transfer value and context transfer value. The pooled estimates are 0.015 (interval −0.042 to 0.071), −0.059 (−0.130 to 0.006) and 0.000 (−0.045 to 0.050). Per-direction estimates scatter around zero; the four failure-state estimates are all negative." loading="lazy">
+    <figcaption><b>Figure 3.</b> HRG, FTV and CTV. Dots: mean per-task difference in success probability; lines: 95% bootstrap intervals over tasks. Blue: pooled; grey: per failure direction.</figcaption>
+  </figure>
+  <div class="table-wrap"><table class="data"><thead><tr><th class="">contrast</th><th class="num">estimate</th><th class="num">95% interval</th><th class="num">tasks</th><th class="num">tasks + / −</th></tr></thead><tbody><tr class=""><td class=""><b>HRG, both directions pooled (V0)</b></td><td class="num">+0.015</td><td class="num">[−0.042, +0.071]</td><td class="num">50</td><td class="num">–</td></tr><tr class=""><td class=""><b>HRG, both directions pooled (+note)</b></td><td class="num">0.000</td><td class="num">[−0.041, +0.041]</td><td class="num">50</td><td class="num">–</td></tr><tr class=""><td class=""><b>FTV, all four rescue directions pooled</b></td><td class="num">−0.059</td><td class="num">[−0.130, +0.006]</td><td class="num">50</td><td class="num">–</td></tr><tr class=""><td class=""><b>CTV, all four rescue directions pooled</b></td><td class="num">0.000</td><td class="num">[−0.045, +0.050]</td><td class="num">50</td><td class="num">–</td></tr><tr class="grp"><td colspan="5">per failure direction</td></tr><tr class=""><td class="">HRG, Devstral failed (V0): GLM − Devstral</td><td class="num">−0.039</td><td class="num">[−0.109, +0.023]</td><td class="num">43</td><td class="num">5 / 8</td></tr><tr class=""><td class="">HRG, GLM failed (V0): Devstral − GLM</td><td class="num">+0.068</td><td class="num">[0.000, +0.144]</td><td class="num">44</td><td class="num">9 / 4</td></tr><tr class=""><td class="">HRG, Devstral failed (+note)</td><td class="num">−0.016</td><td class="num">[−0.093, +0.062]</td><td class="num">43</td><td class="num">5 / 5</td></tr><tr class=""><td class="">HRG, GLM failed (+note)</td><td class="num">+0.015</td><td class="num">[−0.030, +0.061]</td><td class="num">44</td><td class="num">6 / 4</td></tr><tr class=""><td class="">FTV, Devstral → Devstral</td><td class="num">−0.031</td><td class="num">[−0.109, +0.047]</td><td class="num">43</td><td class="num">6 / 8</td></tr><tr class=""><td class="">FTV, Devstral → GLM</td><td class="num">−0.078</td><td class="num">[−0.163, 0.000]</td><td class="num">43</td><td class="num">5 / 9</td></tr><tr class=""><td class="">FTV, GLM → GLM</td><td class="num">−0.091</td><td class="num">[−0.182, −0.008]</td><td class="num">44</td><td class="num">6 / 11</td></tr><tr class=""><td class="">FTV, GLM → Devstral</td><td class="num">−0.038</td><td class="num">[−0.167, +0.091]</td><td class="num">44</td><td class="num">7 / 10</td></tr><tr class=""><td class="">CTV, Devstral → Devstral</td><td class="num">−0.008</td><td class="num">[−0.085, +0.070]</td><td class="num">43</td><td class="num">5 / 6</td></tr><tr class=""><td class="">CTV, Devstral → GLM</td><td class="num">+0.016</td><td class="num">[−0.039, +0.078]</td><td class="num">43</td><td class="num">6 / 5</td></tr><tr class=""><td class="">CTV, GLM → GLM</td><td class="num">+0.023</td><td class="num">[−0.053, +0.106]</td><td class="num">44</td><td class="num">6 / 7</td></tr><tr class=""><td class="">CTV, GLM → Devstral</td><td class="num">−0.030</td><td class="num">[−0.114, +0.053]</td><td class="num">44</td><td class="num">5 / 8</td></tr></tbody></table></div>
+  <p class="table-caption"><b>Table 5.</b> Estimates behind Figure 3 (V0 unless stated). “Tasks + / −” counts tasks whose three-replicate mean difference is positive / negative.</p>
+  <ul>
+    <li><b>Switching models (HRG).</b> +0.015 [−0.042, +0.071] for V0 and 0.000 [−0.041, +0.041] with notes — no detectable effect, in either direction of failure
+    (−0.039 when Devstral failed, +0.068 when GLM failed). The capability term of the decomposition is also close to zero:
+    on Devstral’s failures GLM’s pristine success exceeds Devstral’s by 0.8 points, on GLM’s failures Devstral’s exceeds GLM’s by 1.5. With matched models, the
+    models are about equally likely to solve what the other failed.</li>
+    <li><b>The failed workspace (FTV).</b> Pooled −0.059 [−0.130, +0.006] (−0.087 [−0.209, +0.028] on the non-HARD stratum alone).
+    All four per-direction estimates are negative (−0.031, −0.078, −0.091, −0.038),
+    and none of the twelve direction-by-replicate estimates is positive (two are exactly zero). The pooled interval, however, just reaches zero, and the only direction whose interval lies clearly below zero
+    (GLM → GLM, −0.091 [−0.182, −0.008]) is one of many looks at the data. We read this as: no evidence that the failed workspace helps, and suggestive but not established evidence that it hurts slightly.</li>
+    <li><b>Handoff notes (CTV).</b> 0.000 [−0.045, +0.050]: a note written by the failed agent did not help the same model or the other one.</li>
+    <li><b>HARD tasks.</b> Rescue success on the 20 HARD tasks is at floor (about 2–8% in every condition; pooled rates in the repository’s <code>results/pilot_v2_pooled/hard/</code>), so the pooled results are driven by non-HARD tasks.</li>
+  </ul>
+
+  <h3 id="replication">5.5&ensp;A nominally significant effect that did not replicate</h3>
+  <p>In the original run, GLM rescuing its <em>own</em> failures solved 1/44 from the failed workspace but 8/44 when given its own handoff note: of the tasks where the two conditions differed,
+  7 favoured the note and 0 the plain workspace (exact p = 0.016). It would have been a tempting headline: “a handoff note repairs the damage of a failed workspace”.
+  In the second replicate the direction reversed (3 for the note, 8 against; p = 0.23) and in the third it vanished (3 vs 2).
+  The three replicates solved 1, 9 and 3 of 44 tasks from the failed workspace on <em>identical</em> inputs (Figure 4).</p>
+  <figure class="figure">
+    <img src="figures/fig4_replicates.svg" alt="Dot plot of tasks rescued out of 44 by GLM-4.7-Flash on its own failures, for three replicates and three conditions. Starting from the failed workspace: 1, 9 and 3. With a handoff note: 8, 4 and 4. From a pristine repository: 6, 11 and 8." loading="lazy">
+    <figcaption><b>Figure 4.</b> Tasks rescued (of 44) by GLM-4.7-Flash on its own failures, per replicate, with identical inputs. The same condition moves between 1 and 9 successes; the first-run contrast between “failed workspace” and “workspace + note” is within that spread.</figcaption>
+  </figure>
+  <p>Sampling at non-zero temperature over trajectories of roughly 80 tool calls makes single outcomes highly variable, even with the model, task and start state fixed. Any comparison of agent conditions at this scale from one run per cell
+  is at risk of reporting noise as an effect.</p>
+
+  <h2 id="discussion">6&ensp;Discussion</h2>
+  <p><b>What the results do and do not say.</b> Within this setting — two matched mid-sized open-weight models, a one-tool harness, SWE-bench Pro tasks — a second, different model recovered failed workspaces no better than the first model
+  would have, and the failed workspace did not help either. The most economical reading is that, for models of similar strength, a task’s failure is dominated by factors shared across models (task difficulty) plus run-to-run
+  randomness: a rescue is largely <em>another sample</em>, and success rates of 10–20% on tasks a model has just failed are what a fresh sample would give. The pristine control is exactly this retry-without-state baseline, and none of the rescue conditions beats it.</p>
+  <p><b>Why might a failed workspace hurt?</b> Plausible mechanisms are anchoring on the earlier agent’s hypothesis, spending budget on understanding and testing someone else’s edits, and mistaking plausible-looking partial
+  work for a solution. Descriptively, rescuers in the pooled data end with larger changes than control runs (median 20 KB vs 14 KB of diff; five vs four edited files) at similar step counts (median 79 vs 84), but this is largely
+  by construction — they inherit the earlier edits — and says nothing about harm. These mechanisms are untested hypotheses; the trajectories are the natural data for testing them.</p>
+  <p><b>The handoff note.</b> One cannot conclude that written handoffs are useless. Ours were single self-written summaries produced with one generic prompt by models of modest strength, and the receiving agent was told to treat them as hints.
+  Stronger summarisation, structured diagnosis, or an <em>advisor</em> role for the second model (diagnose, then let the first one act) are different designs we did not test.</p>
+  <p><b>Harness compatibility is a confound.</b> With the harness fixed, two of the five screened models failed mainly through tool-calling problems specific to this harness (Figure 1). “Model A vs model B” in a shared harness is also “how well each model’s training matches that harness”.
+  Cross-harness studies are therefore not a luxury but a prerequisite for claims about <em>models</em> rather than <em>model–harness pairs</em>.</p>
+
+  <h2 id="limitations">7&ensp;Limitations</h2>
+  <ul>
+    <li><b>Scope.</b> One benchmark, one harness with a single shell tool, two mid-sized open-weight models, one 30-minute / 250-step budget. No frontier models and no production agent products.</li>
+    <li><b>Sample size.</b> 43 and 44 failed tasks per direction; the pooled FTV interval spans about 0.14 and just reaches zero. Replicates reduce rescue-stage noise, not task-level sampling error.</li>
+    <li><b>Failure type.</b> Almost all primary failures are confident wrong submissions (111 of 120 primary runs ended by submitting; the others hit the step, context, format-error or time limit). Failures where an agent stalls, loops or is stopped mid-work are essentially absent, and may leave different workspaces.</li>
+    <li><b>Prompt confound in FTV.</b> A V0 rescue is told that a previous agent failed; the pristine control is not (the statement would be false). FTV therefore mixes the effect of the workspace with the effect of that sentence.</li>
+    <li><b>Exploratory analysis.</b> No pre-registration; many contrasts are shown; protocol changes followed observed results (Section 8). Intervals are not corrected for multiplicity, and single nominal p-values should not be read as evidence.</li>
+    <li><b>Selection.</b> The model pair was selected on single runs over overlapping tasks (Section 5.3). Primaries were re-run, but the pair’s “matched” property is partly a product of that selection.</li>
+    <li><b>Possible leakage.</b> Public benchmarks may overlap with model training data; we have not measured this.</li>
+  </ul>
+
+  <h2 id="lessons">8&ensp;Deviations, incidents and what they teach</h2>
+  <p>The decision log records every deviation from the initial protocol and every bug that touched the data. The ones that matter for interpretation are summarised in Table 6; none of the incidents changed a reported number except where
+  stated, and all were applied uniformly across models.</p>
+  <div class="table-wrap"><table class="data"><thead><tr><th class="">decision</th><th class="">what happened</th><th class="">what we did</th></tr></thead><tbody><tr class=""><td class="">D-009 → D-021</td><td class="">Primary failure was defined as “budget exhausted and unsolved”. In phase 0 no run reached the budget (40 of 40 ended by submitting), so the recovery set would be empty.</td><td class="">Failure := the run ended (any reason) and the official evaluator marks it unsolved.</td></tr><tr class=""><td class="">D-022, D-034</td><td class="">HARD-51 tasks were at floor for the first pair (0 of 10 for both models).</td><td class="">pilot v1 used 40 non-HARD tasks; the main experiment restores 20 HARD tasks as a separately reported stratum.</td></tr><tr class=""><td class="">D-020</td><td class="">A BF16 30B model leaves too little KV cache on one 80 GB GPU.</td><td class="">Official FP8 checkpoints where the vendor publishes them; one GPU per model.</td></tr><tr class=""><td class="">D-024</td><td class="">One image ships untracked files inside the repository; a HEAD-relative diff would contain them and not re-apply.</td><td class="">The agent’s change is diffed against the tree of the pristine state (Repo_0), not against HEAD.</td></tr><tr class=""><td class="">D-025</td><td class="">A cgroup out-of-memory kill terminated one agent command.</td><td class="">Host-side SIGKILL is an infrastructure failure; the branch was re-run (1 run affected).</td></tr><tr class=""><td class="">D-032</td><td class="">A NUL byte in a model-written command raised an exception in our sandbox wrapper.</td><td class="">Exceptions during command execution become observations, as in the upstream harness; 4 attempts re-run.</td></tr><tr class=""><td class="">D-033</td><td class="">Package versions in both Python environments were altered by an outside process during the runs.</td><td class="">Both environments restored and locked; every job now refuses to start on drift. Running processes were unaffected.</td></tr><tr class=""><td class="">D-026 / D-036</td><td class="">Single runs proved noisy (Section 5.5).</td><td class="">Handoff-note and control conditions added; the rescue stage replicated twice on identical inputs.</td></tr></tbody></table></div>
+  <p class="table-caption"><b>Table 6.</b> Selected deviations and incidents (full text in <code>docs/decisions.md</code>).</p>
+  <p>In total the project recorded about 2,110 agent runs (6.8 billion tokens) using roughly 115 H100 GPU-hours on a shared academic cluster — a modest budget, which is part of why we think the question is worth
+  pursuing at larger scale.</p>
+
+  <h2 id="invitation">9&ensp;Open questions and an invitation</h2>
+  <p>This pilot leaves the interesting parts of the question open. If you have access to substantial agentic compute (for example Codex or Claude Code–class models and harnesses), the following would, in our view, be the most informative next steps:</p>
+  <ul>
+    <li><b>Stronger models and real harnesses.</b> Repeat the design with frontier models and product harnesses (and cross them), to separate model effects from harness effects.</li>
+    <li><b>More tasks and replicates.</b> A few hundred non-HARD tasks would settle whether failed-workspace transfer is slightly negative (“failure debt”) or null; HARD tasks need stronger models to leave floor.</li>
+    <li><b>Mechanisms.</b> Trajectory-level analysis of rescue runs: anchoring, wasted steps, premature submission; what a rescuer reads and reverts.</li>
+    <li><b>Other hand-off designs.</b> Verified summaries, test-failure reports, advisor/executor splits, selective reset of the workspace, and learned routing.</li>
+    <li><b>Other failure types.</b> Stalls, timeouts and verifier rejections, not only confident wrong submissions.</li>
+  </ul>
+  <div class="invite">
+    <p><b>If this topic — recovery, hand-off and cooperation between agents — interests you and you have the compute, I would be glad to explore it together.</b> The framework is built so that a new model is one configuration entry and a
+    new harness is one adapter. Write to <a href="mailto:dyang06@wm.edu">dyang06@wm.edu</a> or open an issue on the <a href="https://github.com/IoET-y/failure-complementarity" target="_blank" rel="noopener">repository</a>.</p>
+  </div>
+
+  <h2 id="repro">Reproducibility</h2>
+  <p>Everything in this article is recomputed from <code>results/data/branches.csv</code> (one row per recorded agent run) by <code>scripts/analyze_from_csv.py</code>, with figures from <code>scripts/make_figures.py</code>; a unit test pins the headline numbers.
+  Raw trajectories and container snapshots (hundreds of gigabytes) are not published; the protocol, configuration, prompts, task lists, model revisions (Appendix A), environment lock files and the full decision log are.</p>
+
+  <h2 id="ack">Acknowledgements and AI assistance</h2>
+  <p>Experiments ran on the Anvil cluster at Purdue RCAC. The framework, analysis scripts and a first draft of this text were produced with the assistance of Claude (Anthropic) working inside Claude Code under the author’s direction;
+  the design, the decisions and the interpretation are the author’s, who is responsible for any errors. Corrections are welcome.</p>
+
+  <h2 id="refs">References</h2>
+  <ol class="refs">
+    <li id="r1">C. E. Jimenez, J. Yang, A. Wettig, S. Yao, K. Pei, O. Press, K. Narasimhan. SWE-bench: Can Language Models Resolve Real-World GitHub Issues? arXiv:2310.06770, 2023. <a href="https://arxiv.org/abs/2310.06770" target="_blank" rel="noopener">arxiv.org/abs/2310.06770</a></li>
+    <li id="r2">X. Deng et al. SWE-Bench Pro: Can AI Agents Solve Long-Horizon Software Engineering Tasks? arXiv:2509.16941, 2025. <a href="https://arxiv.org/abs/2509.16941" target="_blank" rel="noopener">arxiv.org/abs/2509.16941</a></li>
+    <li id="r3">J. Yang et al. SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering. arXiv:2405.15793, 2024. <a href="https://arxiv.org/abs/2405.15793" target="_blank" rel="noopener">arxiv.org/abs/2405.15793</a></li>
+    <li id="r4">C. S. Xia et al. Agentless: Demystifying LLM-based Software Engineering Agents. arXiv:2407.01489, 2024. <a href="https://arxiv.org/abs/2407.01489" target="_blank" rel="noopener">arxiv.org/abs/2407.01489</a></li>
+    <li id="r5">N. Shinn et al. Reflexion: Language Agents with Verbal Reinforcement Learning. arXiv:2303.11366, 2023. <a href="https://arxiv.org/abs/2303.11366" target="_blank" rel="noopener">arxiv.org/abs/2303.11366</a></li>
+    <li id="r6">J. Huang et al. Large Language Models Cannot Self-Correct Reasoning Yet. arXiv:2310.01798, 2023. <a href="https://arxiv.org/abs/2310.01798" target="_blank" rel="noopener">arxiv.org/abs/2310.01798</a></li>
+    <li id="r7">J. Wang et al. Mixture-of-Agents Enhances Large Language Model Capabilities. arXiv:2406.04692, 2024. <a href="https://arxiv.org/abs/2406.04692" target="_blank" rel="noopener">arxiv.org/abs/2406.04692</a></li>
+    <li id="r8">M. Cemri et al. Why Do Multi-Agent LLM Systems Fail? arXiv:2503.13657, 2025. <a href="https://arxiv.org/abs/2503.13657" target="_blank" rel="noopener">arxiv.org/abs/2503.13657</a></li>
+    <li id="r9">W. Kwon et al. Efficient Memory Management for Large Language Model Serving with PagedAttention (vLLM). arXiv:2309.06180, 2023. <a href="https://arxiv.org/abs/2309.06180" target="_blank" rel="noopener">arxiv.org/abs/2309.06180</a></li>
+    <li id="r10">mini-SWE-agent. <a href="https://github.com/SWE-agent/mini-swe-agent" target="_blank" rel="noopener">github.com/SWE-agent/mini-swe-agent</a> (version 2.4.6 used).</li>
+  </ol>
+
+  <h2 id="cite">Cite as</h2>
+  <div class="cite-box">Di Yang. Does a Failed Agent’s Workspace Help the Next One? A Controlled Pilot on Failure-Conditioned Recovery Between Coding Agents. Blog write-up and code, October 2026. https://ioet-y.github.io/blog/failure-complementarity/ · https://github.com/IoET-y/failure-complementarity</div>
+
+  <h2 id="appendix">Appendix A&ensp;Models, revisions and serving settings</h2>
+  <p>All checkpoints were pinned to a Hugging Face revision and served with vLLM 0.31.0 (<a href="#r9">[9]</a>) on one 80 GB H100, tensor-parallel size 1, maximum context 131,072 tokens, at the vendors’ recommended sampling settings. Reasoning models ran in their default (thinking) mode; reasoning content is never passed to another agent.</p>
+  <div class="table-wrap"><table class="data"><thead><tr><th class="">checkpoint (Hugging Face)</th><th class="">revision</th><th class="">sampling (model card)</th><th class="">vLLM parsers</th></tr></thead><tbody><tr class=""><td class=""><a href="https://huggingface.co/mistralai/Devstral-Small-2-24B-Instruct-2512" target="_blank" rel="noopener">mistralai/Devstral-Small-2-24B-Instruct-2512</a></td><td class=""><code>55c5b41e98c2</code></td><td class="">T = 0.15</td><td class="">tool: mistral</td></tr><tr class=""><td class=""><a href="https://huggingface.co/zai-org/GLM-4.7-Flash" target="_blank" rel="noopener">zai-org/GLM-4.7-Flash</a></td><td class=""><code>7dd20894a642</code></td><td class="">T = 0.7, top-p 1</td><td class="">tool: glm47 · reasoning: glm45</td></tr><tr class=""><td class=""><a href="https://huggingface.co/Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8" target="_blank" rel="noopener">Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8</a></td><td class=""><code>dcaee4d4dfc5</code></td><td class="">T = 0.7, top-p 0.8, top-k 20, rep. penalty 1.05</td><td class="">tool: qwen3_coder</td></tr><tr class=""><td class=""><a href="https://huggingface.co/Qwen/Qwen3.6-35B-A3B-FP8" target="_blank" rel="noopener">Qwen/Qwen3.6-35B-A3B-FP8</a></td><td class=""><code>95a723d08a94</code></td><td class="">T = 1, top-p 0.95, top-k 20</td><td class="">tool: qwen3_coder · reasoning: qwen3</td></tr><tr class=""><td class=""><a href="https://huggingface.co/Qwen/Qwen3.6-27B-FP8" target="_blank" rel="noopener">Qwen/Qwen3.6-27B-FP8</a></td><td class=""><code>e89b16ebf198</code></td><td class="">T = 1, top-p 0.95, top-k 20</td><td class="">tool: qwen3_coder · reasoning: qwen3</td></tr><tr class=""><td class=""><a href="https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-FP8" target="_blank" rel="noopener">nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B-FP8</a></td><td class=""><code>9bee19446c0d</code></td><td class="">T = 0.6, top-p 0.95</td><td class="">tool: qwen3_coder · reasoning: nemotron_v3</td></tr><tr class=""><td class=""><a href="https://huggingface.co/openai/gpt-oss-120b" target="_blank" rel="noopener">openai/gpt-oss-120b</a></td><td class=""><code>b5c939de8f75</code></td><td class="">T = 1, top-p 1</td><td class="">tool: openai</td></tr></tbody></table></div>
+
+  <h2 id="appendix-b">Appendix B&ensp;Data views</h2>
+  <details class="data-view"><summary>Non-HARD stratum (pooled over three replicates)</summary><div class="table-wrap"><table class="data"><thead><tr><th class="">rescuer</th><th class="num">V0</th><th class="num">+ note</th><th class="num">control</th></tr></thead><tbody><tr class="grp"><td colspan="4">Devstral failed — N = 23 tasks</td></tr><tr class=""><td class="">same model: Devstral</td><td class="num">20.3% (14/69)</td><td class="num">18.8% (13/69)</td><td class="num">24.6% (17/69)</td></tr><tr class=""><td class="">other model: GLM-4.7-Flash</td><td class="num">15.9% (11/69)</td><td class="num">20.3% (14/69)</td><td class="num">27.5% (19/69)</td></tr><tr class="grp"><td colspan="4">GLM-4.7-Flash failed — N = 25 tasks</td></tr><tr class=""><td class="">same model: GLM-4.7-Flash</td><td class="num">16.0% (12/75)</td><td class="num">18.7% (14/75)</td><td class="num">28.0% (21/75)</td></tr><tr class=""><td class="">other model: Devstral</td><td class="num">24.0% (18/75)</td><td class="num">21.3% (16/75)</td><td class="num">30.7% (23/75)</td></tr></tbody></table></div></details>
+  <details class="data-view"><summary>HARD stratum (pooled over three replicates)</summary><div class="table-wrap"><table class="data"><thead><tr><th class="">rescuer</th><th class="num">V0</th><th class="num">+ note</th><th class="num">control</th></tr></thead><tbody><tr class="grp"><td colspan="4">Devstral failed — N = 20 tasks</td></tr><tr class=""><td class="">same model: Devstral</td><td class="num">6.7% (4/60)</td><td class="num">6.7% (4/60)</td><td class="num">8.3% (5/60)</td></tr><tr class=""><td class="">other model: GLM-4.7-Flash</td><td class="num">3.3% (2/60)</td><td class="num">1.7% (1/60)</td><td class="num">6.7% (4/60)</td></tr><tr class="grp"><td colspan="4">GLM-4.7-Flash failed — N = 19 tasks</td></tr><tr class=""><td class="">same model: GLM-4.7-Flash</td><td class="num">1.8% (1/57)</td><td class="num">3.5% (2/57)</td><td class="num">7.0% (4/57)</td></tr><tr class=""><td class="">other model: Devstral</td><td class="num">7.0% (4/57)</td><td class="num">3.5% (2/57)</td><td class="num">7.0% (4/57)</td></tr></tbody></table></div></details>
+
+  <p><a class="back-link" href="../">← All posts</a> &nbsp;·&nbsp; <a class="back-link" href="../../">Home</a></p>
+</article>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 Di Yang (杨迪) • Hosted on GitHub Pages</p>
+    </div>
+  </footer>
+</body>
+</html>
