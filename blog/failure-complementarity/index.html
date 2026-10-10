@@ -62,7 +62,6 @@
   <div class="link-row">
     <a href="https://github.com/IoET-y/failure-complementarity" target="_blank" rel="noopener">[Code &amp; data]</a>
     <a href="https://github.com/IoET-y/failure-complementarity/blob/main/docs/experiment_protocol.md" target="_blank" rel="noopener">[Protocol]</a>
-    <a href="https://github.com/IoET-y/failure-complementarity/blob/main/docs/decisions.md" target="_blank" rel="noopener">[Decision log]</a>
     <a href="#invitation">[Collaborate]</a>
     <a href="#cite">[Cite]</a>
   </div>
@@ -81,7 +80,7 @@
     benefit from a self-written handoff note (CTV 0.000, [−0.045, +0.050]). With an unmatched pair, an apparent gain from switching
     models (+0.26) was explained by the stronger model alone, and an effect that was nominally significant in the first run
     (exact p = 0.016) reversed in the second replicate. The study is small, exploratory and limited to mid-sized open-weight models and one
-    harness. We release the framework, protocol, decision log and data, and we invite collaboration at larger scale.</p>
+    harness. We release the framework, protocol and data, and we invite collaboration at larger scale.</p>
   </div>
 
   <h2 id="intro">1&ensp;Introduction</h2>
@@ -172,8 +171,7 @@
     <li><b>Grading.</b> The final diff relative to the pristine state is applied to a <em>fresh</em> pristine image and the unchanged official verifier is run there, never in the agent’s sandbox.</li>
     <li><b>Failures.</b> Infrastructure faults (model endpoint, container, harness, evaluator) are classified separately from task failures, never counted as agent failures, and retried identically
     for all models. Every attempt is kept.</li>
-    <li><b>Auditability.</b> A run manifest fingerprints the science-relevant configuration and refuses to resume under a different one; each protocol change is a dated entry in a decision log
-    (36 entries at the time of writing).</li>
+    <li><b>Auditability.</b> A run manifest fingerprints the science-relevant configuration and refuses to resume under a different one; protocol changes are systematically tracked and dated.</li>
   </ul>
 
   <h2 id="results">5&ensp;Experiments and results</h2>
@@ -279,10 +277,10 @@
   </ul>
 
   <h2 id="lessons">8&ensp;Deviations, incidents and what they teach</h2>
-  <p>The decision log records every deviation from the initial protocol and every bug that touched the data. The ones that matter for interpretation are summarised in Table 6; none of the incidents changed a reported number except where
+  <p>During experimentation, deviations from the initial protocol and engineering incidents were systematically recorded. The ones that matter for interpretation are summarised in Table 6; none of the incidents changed a reported number except where
   stated, and all were applied uniformly across models.</p>
-  <div class="table-wrap"><table class="data"><thead><tr><th class="">decision</th><th class="">what happened</th><th class="">what we did</th></tr></thead><tbody><tr class=""><td class="">D-009 → D-021</td><td class="">Primary failure was defined as “budget exhausted and unsolved”. In phase 0 no run reached the budget (40 of 40 ended by submitting), so the recovery set would be empty.</td><td class="">Failure := the run ended (any reason) and the official evaluator marks it unsolved.</td></tr><tr class=""><td class="">D-022, D-034</td><td class="">HARD-51 tasks were at floor for the first pair (0 of 10 for both models).</td><td class="">pilot v1 used 40 non-HARD tasks; the main experiment restores 20 HARD tasks as a separately reported stratum.</td></tr><tr class=""><td class="">D-020</td><td class="">A BF16 30B model leaves too little KV cache on one 80 GB GPU.</td><td class="">Official FP8 checkpoints where the vendor publishes them; one GPU per model.</td></tr><tr class=""><td class="">D-024</td><td class="">One image ships untracked files inside the repository; a HEAD-relative diff would contain them and not re-apply.</td><td class="">The agent’s change is diffed against the tree of the pristine state (Repo_0), not against HEAD.</td></tr><tr class=""><td class="">D-025</td><td class="">A cgroup out-of-memory kill terminated one agent command.</td><td class="">Host-side SIGKILL is an infrastructure failure; the branch was re-run (1 run affected).</td></tr><tr class=""><td class="">D-032</td><td class="">A NUL byte in a model-written command raised an exception in our sandbox wrapper.</td><td class="">Exceptions during command execution become observations, as in the upstream harness; 4 attempts re-run.</td></tr><tr class=""><td class="">D-033</td><td class="">Package versions in both Python environments were altered by an outside process during the runs.</td><td class="">Both environments restored and locked; every job now refuses to start on drift. Running processes were unaffected.</td></tr><tr class=""><td class="">D-026 / D-036</td><td class="">Single runs proved noisy (Section 5.5).</td><td class="">Handoff-note and control conditions added; the rescue stage replicated twice on identical inputs.</td></tr></tbody></table></div>
-  <p class="table-caption"><b>Table 6.</b> Selected deviations and incidents (full text in <code>docs/decisions.md</code>).</p>
+  <div class="table-wrap"><table class="data"><thead><tr><th class="">item</th><th class="">what happened</th><th class="">what we did</th></tr></thead><tbody><tr class=""><td class="">D-009 → D-021</td><td class="">Primary failure was defined as “budget exhausted and unsolved”. In phase 0 no run reached the budget (40 of 40 ended by submitting), so the recovery set would be empty.</td><td class="">Failure := the run ended (any reason) and the official evaluator marks it unsolved.</td></tr><tr class=""><td class="">D-022, D-034</td><td class="">HARD-51 tasks were at floor for the first pair (0 of 10 for both models).</td><td class="">pilot v1 used 40 non-HARD tasks; the main experiment restores 20 HARD tasks as a separately reported stratum.</td></tr><tr class=""><td class="">D-020</td><td class="">A BF16 30B model leaves too little KV cache on one 80 GB GPU.</td><td class="">Official FP8 checkpoints where the vendor publishes them; one GPU per model.</td></tr><tr class=""><td class="">D-024</td><td class="">One image ships untracked files inside the repository; a HEAD-relative diff would contain them and not re-apply.</td><td class="">The agent’s change is diffed against the tree of the pristine state (Repo_0), not against HEAD.</td></tr><tr class=""><td class="">D-025</td><td class="">A cgroup out-of-memory kill terminated one agent command.</td><td class="">Host-side SIGKILL is an infrastructure failure; the branch was re-run (1 run affected).</td></tr><tr class=""><td class="">D-032</td><td class="">A NUL byte in a model-written command raised an exception in our sandbox wrapper.</td><td class="">Exceptions during command execution become observations, as in the upstream harness; 4 attempts re-run.</td></tr><tr class=""><td class="">D-033</td><td class="">Package versions in both Python environments were altered by an outside process during the runs.</td><td class="">Both environments restored and locked; every job now refuses to start on drift. Running processes were unaffected.</td></tr><tr class=""><td class="">D-026 / D-036</td><td class="">Single runs proved noisy (Section 5.5).</td><td class="">Handoff-note and control conditions added; the rescue stage replicated twice on identical inputs.</td></tr></tbody></table></div>
+  <p class="table-caption"><b>Table 6.</b> Selected deviations and engineering incidents.</p>
   <p>In total the project recorded about 2,110 agent runs (6.8 billion tokens) using roughly 115 H100 GPU-hours on a shared academic cluster — a modest budget, which is part of why we think the question is worth
   pursuing at larger scale.</p>
 
@@ -302,11 +300,11 @@
 
   <h2 id="repro">Reproducibility</h2>
   <p>Everything in this article is recomputed from <code>results/data/branches.csv</code> (one row per recorded agent run) by <code>scripts/analyze_from_csv.py</code>, with figures from <code>scripts/make_figures.py</code>; a unit test pins the headline numbers.
-  Raw trajectories and container snapshots (hundreds of gigabytes) are not published; the protocol, configuration, prompts, task lists, model revisions (Appendix A), environment lock files and the full decision log are.</p>
+  Raw trajectories and container snapshots (hundreds of gigabytes) are not published; the protocol, configuration, prompts, task lists, model revisions (Appendix A) and environment lock files are.</p>
 
   <h2 id="ack">Acknowledgements and AI assistance</h2>
   <p>Experiments ran on the Anvil cluster at Purdue RCAC. The framework, analysis scripts and a first draft of this text were produced with the assistance of Claude (Anthropic) working inside Claude Code under the author’s direction;
-  the design, the decisions and the interpretation are the author’s, who is responsible for any errors. Corrections are welcome.</p>
+  the design, the methodological choices and the interpretation are the author’s, who is responsible for any errors. Corrections are welcome.</p>
 
   <h2 id="refs">References</h2>
   <ol class="refs">
