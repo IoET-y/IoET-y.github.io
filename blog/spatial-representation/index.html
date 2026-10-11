@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Some Thoughts on Spatial Representation: From AI Chips to Embodied Intelligence | Di Yang</title>
+  <meta name="description" content="Personal research reflections on computational efficiency, spatial representations, 3D/4D scene encoding (Sparc4D), and what world models actually need for embodied intelligence.">
+  <meta name="author" content="Di Yang">
+  <link rel="canonical" href="https://ioet-y.github.io/blog/spatial-representation/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://ioet-y.github.io/blog/spatial-representation/">
+  <meta property="og:title" content="Some Thoughts on Spatial Representation: From AI Chips to Embodied Intelligence | Di Yang">
+  <meta property="og:description" content="Personal research reflections on computational efficiency, spatial representations, 3D/4D scene encoding (Sparc4D), and what world models actually need for embodied intelligence.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Some Thoughts on Spatial Representation: From AI Chips to Embodied Intelligence | Di Yang">
+  <meta name="twitter:description" content="Personal research reflections on computational efficiency, spatial representations, 3D/4D scene encoding (Sparc4D), and what world models actually need for embodied intelligence.">
+  <link rel="icon" href="../../images/site-logo.png" type="image/png">
+  <link rel="stylesheet" href="../../assets/css/style.css">
+  <link rel="stylesheet" href="../../assets/css/blog.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Some Thoughts on Spatial Representation: From AI Chips to Embodied Intelligence",
+  "description": "Personal research reflections on computational efficiency, spatial representations, 3D/4D scene encoding (Sparc4D), and what world models actually need for embodied intelligence.",
+  "author": {
+    "@type": "Person",
+    "name": "Di Yang",
+    "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "William & Mary"
+    },
+    "email": "dyang06@wm.edu"
+  },
+  "datePublished": "2026-10-11",
+  "url": "https://ioet-y.github.io/blog/spatial-representation/",
+  "inLanguage": "en"
+}
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-inner">
+      <a href="../../index.html#hero" class="nav-brand">Di Yang <span>/ William &amp; Mary</span></a>
+      <ul class="nav-links">
+        <li><a href="../../index.html#about">About</a></li>
+        <li><a href="../../index.html#research">Research</a></li>
+        <li><a href="../../index.html#publications">Publications</a></li>
+        <li class="keep"><a href="../../blog/" class="is-current">Blog</a></li>
+        <li class="keep"><a href="../../index.html#hero">Home</a></li>
+      </ul>
+    </div>
+  </header>
+  <main class="container blog-main">
+
+<article class="post">
+  <h1 class="post-title">Some Thoughts on Spatial Representation: From AI Chips to Embodied Intelligence</h1>
+  <p class="post-byline"><strong>Di Yang</strong></p>
+  <p class="post-affil">Ph.D. student, Data Science, William &amp; Mary &nbsp;·&nbsp; <a href="mailto:dyang06@wm.edu">dyang06@wm.edu</a></p>
+  <p class="post-date">October 11, 2026 &nbsp;·&nbsp; research reflections &nbsp;·&nbsp; <em>prose polished with ChatGPT</em></p>
+
+  <p>Recently, I've been working on 3D/4D representations and world models. Along the way, I've found myself thinking more about a simple question: <em>Are we spending too much compute processing information that doesn't really matter?</em></p>
+
+  <p>My background is actually in microelectronics and integrated circuits. After finishing my master's degree, I spent about a year and a half at Cambricon working as a logic design engineer for AI chips.</p>
+
+  <p>That experience made me particularly sensitive to computational efficiency.</p>
+
+  <p>When ChatGPT 3.5 came out in late 2022, I was convinced that compute would become one of the most valuable resources in the AI era. Behind compute are two fundamental things: chips and energy.</p>
+
+  <p>For chip designers, performance per watt has always been a central concern. As traditional semiconductor scaling becomes increasingly difficult, the industry continues exploring new computing architectures, advanced packaging, and alternative approaches to improve efficiency.</p>
+
+  <p>The goal is largely the same: getting more useful computation out of limited resources.</p>
+
+  <p>But when I moved into AI research, I started thinking about this problem from another perspective.</p>
+
+  <p>Scaling laws have shown us how powerful additional compute and data can be. Still, given a fixed compute budget, shouldn't we also think about how much of that compute is actually spent processing useful information?</p>
+
+  <p>It's somewhat similar to hardware-software co-design. Instead of simply adding more hardware, we should also rethink how information is represented and processed.</p>
+
+  <h2 id="why-representation-matters">Why Representation Matters</h2>
+
+  <p>One thing that has always fascinated me is how much the choice of representation can influence what a model learns.</p>
+
+  <p>Language itself is already a highly abstract representation of the world. A simple sentence can communicate objects, relationships, and concepts without describing every visual detail.</p>
+
+  <p>Images and videos are quite different. They contain enormous amounts of information, much of which may be redundant or irrelevant to the task.</p>
+
+  <p>We've already seen some beautiful work exploring this problem.</p>
+
+  <p><a href="https://arxiv.org/abs/2112.10752" target="_blank" rel="noopener">Latent Diffusion Models</a> [<a href="#r1">1</a>] showed how moving generation into a compressed latent space could dramatically reduce computational costs. Yann LeCun and his colleagues took another fascinating direction with <a href="https://arxiv.org/abs/2301.08243" target="_blank" rel="noopener">I-JEPA</a> [<a href="#r2">2</a>] and later <a href="https://arxiv.org/abs/2404.08471" target="_blank" rel="noopener">V-JEPA</a> [<a href="#r3">3</a>], exploring how models could learn meaningful representations by predicting abstract features rather than reconstructing every pixel.</p>
+
+  <p>I find these works particularly inspiring. Although compression and predictive representation learning are different problems, they make me think about the same question:</p>
+
+  <blockquote>How much of what we observe is actually necessary for understanding, reasoning, and acting?</blockquote>
+
+  <p>This becomes especially interesting when we move toward embodied intelligence.</p>
+
+  <h2 id="what-does-a-robot-actually-need">What Does a Robot Actually Need?</h2>
+
+  <p>Imagine asking a household robot to pick up a glass and place it on a shelf.</p>
+
+  <p>Understanding the instruction is relatively straightforward. Executing it is another story.</p>
+
+  <p>The robot needs to understand the glass's position, orientation, surrounding geometry, and potential collisions. These are fundamentally spatial questions.</p>
+
+  <p>Current VLMs have demonstrated impressive semantic understanding, but their spatial reasoning capabilities remain imperfect, as highlighted by works such as <a href="https://arxiv.org/abs/2401.12168" target="_blank" rel="noopener">SpatialVLM</a> [<a href="#r4">4</a>].</p>
+
+  <p>This is why I find explicit spatial representations interesting.</p>
+
+  <p>Rather than relying entirely on visual tokens, could we provide models with a compact, structured representation of the physical environment?</p>
+
+  <p>Of course, this doesn't mean RGB cameras are insufficient, or that additional sensors are unnecessary. I actually find Tesla's vision-centric philosophy quite interesting, although I wouldn't claim that camera-only perception is inherently superior.</p>
+
+  <p>My interest lies more in how efficiently we can extract and organize useful spatial information from observations.</p>
+
+  <p>After all, household robots won't necessarily have access to powerful GPUs or unlimited energy budgets.</p>
+
+  <h2 id="from-3d-to-4d-representation">From 3D to 4D Representation</h2>
+
+  <p>Another problem is that explicit spatial representations can themselves be expensive.</p>
+
+  <p>Think about a robot observing a living room. The walls, floor, and furniture might remain unchanged for hours. Only a few objects are moving.</p>
+
+  <p>Do we really need to encode the entire scene again at every timestamp?</p>
+
+  <p>Probably not.</p>
+
+  <p>I recently read an interview with Yufei Wang and Zhihao Li about compression, representation learning, and world models. Many of their thoughts resonated with my own.</p>
+
+  <p>Their work on <a href="https://arxiv.org/abs/2505.14521" target="_blank" rel="noopener">Sparc3D</a> [<a href="#r5">5</a>], along with efforts like <a href="https://arxiv.org/abs/2412.01506" target="_blank" rel="noopener">TRELLIS</a> [<a href="#r6">6</a>], shows how structured sparse representations can make 3D modeling more efficient.</p>
+
+  <p>And this connects closely to our recent work, <a href="../../files/sparc4d.pdf" target="_blank" rel="noopener">Sparc4D: A Compact Explicit 4D Representation for Dynamic Scenes</a> [<a href="#r7">7</a>].</p>
+
+  <p>In Sparc4D, we explore how to encode dynamic scenes into compact, explicit 4D states. Instead of independently representing every frame, we share static information across time and compress dynamic features using spatially anchored temporal slots.</p>
+
+  <p>Our experiments show that temporal slots substantially reduce the storage required for time-varying features while maintaining reconstruction quality. We also explored using the learned representation for robotic manipulation, with encouraging initial results.</p>
+
+  <p>Of course, Sparc4D is still far from a complete solution. It focuses on compact dynamic-scene reconstruction rather than general physical prediction.</p>
+
+  <p>But it has made me increasingly interested in what comes next.</p>
+
+  <h2 id="beyond-reconstruction">Beyond Reconstruction</h2>
+
+  <p>One thing I've been thinking about is that reconstruction quality doesn't necessarily translate into better reasoning or control.</p>
+
+  <p>A representation might preserve beautiful textures while missing a tiny obstacle that could cause a robot to fail.</p>
+
+  <p>Conversely, a relatively coarse representation might be perfectly adequate for navigation if it captures the relevant geometry.</p>
+
+  <p>This makes me wonder whether spatial representations should be designed around what an agent actually needs, rather than how faithfully they reproduce every observation.</p>
+
+  <p>There's already fascinating work in this direction.</p>
+
+  <p><a href="https://arxiv.org/abs/2301.04104" target="_blank" rel="noopener">DreamerV3</a> [<a href="#r8">8</a>] demonstrated how agents can learn through imagined trajectories in compact latent states. More recently, <a href="https://arxiv.org/abs/2411.04983" target="_blank" rel="noopener">DINO-WM</a> [<a href="#r9">9</a>] and <a href="https://arxiv.org/abs/2506.09985" target="_blank" rel="noopener">V-JEPA 2</a> [<a href="#r10">10</a>] have explored predicting future visual representations for planning without generating complete future images.</p>
+
+  <p>I see these as different approaches to a question that interests me:</p>
+
+  <blockquote>
+    <p>Can we develop a compact, geometrically grounded representation that preserves the information needed for spatial reasoning and action-conditioned prediction?</p>
+    <p>And does a world model really need to predict the entire future scene, or just the changes relevant to the agent's next decision?</p>
+  </blockquote>
+
+  <p>These are some of the questions we're beginning to explore.</p>
+
+  <h2 id="some-final-thoughts">Some Final Thoughts</h2>
+
+  <p>Looking back, my research interests haven't changed as much as I initially thought.</p>
+
+  <p>When I was designing AI chips, I cared about how to perform more useful computation with limited hardware resources.</p>
+
+  <p>Now, working on spatial representations and world models, I'm thinking about how to preserve more useful information with limited computation.</p>
+
+  <p>I'm certainly not the first person to think about representation efficiency. Many researchers have explored these ideas much more deeply, from latent diffusion and JEPA to structured 3D representations and latent world models.</p>
+
+  <p>I don't believe compression alone leads to intelligence, nor do I think explicit 3D representations will solve every problem in embodied AI.</p>
+
+  <p>But I do think there's something worth exploring at the intersection of representation efficiency, spatial understanding, and embodied reasoning.</p>
+
+  <p>After all, processing more information doesn't necessarily mean understanding more.</p>
+
+  <p>Sparc4D is just one of our early attempts in this direction. There's still a lot to figure out, and some of our current assumptions may turn out to be wrong.</p>
+
+  <p>For now, I just wanted to write these thoughts down.</p>
+
+  <p>More on world models, spatial reasoning, and agents in future posts.</p>
+
+  <h2 id="note">Note on Writing</h2>
+  <p>The ideas, research perspectives, and structure of this post are my own; the English wording and prose were polished with the assistance of ChatGPT.</p>
+
+  <h2 id="refs">References</h2>
+  <ol class="refs">
+    <li id="r1">R. Rombach, A. Blattmann, D. Lorenz, P. Esser, B. Ommer. High-Resolution Image Synthesis with Latent Diffusion Models. In <em>CVPR</em>, 2022. <a href="https://arxiv.org/abs/2112.10752" target="_blank" rel="noopener">arXiv:2112.10752</a></li>
+    <li id="r2">M. Assran, Q. Duval, I. Misra, P. Bojanowski, P. Vincent, M. Rabbat, Y. LeCun, N. Ballas. Self-Supervised Learning from Images with a Joint-Embedding Predictive Architecture (I-JEPA). In <em>CVPR</em>, 2023. <a href="https://arxiv.org/abs/2301.08243" target="_blank" rel="noopener">arXiv:2301.08243</a></li>
+    <li id="r3">A. Bardes et al. Revisiting Feature Prediction for Learning Visual Representations from Video (V-JEPA). <em>TMLR</em>, 2024. <a href="https://arxiv.org/abs/2404.08471" target="_blank" rel="noopener">arXiv:2404.08471</a></li>
+    <li id="r4">B. Chen et al. SpatialVLM: Endowing Vision-Language Models with Spatial Reasoning Capabilities. In <em>CVPR</em>, 2024. <a href="https://arxiv.org/abs/2401.12168" target="_blank" rel="noopener">arXiv:2401.12168</a></li>
+    <li id="r5">Z. Li, Y. Wang, H. Zheng, Y. Luo, B. Wen. Sparc3D: Sparse Representation and Construction for High-Resolution 3D Shapes Modeling. In <em>NeurIPS</em>, 2025. <a href="https://arxiv.org/abs/2505.14521" target="_blank" rel="noopener">arXiv:2505.14521</a></li>
+    <li id="r6">J. Xiang et al. Structured 3D Latents for Scalable and Versatile 3D Generation (TRELLIS). In <em>CVPR</em>, 2025. <a href="https://arxiv.org/abs/2412.01506" target="_blank" rel="noopener">arXiv:2412.01506</a></li>
+    <li id="r7">D. Yang, Z. Li, Y. Xiong, Y. Wang. Sparc4D: A Compact Explicit 4D Representation for Dynamic Scenes. <em>arXiv preprint</em>, 2026. <a href="https://arxiv.org/abs/2610.01229" target="_blank" rel="noopener">arXiv:2610.01229</a> · <a href="../../files/sparc4d.pdf" target="_blank" rel="noopener">[PDF]</a></li>
+    <li id="r8">D. Hafner, J. Pasukonis, J. Ba, T. Lillicrap. Mastering Diverse Domains through World Models (DreamerV3). <em>arXiv preprint</em>, 2023. <a href="https://arxiv.org/abs/2301.04104" target="_blank" rel="noopener">arXiv:2301.04104</a></li>
+    <li id="r9">G. Zhou, H. Pan, Y. LeCun, L. Pinto. DINO-WM: World Models on Pre-trained Visual Features Enable Zero-Shot Planning. <em>arXiv preprint</em>, 2024. <a href="https://arxiv.org/abs/2411.04983" target="_blank" rel="noopener">arXiv:2411.04983</a></li>
+    <li id="r10">M. Assran et al. V-JEPA 2: Self-Supervised Video Models Enable Understanding, Prediction and Planning. <em>arXiv preprint</em>, 2025. <a href="https://arxiv.org/abs/2506.09985" target="_blank" rel="noopener">arXiv:2506.09985</a></li>
+  </ol>
+
+  <p><a class="back-link" href="../">← All posts</a> &nbsp;·&nbsp; <a class="back-link" href="../../">Home</a></p>
+</article>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2026 Di Yang (杨迪) • Hosted on GitHub Pages</p>
+    </div>
+  </footer>
+</body>
+</html>
