@@ -1,0 +1,502 @@
+[
+{
+"id": "vet_cup__cup_001",
+"source": "vet_cup",
+"question": "Which cup contains the ball at the end of the video?",
+"route": "bind",
+"agent": "C",
+"direct": "A",
+"overlay": "A",
+"gold": "C"
+},
+{
+"id": "vet_cup__cup_002",
+"source": "vet_cup",
+"question": "Which cup contains the ball at the end of the video?",
+"route": "bind",
+"agent": "B",
+"direct": "A",
+"overlay": "A",
+"gold": "B"
+},
+{
+"id": "vet_cup__cup_003",
+"source": "vet_cup",
+"question": "Which cup contains the ball at the end of the video?",
+"route": "bind",
+"agent": "A",
+"direct": "C",
+"overlay": "C",
+"gold": "A"
+},
+{
+"id": "vet_cup__cup_004",
+"source": "vet_cup",
+"question": "Which cup contains the ball at the end of the video?",
+"route": "bind",
+"agent": "B",
+"direct": "C",
+"overlay": "C",
+"gold": "B"
+},
+{
+"id": "vet_cup__cup_005",
+"source": "vet_cup",
+"question": "Which cup contains the ball at the end of the video?",
+"route": "bind",
+"agent": "B",
+"direct": "C",
+"overlay": "C",
+"gold": "B"
+},
+{
+"id": "vet_cup__cup_006",
+"source": "vet_cup",
+"question": "Which cup contains the ball at the end of the video?",
+"route": "bind",
+"agent": "A",
+"direct": "C",
+"overlay": "C",
+"gold": "A"
+},
+{
+"id": "vet_cup__cup_012",
+"source": "vet_cup",
+"question": "Which cup contains the ball at the end of the video?",
+"route": "bind",
+"agent": "B",
+"direct": "C",
+"overlay": "C",
+"gold": "B"
+},
+{
+"id": "vet_cup__cup_014",
+"source": "vet_cup",
+"question": "Which cup contains the ball at the end of the video?",
+"route": "bind",
+"agent": "A",
+"direct": "B",
+"overlay": "B",
+"gold": "A"
+},
+{
+"id": "vet_cup__cup_015",
+"source": "vet_cup",
+"question": "Which cup contains the ball at the end of the video?",
+"route": "bind",
+"agent": "B",
+"direct": "C",
+"overlay": "C",
+"gold": "B"
+},
+{
+"id": "vet_card__card_001",
+"source": "vet_card",
+"question": "Where is the Queen of Hearts at the end of the video?",
+"route": "bind",
+"agent": "C",
+"direct": "A",
+"overlay": "B",
+"gold": "C"
+},
+{
+"id": "vet_card__card_005",
+"source": "vet_card",
+"question": "Where is the Queen of Hearts at the end of the video?",
+"route": "bind",
+"agent": "A",
+"direct": "B",
+"overlay": "B",
+"gold": "A"
+},
+{
+"id": "vet_card__card_009",
+"source": "vet_card",
+"question": "Where is the Queen of Hearts at the end of the video?",
+"route": "bind",
+"agent": "A",
+"direct": "C",
+"overlay": "C",
+"gold": "A"
+},
+{
+"id": "vet_card__card_011",
+"source": "vet_card",
+"question": "Where is the Queen of Hearts at the end of the video?",
+"route": "bind",
+"agent": "C",
+"direct": "B",
+"overlay": "B",
+"gold": "C"
+},
+{
+"id": "vet_card__card_014",
+"source": "vet_card",
+"question": "Where is the Queen of Hearts at the end of the video?",
+"route": "bind",
+"agent": "B",
+"direct": "C",
+"overlay": "C",
+"gold": "B"
+},
+{
+"id": "vet_card__card_015",
+"source": "vet_card",
+"question": "Where is the Queen of Hearts at the end of the video?",
+"route": "bind",
+"agent": "C",
+"direct": "B",
+"overlay": "B",
+"gold": "C"
+},
+{
+"id": "vet_card__card_017",
+"source": "vet_card",
+"question": "Where is the Queen of Hearts at the end of the video?",
+"route": "bind",
+"agent": "B",
+"direct": "A",
+"overlay": "A",
+"gold": "B"
+},
+{
+"id": "pt__video_1034",
+"source": "pt",
+"question": "The person uses multiple similar objects to play an occlusion game. Where is the hidden object at the end of the game from the person's point of view?",
+"route": "bind",
+"agent": "A",
+"direct": "B",
+"overlay": "C",
+"gold": "A"
+},
+{
+"id": "pt__video_10363",
+"source": "pt",
+"question": "The person uses multiple similar objects to play an occlusion game. Where is the hidden object at the end of the game from the person's point of view?",
+"route": "bind",
+"agent": "B",
+"direct": "A",
+"overlay": "A",
+"gold": "B"
+},
+{
+"id": "pt__video_10863",
+"source": "pt",
+"question": "The person uses multiple similar objects to play an occlusion game. Where is the hidden object at the end of the game from the person's point of view?",
+"route": "bind",
+"agent": "A",
+"direct": "C",
+"overlay": "B",
+"gold": "A"
+},
+{
+"id": "pt__video_11343",
+"source": "pt",
+"question": "The person uses multiple similar objects to play an occlusion game. Where is the hidden object at the end of the game from the person's point of view?",
+"route": "bind",
+"agent": "B",
+"direct": "A",
+"overlay": "A",
+"gold": "B"
+},
+{
+"id": "pt__video_3479",
+"source": "pt",
+"question": "The person uses multiple similar objects to play an occlusion game. Where is the hidden object at the end of the game from the person's point of view?",
+"route": "bind",
+"agent": "A",
+"direct": "C",
+"overlay": "C",
+"gold": "A"
+},
+{
+"id": "pt__video_3485",
+"source": "pt",
+"question": "The person uses multiple similar objects to play an occlusion game. Where is the hidden object at the end of the game from the person's point of view?",
+"route": "bind",
+"agent": "C",
+"direct": "A",
+"overlay": "A",
+"gold": "C"
+},
+{
+"id": "pt__video_3995",
+"source": "pt",
+"question": "The person uses multiple similar objects to play an occlusion game. Where is the hidden object at the end of the game from the person's point of view?",
+"route": "bind",
+"agent": "A",
+"direct": "B",
+"overlay": "B",
+"gold": "A"
+},
+{
+"id": "pt__video_4289",
+"source": "pt",
+"question": "The person uses multiple similar objects to play an occlusion game. Where is the hidden object at the end of the game from the person's point of view?",
+"route": "bind",
+"agent": "C",
+"direct": "B",
+"overlay": "A",
+"gold": "C"
+},
+{
+"id": "pt__video_5049",
+"source": "pt",
+"question": "The person uses multiple similar objects to play an occlusion game. Where is the hidden object at the end of the game from the person's point of view?",
+"route": "bind",
+"agent": "A",
+"direct": "C",
+"overlay": "C",
+"gold": "A"
+},
+{
+"id": "pt__video_6159",
+"source": "pt",
+"question": "The person uses multiple similar objects to play an occlusion game. Where is the hidden object at the end of the game from the person's point of view?",
+"route": "bind",
+"agent": "C",
+"direct": "B",
+"overlay": "A",
+"gold": "C"
+},
+{
+"id": "pt__video_6534",
+"source": "pt",
+"question": "The person uses multiple similar objects to play an occlusion game. Where is the hidden object at the end of the game from the person's point of view?",
+"route": "bind",
+"agent": "B",
+"direct": "A",
+"overlay": "C",
+"gold": "B"
+},
+{
+"id": "pt__video_6789",
+"source": "pt",
+"question": "The person uses multiple similar objects to play an occlusion game. Where is the hidden object at the end of the game from the person's point of view?",
+"route": "bind",
+"agent": "C",
+"direct": "A",
+"overlay": "A",
+"gold": "C"
+},
+{
+"id": "pt__video_6855",
+"source": "pt",
+"question": "The person uses multiple similar objects to play an occlusion game. Where is the hidden object at the end of the game from the person's point of view?",
+"route": "bind",
+"agent": "A",
+"direct": "C",
+"overlay": "B",
+"gold": "A"
+},
+{
+"id": "pt__video_6902",
+"source": "pt",
+"question": "The person uses multiple similar objects to play an occlusion game. Where is the hidden object at the end of the game from the person's point of view?",
+"route": "bind",
+"agent": "B",
+"direct": "C",
+"overlay": "C",
+"gold": "B"
+},
+{
+"id": "pt__video_7331",
+"source": "pt",
+"question": "The person uses multiple similar objects to play an occlusion game. Where is the hidden object at the end of the game from the person's point of view?",
+"route": "bind",
+"agent": "C",
+"direct": "A",
+"overlay": "A",
+"gold": "C"
+},
+{
+"id": "pt__video_8402",
+"source": "pt",
+"question": "The person uses multiple similar objects to play an occlusion game. Where is the hidden object at the end of the game from the person's point of view?",
+"route": "bind",
+"agent": "A",
+"direct": "C",
+"overlay": "C",
+"gold": "A"
+},
+{
+"id": "pt__video_9855",
+"source": "pt",
+"question": "The person uses multiple similar objects to play an occlusion game. Where is the hidden object at the end of the game from the person's point of view?",
+"route": "bind",
+"agent": "B",
+"direct": "A",
+"overlay": "A",
+"gold": "B"
+},
+{
+"id": "toc__253669f7544a",
+"source": "toc",
+"question": "Put the following events for wall socket in order from earliest to latest.",
+"route": "timeline",
+"agent": "C, B, A",
+"direct": "B, C, A",
+"overlay": null,
+"gold": "C, B, A"
+},
+{
+"id": "toc__2683b0ff6699",
+"source": "toc",
+"question": "When red remote control disappears, does it get fully blocked or leave the frame?",
+"route": "timeline",
+"agent": "B",
+"direct": "A",
+"overlay": null,
+"gold": "B"
+},
+{
+"id": "toc__28f92f0c5fdb",
+"source": "toc",
+"question": "How does the arm move across the frame during the video?",
+"route": "timeline",
+"agent": "A",
+"direct": "B",
+"overlay": null,
+"gold": "A"
+},
+{
+"id": "toc__29614708f97c",
+"source": "toc",
+"question": "Put the following events for black sneaker in order from earliest to latest.",
+"route": "timeline",
+"agent": "C, D, B, A",
+"direct": "B, C, D, A",
+"overlay": null,
+"gold": "C, D, B, A"
+},
+{
+"id": "toc__324b69d04f07",
+"source": "toc",
+"question": "Which event happens first in the video?",
+"route": "timeline",
+"agent": "A",
+"direct": "B",
+"overlay": null,
+"gold": "A"
+},
+{
+"id": "toc__41bde4f8aab0",
+"source": "toc",
+"question": "When eggshell disappears, does it get fully blocked or left the frame?",
+"route": "timeline",
+"agent": "B",
+"direct": "A",
+"overlay": null,
+"gold": "B"
+},
+{
+"id": "toc__49ee03464d61",
+"source": "toc",
+"question": "Does black cable ever get fully hidden in the video?",
+"route": "timeline",
+"agent": "A",
+"direct": "B",
+"overlay": null,
+"gold": "A"
+},
+{
+"id": "toc__5a71294e402c",
+"source": "toc",
+"question": "At the moment the yellow lid mug comes back into view, what is the state of the man in the grey shirt?",
+"route": "timeline",
+"agent": "C",
+"direct": "B",
+"overlay": null,
+"gold": "C"
+},
+{
+"id": "toc__5b168d83b941",
+"source": "toc",
+"question": "How many times does the orange stress ball change abruptly in the video?",
+"route": "timeline",
+"agent": "3",
+"direct": "2",
+"overlay": null,
+"gold": "3"
+},
+{
+"id": "toc__645f59c8bbdd",
+"source": "toc",
+"question": "Does white earphones ever get fully hidden in the video?",
+"route": "timeline",
+"agent": "B",
+"direct": "A",
+"overlay": null,
+"gold": "B"
+},
+{
+"id": "toc__70d144ca96d6",
+"source": "toc",
+"question": "How does the silver snowflake move across the frame during the video?",
+"route": "timeline",
+"agent": "D",
+"direct": "C",
+"overlay": null,
+"gold": "D"
+},
+{
+"id": "toc__744469c01f94",
+"source": "toc",
+"question": "Which event happens first in the video?",
+"route": "timeline",
+"agent": "B",
+"direct": "A",
+"overlay": null,
+"gold": "B"
+},
+{
+"id": "toc__9b9607fed74b",
+"source": "toc",
+"question": "How long do cucumber slices stay in contact with cucumber slices?",
+"route": "timeline",
+"agent": "B",
+"direct": "C",
+"overlay": null,
+"gold": "B"
+},
+{
+"id": "toc__b5ec0f991672",
+"source": "toc",
+"question": "When in the video does white fluffy rug get fully hidden?",
+"route": "timeline",
+"agent": "D",
+"direct": "B",
+"overlay": null,
+"gold": "D"
+},
+{
+"id": "toc__e0e3621a8166",
+"source": "toc",
+"question": "How long does fork remain partly hidden?",
+"route": "timeline",
+"agent": "B",
+"direct": "A",
+"overlay": null,
+"gold": "B"
+},
+{
+"id": "toc__e46d2ad74207",
+"source": "toc",
+"question": "At the moment hand disappears for good, what is the state of woman in red vest?",
+"route": "timeline",
+"agent": "A",
+"direct": "C",
+"overlay": null,
+"gold": "A"
+},
+{
+"id": "toc__edb5ac190293",
+"source": "toc",
+"question": "When in the video does brown water bottle get fully hidden?",
+"route": "timeline",
+"agent": "D",
+"direct": "C",
+"overlay": null,
+"gold": "D"
+}
+]

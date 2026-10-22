@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Interactive examples of Track, Then Bind (TAIR): training-free object identity reasoning for video-language models.">
+<title>TAIR Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Sans+3:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: thesis + full-test-set scoreboard on top, then a task filter, an example strip, and a two-column inspector (video with tracks | answer and evidence trail) */
+:root{
+ --bg:#eef1f4;--surface:#ffffff;--ink:#14202c;--mute:#5b6876;--line:#d6dde4;--accent:#2547c2;--ok:#15803d;--bad:#b42318;--warn:#b26b00;--soft:#e4e9ef;
+ --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;--f-body:"Source Sans 3","Segoe UI",system-ui,sans-serif;--f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+ --t1:#e6194b;--t2:#3cb44b;--t3:#0082c8;--t4:#f58231;--t5:#911eb4;--t6:#46c8c8;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f151b;--surface:#18212a;--ink:#e6ecf2;--mute:#9aa8b6;--line:#2a3743;--accent:#7f9cff;--ok:#4ade80;--bad:#f87171;--warn:#fbbf24;--soft:#1f2a35;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f151b;--surface:#18212a;--ink:#e6ecf2;--mute:#9aa8b6;--line:#2a3743;--accent:#7f9cff;--ok:#4ade80;--bad:#f87171;--warn:#fbbf24;--soft:#1f2a35;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--f-body);padding-inline:16px;padding-block:0 40px}
+.wrap{max-width:1240px;margin:0 auto;display:grid;gap:22px}
+.wrap>*,header>*{min-width:0}
+.tracks label{min-width:0}
+header{padding-block:28px 4px;display:grid;gap:10px}
+.eyebrow{font:600 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{font:800 clamp(30px,5vw,48px)/1.05 var(--f-display);margin:0;letter-spacing:-.01em;text-wrap:balance}
+.lede{max-width:68ch;margin:0;color:var(--mute);font-size:17px}
+.lede b{color:var(--ink)}
+.score{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.score table{border-collapse:collapse;width:100%;min-width:560px;font-variant-numeric:tabular-nums}
+.score th,.score td{padding:9px 14px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+.score th:first-child,.score td:first-child{text-align:left}
+.score thead th{font:600 12px/1.2 var(--f-mono);letter-spacing:.04em;text-transform:uppercase;color:var(--mute)}
+.score tbody tr:last-child td{border-bottom:0}
+.score .us td{font-weight:700;color:var(--accent)}
+.cap{font-size:13px;color:var(--mute);margin:6px 2px 0}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{font:600 14px var(--f-body);padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.tab[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab small{font-family:var(--f-mono);opacity:.7;margin-left:4px}
+.strip{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font:400 12px var(--f-mono);padding:5px 9px;border-radius:6px;border:1px solid var(--line);background:transparent;color:var(--mute);cursor:pointer}
+.chip[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);background:var(--surface)}
+.tab:focus-visible,.chip:focus-visible,.trail button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.insp{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:900px){.insp{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;min-width:0}
+.stage{position:relative;background:#000;border-radius:8px;overflow:hidden}
+video{display:block;width:100%;height:auto;max-width:100%}
+canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.tracks{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:10px;font-size:14px}
+.tracks label{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.sw{width:11px;height:11px;border-radius:2px;display:inline-block;flex:none}
+.lanes{position:relative;margin-top:6px}
+.lane{position:relative;height:14px;margin-top:22px;background:var(--soft);border-radius:3px;cursor:pointer}
+.lane .lbl{position:absolute;left:4px;top:-18px;font:400 11px var(--f-mono);color:var(--mute);white-space:nowrap}
+.seg{position:absolute;top:0;height:100%;border-radius:2px}
+.cursor{position:absolute;top:0;bottom:0;width:2px;background:var(--accent);pointer-events:none}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:12px;font-size:12px;color:var(--mute)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.note{font-size:13px;color:var(--mute);margin:8px 0 0}
+.q{font:700 19px/1.3 var(--f-display);margin:0;text-wrap:balance}
+.opts{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:2px;color:var(--mute);font-size:15px}
+.opts .gold{color:var(--ink);font-weight:600}
+.opts .gold::after{content:"  ground truth";font:400 11px var(--f-mono);color:var(--ok)}
+.src{font-size:12px;color:var(--mute);margin:8px 0 0}
+.verdicts{display:grid;gap:8px;margin-top:14px}
+.v{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 11px;border-radius:8px;border:1px solid var(--line)}
+.v.us{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 8%,transparent)}
+.v .who{font-size:14px;min-width:0}.v .who b{font-family:var(--f-display)}
+.v .who span{display:block;font-size:12px;color:var(--mute)}
+.pill{font:600 13px var(--f-mono);padding:2px 9px;border-radius:999px;white-space:nowrap}
+.pill.ok{color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,transparent)}
+.pill.bad{color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,transparent)}
+.pill.na{color:var(--mute);background:var(--soft)}
+h3{font:600 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin:20px 0 8px}
+.steps{display:flex;flex-wrap:wrap;gap:6px}
+.step{font-size:12px;padding:3px 9px;border-radius:5px;border:1px solid var(--line);color:var(--mute)}
+.step.on{border-color:var(--accent);color:var(--accent)}
+.trail{display:grid;gap:6px}
+.trail button{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;text-align:left;font:inherit;font-size:14px;background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:8px 10px;cursor:pointer}
+.trail button:hover{border-color:var(--accent)}
+.trail .t{font:600 13px var(--f-mono);color:var(--accent);font-variant-numeric:tabular-nums}
+.facts{white-space:pre-wrap;font-size:14px;background:var(--soft);border-radius:8px;padding:10px 12px;margin:0;overflow-wrap:anywhere}
+details{margin-top:12px}details summary{cursor:pointer;font-size:13px;color:var(--mute)}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.45 var(--f-mono);margin:8px 0;color:var(--mute)}
+footer{font-size:13px;color:var(--mute);border-top:1px solid var(--line);padding-top:14px;max-width:90ch}
+footer a{color:var(--accent)}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+<style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+
+<div class="wrap">
+<header>
+ <div class="eyebrow"><a href="../" style="color:inherit;text-decoration:none">&larr; Di Yang</a> &middot; Track, Then Bind &middot; Qwen3-VL-8B &middot; no training</div>
+ <h1>Which object is it, after it disappears?</h1>
+ <p class="lede">Video-language models lose track of an object once the evidence that identified it is gone. <b>Track, Then Bind</b> asks the model about identity once, at the moment the evidence is visible, lets a tracker carry that identity, and answers from the tracked state. Every example below can be inspected: the moment of the identity decision, the numbered tracks the model saw, and the facts behind the answer.</p>
+ <div>
+  <div class="score" role="region" aria-label="Accuracy on the full test sets">
+   <table>
+    <thead><tr><th>Accuracy on the full test sets (%)</th><th>VET cup game</th><th>VET card monte</th><th>Real cup games</th><th>TOC-Bench</th></tr></thead>
+    <tbody>
+     <tr class="us"><td>Track, Then Bind</td><td>100</td><td>100</td><td>51.4</td><td>43.0</td></tr>
+     <tr><td>Same VLM, direct answer</td><td>28.0</td><td>28.0</td><td>33.6</td><td>25.1</td></tr>
+     <tr><td>Same tracks drawn, question asked directly</td><td>44.0</td><td>40.0</td><td>32.7</td><td>&mdash;</td></tr>
+     <tr><td>Random guess</td><td>33.3</td><td>33.3</td><td>33.3</td><td>30.3</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <p class="cap">All test questions: 50 per VET task, 107 real cup games from the Perception Test, 1,845 TOC-Bench questions. The examples below are <b>selected</b>: questions where Track, Then Bind is right and the same model is wrong both ways.</p>
+ </div>
+</header>
+
+<nav class="tabs" id="tabs" aria-label="Task"></nav>
+<div class="strip" id="strip" aria-label="Examples"></div>
+
+<section class="insp">
+ <div class="panel">
+  <div class="stage"><video id="v" controls muted playsinline preload="auto"></video><canvas id="c"></canvas></div>
+  <div class="tracks" id="trk"></div>
+  <div class="lanes" id="lanes"></div>
+  <div class="legend">
+   <span><i class="sw" style="background:var(--ok)"></i>target fully visible</span>
+   <span><i class="sw" style="background:var(--warn)"></i>partly hidden</span>
+   <span><i class="sw" style="background:var(--accent)"></i>identifying moment</span>
+   <span><i class="sw" style="background:var(--t4)"></i>clip shown for the identity question</span>
+   <span><i class="sw" style="background:var(--t5)"></i>target located in a frame</span>
+  </div>
+  <p class="note" id="vnote"></p>
+ </div>
+ <aside class="panel" id="side" aria-live="polite"></aside>
+</section>
+
+<footer>
+ Videos: <a href="https://huggingface.co/datasets/tiedong/vetbench">VET-Bench</a> (MIT license) and the <a href="https://github.com/google-deepmind/perception_test">Perception Test</a> (CC BY 4.0); TOC-Bench questions are shown only on Perception Test videos. Tracks: SAM&nbsp;2.1. Answers on this page come from the run that produced each example; the table above gives the accuracy over all test questions.
+</footer>
+</div>
+
+<script>
+const TASKS=[["vet_cup","Cup game"],["vet_card","Card monte"],["pt","Real cup games"],["toc","Object timelines"]];
+const SRC={vet_cup:"VET-Bench cup game, MIT license",vet_card:"VET-Bench card monte, MIT license",pt:"Perception Test cup game, CC BY 4.0",toc:"TOC-Bench question on a Perception Test video, CC BY 4.0"};
+const STATE={"fully visible":"var(--ok)","partly hidden":"var(--warn)","not visible":"transparent"};
+const $=id=>document.getElementById(id);
+const v=$("v"),cv=$("c"),ctx=cv.getContext("2d");
+let IDX=[],M=null,show={},task="vet_cup";
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const TC=()=>["--t1","--t2","--t3","--t4","--t5","--t6"].map(css);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt=t=>{t=+t;return `${Math.floor(t/60)}:${(t%60).toFixed(1).padStart(4,"0")}`};
+function nice(x){const n=x.id.split("__")[1];return n.replace("video_","").replace(/^(cup|card)_0*/,"#")}
+async function init(){IDX=await (await fetch("data/index.json")).json();
+ const T=$("tabs");TASKS.forEach(([k,lab])=>{const n=IDX.filter(x=>x.source===k).length;if(!n)return;
+  const b=document.createElement("button");b.className="tab";b.innerHTML=`${lab}<small>${n}</small>`;b.setAttribute("aria-pressed",k===task);
+  b.onclick=()=>{task=k;T.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-pressed",t===b));strip()};T.appendChild(b)});strip()}
+function strip(){const S=$("strip");S.innerHTML="";IDX.filter(x=>x.source===task).forEach((x,i)=>{const b=document.createElement("button");b.className="chip";b.textContent=nice(x);
+ b.onclick=()=>{S.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c===b));load(x.id)};S.appendChild(b);if(i===0)b.click()})}
+async function load(id){M=await (await fetch(`data/${id}.json`)).json();show={};v.src="data/"+M.video;
+ v.onloadedmetadata=()=>{lanes();draw()};side();tracksUI()}
+function tset(e){return e.tracks_bind?{fps:M.bind_fps,t:e.tracks_bind}:{fps:M.base_fps,t:e.tracks_base||[]}}
+function all(){const o=[];(M.entities||[]).forEach(e=>{const s=tset(e);s.t.forEach((tr,i)=>o.push({key:e.name+i,name:e.name,role:e.role,num:e.role==="carrier"?i+1:null,fps:s.fps,tr}))});return o}
+function col(t){return t.role==="carrier"?TC()[(t.num-1)%6]:"#ffd400"}
+function tracksUI(){const d=$("trk");d.innerHTML="";const b=M.bind&&M.bind.bound;all().forEach(t=>{show[t.key]=true;const l=document.createElement("label");
+ const c=document.createElement("input");c.type="checkbox";c.checked=true;c.id="tk-"+t.key.replace(/\W/g,"_");c.onchange=()=>{show[t.key]=c.checked;draw()};
+ l.append(c);const s=document.createElement("i");s.className="sw";s.style.background=col(t);l.append(s);
+ l.append(document.createTextNode(t.role==="carrier"?`#${t.num} ${t.name}${t.num===b?" (bound)":""}`:`${t.name} (${t.role})`));d.appendChild(l)})}
+function draw(){if(!M||!v.videoWidth)return;const W=v.clientWidth,H=v.clientHeight,r=devicePixelRatio||1;cv.width=W*r;cv.height=H*r;ctx.setTransform(r,0,0,r,0,0);ctx.clearRect(0,0,W,H);
+ const [fw,fh]=M.frame_size||[v.videoWidth,v.videoHeight],sx=W/fw,sy=H/fh,now=v.currentTime,bound=M.bind&&M.bind.bound;
+ all().forEach(t=>{if(!show[t.key])return;const b=t.tr[Math.min(t.tr.length-1,Math.round(now*t.fps))];if(!b)return;const hi=t.num&&t.num===bound;
+  ctx.lineWidth=hi?4:2;ctx.strokeStyle=col(t);ctx.strokeRect(b[0]*sx,b[1]*sy,(b[2]-b[0])*sx,(b[3]-b[1])*sy);
+  const tag=t.num?String(t.num)+(hi?" ★":""):t.name;ctx.font="600 13px "+css("--f-mono");const w=ctx.measureText(tag).width+8;
+  ctx.fillStyle=col(t);ctx.fillRect(b[0]*sx,Math.max(0,b[1]*sy-18),w,18);ctx.fillStyle="#000";ctx.fillText(tag,b[0]*sx+4,Math.max(13,b[1]*sy-5))});
+ const c=$("cursor");if(c&&v.duration)c.style.left=(100*now/v.duration)+"%"}
+function lane(label,segs){const d=document.createElement("div");d.className="lane";d.innerHTML=`<span class="lbl">${esc(label)}</span>`;
+ segs.forEach(s=>{const e=document.createElement("div");e.className="seg";e.style.left=(100*s.start/v.duration)+"%";e.style.width=Math.max(.5,100*(s.end-s.start)/v.duration)+"%";e.style.background=s.c;e.title=s.title||"";d.appendChild(e)});
+ d.onclick=ev=>{const R=d.getBoundingClientRect();v.currentTime=v.duration*(ev.clientX-R.left)/R.width};return d}
+function lanes(){const L=$("lanes");L.innerHTML="";const D=v.duration;
+ (M.entities||[]).filter(e=>e.timelines).forEach(e=>e.timelines.forEach(tl=>L.appendChild(lane(`visibility of ${e.name}`,tl.map(s=>({start:s.start,end:Math.min(s.end,D),c:STATE[s.state],title:s.state}))))));
+ if(M.moments&&M.moments.length)L.appendChild(lane("identifying moment",M.moments.map(m=>({start:m.start,end:Math.max(m.end,m.start+.3),c:"var(--accent)"}))));
+ if(M.bind){const cl=M.bind.calls.filter(c=>c.window[0]!==null);if(cl.length)L.appendChild(lane("clip shown for the identity question",cl.map(c=>({start:c.window[0],end:Math.max(c.window[1],c.window[0]+.3),c:"var(--t4)",title:"answer: "+c.reply}))))}
+ const g=(M.entities||[]).filter(e=>e.role==="target").flatMap(e=>Object.keys(e.found||{}).map(t=>({start:+t,end:+t+.15,c:"var(--t5)"})));if(g.length)L.appendChild(lane("target located",g));
+ const c=document.createElement("div");c.className="cursor";c.id="cursor";L.appendChild(c);
+ $("vnote").textContent=M.bind?"★ marks the track the target was bound to. Click a lane to jump to that time.":"Boxes are the tracks behind the timeline. Click a lane to jump to that time."}
+function label(p){if(p==null)return "no answer";const L=M.option_labels||"ABCDEF".split("");const i=L.indexOf(String(p));if(i<0||String(p).includes(","))return p;return L[i]===M.options[i]?String(p):`${p}. ${M.options[i]}`}
+function verdict(cls,who,sub,p,ok){return `<div class="v ${cls}"><div class="who"><b>${who}</b><span>${sub}</span></div><span class="pill ${ok===true?"ok":ok===false?"bad":"na"}">${esc(label(p))}</span></div>`}
+function side(){const r=M.route,L=M.option_labels||"ABCDEF".split("");
+ let h=`<p class="q">${esc(M.question)}</p><ul class="opts">${(M.options||[]).map((o,i)=>`<li class="${String(L[i])===String(M.gold)?"gold":""}">${L[i]===o?"":esc(L[i])+". "}${esc(o)}</li>`).join("")}</ul>`;
+ if(String(M.gold).includes(","))h+=`<p class="src">Ground truth order: ${esc(M.gold)}</p>`;
+ h+=`<p class="src">${esc(SRC[M.source]||"")}</p><div class="verdicts">`;
+ h+=verdict("us","Track, Then Bind",r==="bind"?"identity fixed at the moment of evidence, answered from the tracks":"answered with a visibility timeline from the tracks",M.agent.pred,M.agent.correct);
+ h+=verdict("","Same VLM, direct answer","the video and the question",M.direct.pred,M.direct.correct);
+ h+=M.overlay?verdict("","Same tracks drawn, question asked directly","numbered tracks on the whole video, no identity question",M.overlay.pred,M.overlay.correct):"";
+ h+=`</div><h3>Agent steps</h3><div class="steps">${["Plan","Locate and track","Find the moment","Bind identity","Answer"].map((s,i)=>`<span class="step ${(r==="bind"||[0,1,4].includes(i))?"on":""}">${s}</span>`).join("")}</div>`;
+ h+=`<h3>Evidence trail</h3><div class="trail">`;
+ (M.moments||[]).forEach(m=>h+=`<button data-t="${m.start}"><span class="t">${fmt(m.start)}</span><span>${m.kind==="visible"?"The target can be identified":"The target disappears into a carrier"}</span></button>`);
+ if(M.bind)M.bind.calls.forEach(c=>{const t=c.window[0]??0;h+=`<button data-t="${t}"><span class="t">${c.window[0]===null?"all":fmt(t)}</span><span>Identity question on ${c.window[0]===null?"the whole video":`a ${c.n_frames}-frame clip`}. The model answered <b>${esc(c.reply)}</b>${c.bound?`, so the target is track #${c.bound}`:""}.</span></button>`});
+ if(M.bind&&M.bind.bound)h+=`<button data-t="${Math.max(0,M.duration-.2)}"><span class="t">${fmt(M.duration)}</span><span>Final tracked position of track #${M.bind.bound}</span></button>`;
+ if(!M.bind)h+=`<button data-t="0"><span class="t">${fmt(0)}</span><span>Visibility timeline built from the tracks (lanes under the video)</span></button>`;
+ h+=`</div>`;
+ if(M.facts)h+=`<h3>Facts the answer was read from (text only)</h3><p class="facts">${esc(M.facts.join("\n"))}</p>`;
+ else if(M.evidence_text)h+=`<h3>Timeline given to the model</h3><p class="facts">${esc(M.evidence_text)}</p>`;
+ h+=`<details><summary>Raw model replies</summary><pre>Track, Then Bind: ${esc(M.agent.raw)}</pre><pre>Direct answer: ${esc(M.direct.raw)}</pre>${M.overlay?`<pre>Tracks drawn: ${esc(M.overlay.raw)}</pre>`:""}</details>`;
+ const c=M.cost||{};h+=`<p class="note">${c.calls?c.calls.vlm:"?"} model calls, ${c.runtime_s??"?"} s on one GPU.</p>`;
+ $("side").innerHTML=h;$("side").querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{v.currentTime=+b.dataset.t;v.pause()})}
+v.addEventListener("timeupdate",draw);v.addEventListener("seeked",draw);addEventListener("resize",draw);
+(function loop(){if(!v.paused)draw();requestAnimationFrame(loop)})();
+init();
+</script>
+
+</body>
+</html>
