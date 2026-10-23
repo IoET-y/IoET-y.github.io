@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sparc4D</title>
+<title>Compact Explicit 4D Representation</title>
 <meta name="description" content="Sparc4D: a feed-forward autoencoder that encodes a posed monocular video into a compact explicit 4D scene state and renders it with 2D Gaussian surfels.">
 <meta property="og:title" content="Sparc4D: A Compact Explicit 4D Representation for Dynamic Scenes">
 <meta property="og:description" content="A 32-frame monocular clip stored in 0.67M values, rendered from new viewpoints with 2D Gaussian surfels.">
@@ -34,9 +34,7 @@ p{margin:0 0 12px}
 
 /* hero */
 .hero{padding:56px 0 24px;text-align:center}
-.hero h1{font-family:var(--f-title);font-weight:600;font-size:46px;line-height:1.2;margin:0 auto 18px;max-width:960px}
-.hero h1 .name{color:var(--accent)}
-.hero h1 .sub{display:block;font-size:30px;font-weight:500;color:var(--ink)}
+.hero h1{font-family:var(--f-title);font-weight:600;font-size:40px;line-height:1.2;margin:0 auto 18px;max-width:960px}
 .authors{font-size:19px;margin-bottom:4px}
 .authors a{color:#3273dc}
 .authors span+span::before{content:",\00a0\00a0"}
@@ -100,7 +98,7 @@ pre{background:#f6f6f8;border:1px solid var(--line);border-radius:8px;padding:16
 footer{padding:28px 16px 40px;text-align:center;color:var(--mute);font-size:14px}
 
 @media (max-width:860px){
-  .hero h1{font-size:34px}.hero h1 .sub{font-size:22px}
+  .hero h1{font-size:28px}
   .steps,.manip{grid-template-columns:1fr}
   .stats{grid-template-columns:repeat(2,1fr)}
 }
@@ -110,7 +108,7 @@ footer{padding:28px 16px 40px;text-align:center;color:var(--mute);font-size:14px
 
 <header class="hero">
   <div class="wrap">
-    <h1><span class="name">Sparc4D</span><span class="sub">A Compact Explicit 4D Representation for Dynamic Scenes</span></h1>
+    <h1>A Compact Explicit 4D Representation for Dynamic Scenes</h1>
     <div class="authors">
       <span><a href="https://ioet-y.github.io/" target="_blank" rel="noopener">Di Yang</a><sup>1</sup></span><span><a href="https://lizhihao6.github.io/" target="_blank" rel="noopener">Zhihao Li</a><sup>2</sup></span><span><a href="https://scholar.google.com/citations?user=Zil3Y2QAAAAJ" target="_blank" rel="noopener">Yanhai Xiong</a><sup>1,*</sup></span><span><a href="https://wyf0912.github.io/" target="_blank" rel="noopener">Yufei Wang</a><sup>2,*,†</sup></span>
     </div>
@@ -210,7 +208,7 @@ footer{padding:28px 16px 40px;text-align:center;color:var(--mute);font-size:14px
       <div class="cmp-title">paper-windmill</div>
       <div class="cmp"><img loading="lazy" src="assets/compare/dycheck__paper-windmill__w192.webp" alt="DyCheck paper-windmill comparison"></div>
       <div class="cmp-title">space-out</div>
-      <div class="cmp"><img loading="lazy" src="assets/compare/dycheck__space-out__w320.webp" alt="DyCheck space-out comparison"></div>
+      <div class="cmp"><img loading="lazy" src="assets/compare/dycheck__space-out__w000.webp" alt="DyCheck space-out comparison"></div>
       <p class="cap">DyCheck iPhone sequences. Sparc4D is trained only on synthetic MultiCamVideo scenes; no method is fine-tuned on DyCheck. The input is the hand-held camera and the target is a fixed camera. Timestamps where the target camera has no frame are skipped. These cases were selected to show visible strengths.</p>
     </div>
 
