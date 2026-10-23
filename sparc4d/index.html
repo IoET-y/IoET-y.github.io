@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sparc4D</title>
+<meta name="description" content="Sparc4D: a feed-forward autoencoder that encodes a posed monocular video into a compact explicit 4D scene state and renders it with 2D Gaussian surfels.">
+<meta property="og:title" content="Sparc4D: A Compact Explicit 4D Representation for Dynamic Scenes">
+<meta property="og:description" content="A 32-frame monocular clip stored in 0.67M values, rendered from new viewpoints with 2D Gaussian surfels.">
+<meta property="og:image" content="https://ioet-y.github.io/sparc4d/assets/img/overview.jpg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Castoro&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+<style>
+:root{
+  --bg:#ffffff;--grey:#f5f5f7;--ink:#1d1d1f;--mute:#6e6e73;--line:#e3e3e8;
+  --accent:#6d28d9;--accent-soft:#ede9fe;--btn:#363636;--btn-ink:#ffffff;
+  --f-body:"Noto Sans","Google Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--f-title:"Google Sans","Noto Sans",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 var(--f-body)}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+section{padding:44px 0}
+section.grey{background:var(--grey)}
+h2{font-family:var(--f-title);font-size:30px;font-weight:600;text-align:center;margin:0 0 18px}
+h3{font-family:var(--f-title);font-size:20px;font-weight:600;margin:28px 0 8px}
+p{margin:0 0 12px}
+.lead{max-width:860px;margin:0 auto;text-align:justify}
+.note{color:var(--mute);font-size:14px}
+.center{text-align:center}
+
+/* hero */
+.hero{padding:56px 0 24px;text-align:center}
+.hero h1{font-family:var(--f-title);font-weight:600;font-size:46px;line-height:1.2;margin:0 auto 18px;max-width:960px}
+.hero h1 .name{color:var(--accent)}
+.hero h1 .sub{display:block;font-size:30px;font-weight:500;color:var(--ink)}
+.authors{font-size:19px;margin-bottom:4px}
+.authors a{color:#3273dc}
+.authors span+span::before{content:",\00a0\00a0"}
+.affil{font-size:16px;color:var(--mute)}
+.affil span{white-space:nowrap}
+.affil span+span::before{content:"\00a0\00a0\00a0"}
+.links{margin:22px 0 4px;display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--btn);color:var(--btn-ink);border-radius:999px;padding:8px 20px;font-size:16px;font-weight:500}
+.btn:hover{background:#000;text-decoration:none}
+.btn.off{background:#9a9aa0;cursor:default}
+.btn.off:hover{background:#9a9aa0}
+
+/* teaser */
+.teaser{margin-top:10px}
+.teaser figcaption{margin-top:8px}
+
+/* figures and comparisons */
+figure{margin:0}
+.fig img{width:100%;height:auto;display:block;border-radius:6px}
+.cap{font-size:14.5px;color:var(--mute);margin-top:8px;text-align:justify}
+.cmp{position:relative;overflow-x:auto;margin:18px 0 6px;border-radius:6px;background:#fff}
+.cmp img{display:block;width:100%;min-width:760px;height:auto}
+.cmp-title{font-weight:600;font-size:15px;margin:22px 0 0}
+.cmp-title .tag{font-weight:500;color:var(--mute)}
+.lens{position:fixed;pointer-events:none;width:260px;height:260px;border:3px solid var(--accent);border-radius:8px;background-repeat:no-repeat;box-shadow:0 6px 24px rgba(0,0,0,.25);display:none;z-index:50}
+kbd{display:inline-block;border:1px solid #bbb;border-bottom-width:3px;border-radius:5px;padding:0 7px;font:600 13px/1.6 var(--f-body);background:#fff;color:var(--ink)}
+.tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:6px 0 4px}
+.tab{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:7px 18px;font:500 15px var(--f-body);cursor:pointer}
+.tab[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.panel{display:none}
+.panel.on{display:block}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center;font-size:14px;color:var(--mute);margin:6px 0 0}
+
+/* method */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+.step{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.step b{display:block;font-family:var(--f-title);font-size:17px;margin-bottom:4px;color:var(--accent)}
+.step p{font-size:15px;margin:0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:26px 0 0}
+.stat{text-align:center;background:var(--accent-soft);border-radius:10px;padding:14px 8px}
+.stat .v{font-family:var(--f-title);font-size:28px;font-weight:700;color:var(--accent);line-height:1.2}
+.stat .k{font-size:13.5px;color:#4b4b52}
+
+/* tables */
+.tbl{overflow-x:auto;margin:10px auto 4px;max-width:900px}
+table{border-collapse:collapse;width:100%;font-size:14.5px;background:#fff}
+th,td{padding:7px 10px;text-align:center;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-weight:600;background:#fafafb}
+td:first-child,th:first-child{text-align:left}
+tr.ours td{background:var(--accent-soft);font-weight:600}
+.b{font-weight:700}
+.u{text-decoration:underline;font-style:italic}
+
+/* manipulation */
+.manip{display:grid;grid-template-columns:3fr 2fr;gap:24px;align-items:center}
+.manip img{width:100%;border-radius:6px;display:block}
+
+/* bibtex */
+pre{background:#f6f6f8;border:1px solid var(--line);border-radius:8px;padding:16px;overflow-x:auto;font-size:13.5px;line-height:1.5;position:relative;margin:0}
+.copy{position:absolute;top:10px;right:10px;border:1px solid var(--line);background:#fff;border-radius:6px;padding:3px 10px;font:500 13px var(--f-body);cursor:pointer}
+footer{padding:28px 16px 40px;text-align:center;color:var(--mute);font-size:14px}
+
+@media (max-width:860px){
+  .hero h1{font-size:34px}.hero h1 .sub{font-size:22px}
+  .steps,.manip{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <h1><span class="name">Sparc4D</span><span class="sub">A Compact Explicit 4D Representation for Dynamic Scenes</span></h1>
+    <div class="authors">
+      <span><a href="https://ioet-y.github.io/" target="_blank" rel="noopener">Di Yang</a><sup>1</sup></span><span><a href="https://lizhihao6.github.io/" target="_blank" rel="noopener">Zhihao Li</a><sup>2</sup></span><span><a href="https://scholar.google.com/citations?user=Zil3Y2QAAAAJ" target="_blank" rel="noopener">Yanhai Xiong</a><sup>1,*</sup></span><span><a href="https://wyf0912.github.io/" target="_blank" rel="noopener">Yufei Wang</a><sup>2,*,†</sup></span>
+    </div>
+    <div class="affil"><span><sup>1</sup>College of William &amp; Mary</span><span><sup>2</sup>SparcAI Inc.</span></div>
+    <div class="affil"><span><sup>*</sup>Corresponding author</span><span><sup>†</sup>Project lead</span></div>
+    <div class="links">
+      <a class="btn" href="https://arxiv.org/abs/2610.01229" target="_blank" rel="noopener"><i class="ai ai-arxiv"></i> arXiv</a>
+      <a class="btn" href="../files/sparc4d.pdf" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf"></i> Paper</a>
+      <span class="btn off" title="Code release is in preparation"><i class="fa-brands fa-github"></i> Code (coming soon)</span>
+      <a class="btn" href="#bibtex"><i class="fa-solid fa-quote-right"></i> BibTeX</a>
+    </div>
+
+    <figure class="teaser">
+      <div class="cmp"><img src="assets/compare/mcv_first32_0.webp" alt="Animated comparison on a MultiCamVideo clip: input view, MoVieS, 4DGT, C4G, Sparc4D and ground truth from a held-out camera"></div>
+      <figcaption class="cap center">Sparc4D encodes a posed monocular clip into a compact explicit 4D state and renders it from held-out cameras.
+      Each frame of the animation is one timestamp of a 32-frame MultiCamVideo clip.</figcaption>
+    </figure>
+  </div>
+</header>
+
+<section class="grey">
+  <div class="wrap">
+    <h2>Abstract</h2>
+    <p class="lead">
+      We present Sparc4D, a feed-forward autoencoder that encodes a monocular video with known cameras into a compact explicit 4D scene state.
+      Static features are shared across the clip, while spatially anchored temporal slots compress the time-varying features.
+      Fine-grid appearance codes and sparse source texture preserve spatial detail alongside this temporal bottleneck.
+      Temporal slots use a median 5.0&times; fewer values than per-frame storage of time-varying features, with negligible change in novel-view quality.
+      A sparse decoder reconstructs 2D Gaussian surfels that provide geometry for rendering and source-texture reprojection.
+      The complete state includes learned features, sparse occupancy, one full source frame and dynamic-region pixels sampled every fourth frame.
+      On random MultiCamVideo windows, it averages 0.67M 32-bit-equivalent values per 32-frame clip.
+      At this size, it retains novel-view quality comparable to MoVieS and higher PSNR than MCV-fine-tuned C4G.
+      Training on synthetic scenes also supports zero-shot reconstruction on DyCheck and Neu3D.
+      After domain adaptation, the frozen encoder supports a ManiSkill3 StackCube policy with 81.3% success from 1,000 demonstrations.
+    </p>
+  </div>
+</section>
+
+<section id="method">
+  <div class="wrap">
+    <h2>Method</h2>
+    <figure class="fig">
+      <img src="assets/img/overview.jpg" alt="Sparc4D overview: shared sparse encoder, stored static and coarse codes, temporal slots per cell, cell-local readout, sparse decoder to 2D Gaussian surfels, joint rasterization, stored-texture reprojection">
+      <figcaption class="cap">
+        <b>Overview.</b> A shared sparse encoder processes static, coarse and per-frame dynamic observations from a posed monocular clip.
+        Static and coarse codes are stored once.
+        Independent attention modules compress the dynamic latent and appearance codes on the 32<sup>3</sup> and 128<sup>3</sup> grids into two temporal slots per cell.
+        At an observed time <i>t</i>, cell-local readouts recover the dynamic codes, and the appearance code is injected at 128<sup>3</sup>.
+        The three layers merge at joint 2D Gaussian splatting (2DGS) rasterization.
+        Stored texture holds the full first frame and dynamic pixels sampled every fourth frame; depth-consistent reprojection updates colour before background compositing.
+      </figcaption>
+    </figure>
+
+    <div class="steps">
+      <div class="step"><b>1 &middot; Encode</b><p>Estimated depth lifts each frame into sparse 3D observations. Static, coarse and dynamic layers are voxelized and passed through one shared sparse encoder.</p></div>
+      <div class="step"><b>2 &middot; Store</b><p>Static and coarse codes are kept once per clip. At each occupied cell, attention pools the per-frame dynamic codes into two temporal slots. Sparse occupancy and source pixels complete the state.</p></div>
+      <div class="step"><b>3 &middot; Decode</b><p>A query (cell, time) reads the slots back. The sparse decoder follows the stored occupancy and outputs 2D Gaussian surfels. Their rendered depth reprojects the stored texture into the target view.</p></div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="v">0.67M</div><div class="k">values per 32-frame clip<br>(MultiCamVideo average)</div></div>
+      <div class="stat"><div class="v">5.0&times;</div><div class="k">fewer values for time-varying features<br>(median, slots vs per frame)</div></div>
+      <div class="stat"><div class="v">17.39 dB</div><div class="k">novel-view PSNR, random windows<br>(MoVieS 17.26 dB at 719M)</div></div>
+      <div class="stat"><div class="v">81.3%</div><div class="k">StackCube success<br>from 1,000 demonstrations</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="results" class="grey">
+  <div class="wrap">
+    <h2>4D Reconstruction Comparisons</h2>
+    <p class="lead center">
+      Every animation plays one 32-frame clip. The leftmost column is the input camera at time <i>t</i>.
+      The other columns are rendered from a held-out camera at the same time, and the rightmost column is that camera's real frame.
+      Hold <kbd>Z</kbd> and hover over an animation to magnify it.
+    </p>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-panel="p-mcv">MultiCamVideo</button>
+      <button class="tab" role="tab" aria-selected="false" data-panel="p-dycheck">DyCheck (zero-shot)</button>
+      <button class="tab" role="tab" aria-selected="false" data-panel="p-neu3d">Neu3D (zero-shot)</button>
+    </div>
+    <div class="legend"><span>Baselines use released weights: MoVieS, 4DGT, C4G.</span><span>All renders are 256&times;256 and unretouched.</span></div>
+
+    <div class="panel on" id="p-mcv" role="tabpanel">
+      <div class="cmp-title">Clip starting at frame 0 <span class="tag">&middot; scene 428</span></div>
+      <div class="cmp"><img loading="lazy" src="assets/compare/mcv_first32_0.webp" alt="MultiCamVideo scene 428 comparison"></div>
+      <div class="cmp-title">Clip starting at frame 0 <span class="tag">&middot; scene 1933</span></div>
+      <div class="cmp"><img loading="lazy" src="assets/compare/mcv_first32_1.webp" alt="MultiCamVideo scene 1933 comparison"></div>
+      <div class="cmp-title">Random 32-frame window <span class="tag">&middot; scene 3140</span></div>
+      <div class="cmp"><img loading="lazy" src="assets/compare/mcv_randwin_0.webp" alt="MultiCamVideo scene 3140 comparison"></div>
+      <div class="cmp-title">Random 32-frame window <span class="tag">&middot; scene 1845</span></div>
+      <div class="cmp"><img loading="lazy" src="assets/compare/mcv_randwin_1.webp" alt="MultiCamVideo scene 1845 comparison"></div>
+      <p class="cap">MultiCamVideo test clips. These are the paper's qualitative cases, chosen near the median per-clip PSNR difference between Sparc4D and MoVieS, so they are typical rather than best cases.</p>
+    </div>
+
+    <div class="panel" id="p-dycheck" role="tabpanel">
+      <div class="cmp-title">paper-windmill</div>
+      <div class="cmp"><img loading="lazy" src="assets/compare/dycheck__paper-windmill__w192.webp" alt="DyCheck paper-windmill comparison"></div>
+      <div class="cmp-title">space-out</div>
+      <div class="cmp"><img loading="lazy" src="assets/compare/dycheck__space-out__w320.webp" alt="DyCheck space-out comparison"></div>
+      <p class="cap">DyCheck iPhone sequences. Sparc4D is trained only on synthetic MultiCamVideo scenes; no method is fine-tuned on DyCheck. The input is the hand-held camera and the target is a fixed camera. Timestamps where the target camera has no frame are skipped. These cases were selected to show visible strengths.</p>
+    </div>
+
+    <div class="panel" id="p-neu3d" role="tabpanel">
+      <div class="cmp-title">coffee_martini</div>
+      <div class="cmp"><img loading="lazy" src="assets/compare/neu3d__coffee_martini__w128.webp" alt="Neu3D coffee_martini comparison"></div>
+      <div class="cmp-title">cook_spinach</div>
+      <div class="cmp"><img loading="lazy" src="assets/compare/neu3d__cook_spinach__w128.webp" alt="Neu3D cook_spinach comparison"></div>
+      <p class="cap">Neu3D multi-view sequences, zero-shot. One camera is the input and another camera is the target. These cases were selected to show visible strengths.</p>
+    </div>
+
+    <h3 class="center">Quantitative results</h3>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>MultiCamVideo (random windows)</th><th>Trained on MCV</th><th>#Floats</th><th>PSNR&uarr;</th><th>SSIM&uarr;</th><th>LPIPS&darr;</th></tr></thead>
+        <tbody>
+          <tr><td>MoVieS</td><td>&ndash;</td><td>719M</td><td class="u">17.26</td><td class="u">0.512</td><td class="b">0.366</td></tr>
+          <tr><td>4DGT</td><td>&ndash;</td><td>26.9M</td><td>14.35</td><td>0.403</td><td>0.550</td></tr>
+          <tr><td>C4G</td><td>&ndash;</td><td class="u">0.92M</td><td>13.64</td><td>0.369</td><td>0.596</td></tr>
+          <tr><td>C4G</td><td>&check;</td><td class="u">0.92M</td><td>16.51</td><td>0.466</td><td>0.584</td></tr>
+          <tr class="ours"><td>Sparc4D</td><td>&check;</td><td class="b">0.67M</td><td class="b">17.39</td><td class="b">0.519</td><td class="u">0.370</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tbl">
+      <table>
+        <thead>
+          <tr><th rowspan="2">Zero-shot</th><th rowspan="2">Training data</th><th colspan="3">DyCheck</th><th colspan="3">Neu3D (9 targets)</th></tr>
+          <tr><th>mPSNR&uarr;</th><th>mSSIM&uarr;</th><th>mLPIPS&darr;</th><th>PSNR&uarr;</th><th>SSIM&uarr;</th><th>LPIPS&darr;</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>MoVieS</td><td>8 public datasets</td><td class="b">13.95</td><td class="u">0.345</td><td class="b">0.488</td><td>15.61</td><td>0.445</td><td>0.304</td></tr>
+          <tr><td>4DGT</td><td>~300 h real video</td><td>11.84</td><td>0.277</td><td>0.599</td><td class="b">17.33</td><td class="b">0.530</td><td class="b">0.281</td></tr>
+          <tr><td>C4G</td><td>Spring, Kubric, RE10K</td><td>13.52</td><td class="b">0.351</td><td>0.634</td><td>11.78</td><td>0.285</td><td>0.588</td></tr>
+          <tr><td>C4G (MCV fine-tuned)</td><td>+ MultiCamVideo</td><td>13.34</td><td>0.340</td><td>0.747</td><td>15.75</td><td>0.443</td><td>0.579</td></tr>
+          <tr class="ours"><td>Sparc4D</td><td>MultiCamVideo (synthetic)</td><td class="u">13.82</td><td>0.323</td><td class="u">0.543</td><td class="u">16.57</td><td class="u">0.465</td><td class="u">0.291</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note center">Best in bold, second best underlined. #Floats counts the per-clip state; shared network weights are excluded. Full protocols are in the paper.</p>
+  </div>
+</section>
+
+<section id="manipulation">
+  <div class="wrap">
+    <h2>Features for Robot Manipulation</h2>
+    <div class="manip">
+      <figure class="fig"><img loading="lazy" src="assets/img/stackcube.webp" alt="StackCube rollout from three cameras: the robot grasps the red cube and places it on the green cube"></figure>
+      <div>
+        <p>After domain adaptation, we freeze the Sparc4D encoder and train a policy on its scene features in ManiSkill3 StackCube, where the robot grasps the red cube and stacks it on the green cube.</p>
+        <p>With 1,000 demonstrations the policy succeeds in <b>81.3%</b> of episodes; with 3,000 demonstrations it reaches <b>84.0%</b>.</p>
+        <p class="note">A successful rollout of the 1,000-demonstration policy, shown from three cameras.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="bibtex" class="grey">
+  <div class="wrap">
+    <h2>BibTeX</h2>
+<pre id="bib"><button class="copy" type="button">Copy</button>@article{yang2026sparc4d,
+  title   = {Sparc4D: A Compact Explicit 4D Representation for Dynamic Scenes},
+  author  = {Yang, Di and Li, Zhihao and Xiong, Yanhai and Wang, Yufei},
+  journal = {arXiv preprint arXiv:2610.01229},
+  year    = {2026}
+}</pre>
+  </div>
+</section>
+
+<footer>
+  This page follows the style of the <a href="https://lizhihao6.github.io/Sparc3D/" target="_blank" rel="noopener">Sparc3D</a> and <a href="https://github.com/nerfies/nerfies.github.io" target="_blank" rel="noopener">Nerfies</a> project pages.
+  <br><a href="../">&larr; Di Yang's homepage</a>
+</footer>
+
+<div class="lens" id="lens"></div>
+<script>
+// dataset tabs
+document.querySelectorAll('.tab').forEach(function (t) {
+  t.addEventListener('click', function () {
+    document.querySelectorAll('.tab').forEach(function (o) { o.setAttribute('aria-selected', o === t ? 'true' : 'false'); });
+    document.querySelectorAll('.panel').forEach(function (p) { p.classList.toggle('on', p.id === t.dataset.panel); });
+  });
+});
+
+// hold Z and hover to magnify; the lens shows the same animated image, so it stays in sync
+var lens = document.getElementById('lens'), zDown = false, hover = null, last = null, ZOOM = 2.5;
+function place(e) {
+  if (!hover || !zDown) { lens.style.display = 'none'; return; }
+  var r = hover.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+  if (x < 0 || y < 0 || x > r.width || y > r.height) { lens.style.display = 'none'; return; }
+  lens.style.display = 'block';
+  lens.style.backgroundImage = 'url("' + hover.currentSrc + '")';
+  lens.style.backgroundSize = (r.width * ZOOM) + 'px ' + (r.height * ZOOM) + 'px';
+  lens.style.backgroundPosition = (-x * ZOOM + 130) + 'px ' + (-y * ZOOM + 130) + 'px';
+  lens.style.left = (e.clientX - 130) + 'px';
+  lens.style.top = (e.clientY - 130) + 'px';
+}
+document.querySelectorAll('.cmp img').forEach(function (img) {
+  img.addEventListener('mouseenter', function () { hover = img; });
+  img.addEventListener('mouseleave', function () { hover = null; lens.style.display = 'none'; });
+});
+document.addEventListener('mousemove', function (e) { last = e; place(e); });
+document.addEventListener('keydown', function (e) { if (e.key === 'z' || e.key === 'Z') { zDown = true; if (last) place(last); } });
+document.addEventListener('keyup', function (e) { if (e.key === 'z' || e.key === 'Z') { zDown = false; lens.style.display = 'none'; } });
+
+// copy BibTeX
+document.querySelector('.copy').addEventListener('click', function (e) {
+  var txt = document.getElementById('bib').innerText.replace(/^Copy\s*/, '');
+  try { navigator.clipboard.writeText(txt); e.target.textContent = 'Copied'; } catch (err) { e.target.textContent = 'Select and copy'; }
+  setTimeout(function () { e.target.textContent = 'Copy'; }, 1500);
+});
+</script>
+</body>
+</html>
