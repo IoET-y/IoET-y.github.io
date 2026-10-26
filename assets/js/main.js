@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initBibTeX();
   initGalleryTabs();
   initLightbox();
+  initAnimatedFavicon();
 });
 
 function initNavScroll() {
@@ -110,4 +111,25 @@ function initLightbox() {
       modal.classList.remove("show");
     }
   });
+}
+
+function initAnimatedFavicon() {
+  const favicon = document.getElementById("favicon") || document.querySelector("link[rel*='icon']");
+  if (!favicon) return;
+
+  const normalSrc = "images/favicon-32x32.png";
+  const blinkSrc = "images/cat-blink.png";
+
+  // Preload blink frame
+  const preload = new Image();
+  preload.src = blinkSrc;
+
+  // Blink every ~3.6s (only if tab is visible)
+  setInterval(() => {
+    if (document.hidden) return;
+    favicon.href = blinkSrc;
+    setTimeout(() => {
+      favicon.href = normalSrc;
+    }, 220);
+  }, 3600);
 }
