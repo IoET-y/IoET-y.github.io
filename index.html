@@ -439,10 +439,11 @@
           <div class="entry-org">SparcAI Inc. (Remote) • Advisor: <a href="https://wyf0912.github.io/" target="_blank" rel="noopener">Dr. Yufei Wang</a></div>
           <div class="entry-desc">
             <ul>
-              <li><strong>VLA Policy Manipulation:</strong> Integrating robot-centric point maps into VLA policies (e.g., <strong>xiaomirobotics-1 5B</strong> and <strong>pi0.5 3.6B</strong>) for metric spatial manipulation; built OmniGibson/BEHAVIOR pipelines with failure-case data augmentation; deployed and validated policies on a physical SO-101 robotic arm for manipulation tasks including grasping, placing, and pushing.</li>
-              <li><strong>Channel Match (Few-Step 3D Distillation):</strong> Distilled a native 3D generator to 2 steps with continuous self-consistency (4.5× faster shape sampling); implemented a custom Triton JVP FlashAttention kernel.</li>
-              <li><strong>Explicit 4D Representation (Sparc4D):</strong> Developed Sparc4D, a compact explicit 4D autoencoder for dynamic scenes compressing time-varying features into temporal slots with 2D Gaussian surfels (~12× smaller state than single-frame baselines). Successfully matched predictive planning performance on the <em>StackCube</em> benchmark (vs. <em>Structured 4D Latent Predictive Model</em>, Li et al.) using drastically fewer tokens (~1,170 tokens by decoupling persistent static context from sparse dynamic motion); ongoing work explores downstream applications, validating representation-driven control on a physical SO-101 robotic arm across grasping, placing, and pushing tasks.</li>
-              <li><strong>Next-Gen World Models (Ongoing Exploration):</strong> Actively exploring the potential of extending dynamic 4D representations towards next-generation World Models and unified physical world state tokenizers.</li>
+              <li><strong>Large-Scale 3D Data:</strong> Contributed to curating and processing a ~1M-scale 3D asset dataset, spanning quality filtering, geometric repair, and multi-view data generation for 3D generative modeling.</li>
+              <li><strong>3D Generation &amp; Acceleration:</strong> Developed Channel Match, distilling a native 3D generator to 2 sampling steps (4.5× faster); implemented a custom Triton JVP FlashAttention kernel.</li>
+              <li><strong>4D World Representation (Sparc4D):</strong> Developed a compact dynamic-scene representation with ~12× smaller state; matched StackCube predictive-planning performance using ~1,170 tokens.</li>
+              <li><strong>VLA &amp; Robotic Manipulation:</strong> Integrated robot-centric spatial representations into VLA policies (xiaomirobotics-1, π0.5); built OmniGibson/BEHAVIOR pipelines with failure-case augmentation and validated manipulation on a physical SO-101 robot.</li>
+              <li><strong>Next-Gen World Models (Ongoing):</strong> Exploring unified physical world-state tokenization and compact 4D representations for scalable world modeling and embodied intelligence.</li>
             </ul>
           </div>
         </div>
