@@ -131,6 +131,10 @@
       <h2 class="section-heading">News & Updates</h2>
       <div class="news-items">
         <div class="news-row">
+          <span class="news-date">2026.11</span>
+          <span class="news-desc">📄 New technical report: <a href="files/robot_skill_factory.pdf" target="_blank" rel="noopener"><em>"Robot Skill Factory: Towards Recursive Self-Improvement in Humanoid Control"</em></a> released with full open-source code on <a href="https://github.com/IoET-y/robot-skill-factory" target="_blank" rel="noopener">GitHub</a>!</span>
+        </div>
+        <div class="news-row">
           <span class="news-date">2026.10</span>
           <span class="news-desc">📄 New preprint: <a href="files/explicit_physics.pdf" target="_blank" rel="noopener"><em>"What Explicit Physics Buys a Manipulation World Model"</em></a> is out!</span>
         </div>
@@ -201,6 +205,36 @@
       <h2 class="section-heading">Selected Publications</h2>
 
       <div class="pub-subheading">Preprints & Under Review</div>
+
+      <!-- Paper: Robot Skill Factory (Technical Report) -->
+      <div class="pub-item">
+        <div class="pub-title">
+          <a href="files/robot_skill_factory.pdf" target="_blank" rel="noopener">Robot Skill Factory: Towards Recursive Self-Improvement in Humanoid Control</a>
+        </div>
+        <div class="pub-authors"><span class="me">Di Yang</span></div>
+        <div class="pub-venue"><span class="venue-name">Technical Report</span>, 2026 <span class="pub-badge preprint">Preprint</span></div>
+        <div class="pub-summary">
+          Studies recursive self-improvement (RSI) in humanoid control through persistent skill acquisition and reuse on a simulated Unitree G1. Integrates skill acquisition and verification with language-model planning and continuous multi-policy execution (ORCHESTRA), coupling probing, retentive tracker training, and a regression gate to acquire missing skills without degrading previously learned behaviors.
+          <div class="pub-note">
+            <strong>Note:</strong> An early release. This is our first open version of a long-term project, and much of it is still rough. We welcome suggestions and issues, and we are looking for people who would like to build it together: other robot embodiments, other policy families such as VLAs and WAMs, and running the loop on real robots.<br>
+            Work extending the factory to manipulation policies is under way, led by <a href="https://junzhouchen.com/" target="_blank" rel="noopener">Junzhou Chen</a>. Stay tuned.
+          </div>
+        </div>
+        <div class="pub-links">
+          <a href="files/robot_skill_factory.pdf" target="_blank" rel="noopener" class="paper-link">[PDF]</a>
+          <a href="https://github.com/IoET-y/robot-skill-factory" target="_blank" rel="noopener" class="paper-link">[Code]</a>
+          <button class="paper-link btn-bibtex" data-target="bib-rsf">[BibTeX]</button>
+        </div>
+        <div class="bibtex-card" id="bib-rsf">
+          <button class="bibtex-copy">Copy</button>
+          <code>@article{yang2026robotskillfactory,
+  title={Robot Skill Factory: Towards Recursive Self-Improvement in Humanoid Control},
+  author={Yang, Di},
+  journal={Technical Report},
+  year={2026}
+}</code>
+        </div>
+      </div>
 
       <!-- Paper: Explicit Physics World Model (Preprint) -->
       <div class="pub-item">
