@@ -6,7 +6,7 @@
 <title>Compact Explicit 4D Representation</title>
 <meta name="description" content="Sparc4D: a feed-forward autoencoder that encodes a posed monocular video into a compact explicit 4D scene state and renders it with 2D Gaussian surfels.">
 <meta property="og:title" content="Sparc4D: A Compact Explicit 4D Representation for Dynamic Scenes">
-<meta property="og:description" content="A 32-frame monocular clip stored in 0.67M values, rendered from new viewpoints with 2D Gaussian surfels.">
+<meta property="og:description" content="A 32-frame monocular clip stored in 0.40M values, rendered from new viewpoints with 2D Gaussian surfels.">
 <meta property="og:image" content="https://ioet-y.github.io/sparc4d/assets/img/overview.jpg">
 <link rel="icon" type="image/gif" href="../images/favicon.gif">
 <link rel="alternate icon" type="image/png" href="../images/favicon-32x32.png">
@@ -124,7 +124,7 @@ footer{padding:28px 16px 40px;text-align:center;color:var(--mute);font-size:14px
     </div>
 
     <figure class="teaser">
-      <div class="cmp"><img src="assets/compare/mcv_first32_0.webp" alt="Animated comparison on a MultiCamVideo clip: input view, MoVieS, 4DGT, C4G, Sparc4D and ground truth from a held-out camera"></div>
+      <div class="cmp"><img src="assets/compare/mcv_first32_1229.webp" alt="Animated comparison on a MultiCamVideo clip: input view, 4DGT, C4G, MoVieS, Sparc4D and ground truth from a held-out camera"></div>
       <figcaption class="cap center">Sparc4D encodes a posed monocular clip into a compact explicit 4D state and renders it from held-out cameras.
       Each frame of the animation is one timestamp of a 32-frame MultiCamVideo clip.</figcaption>
     </figure>
@@ -136,13 +136,13 @@ footer{padding:28px 16px 40px;text-align:center;color:var(--mute);font-size:14px
     <h2>Abstract</h2>
     <p class="lead">
       We present Sparc4D, a feed-forward autoencoder that encodes a monocular video with known cameras into a compact explicit 4D scene state.
-      Static features are shared across the clip, while spatially anchored temporal slots compress the time-varying features.
-      Fine-grid appearance codes and sparse source texture preserve spatial detail alongside this temporal bottleneck.
-      Temporal slots use a median 5.0&times; fewer values than per-frame storage of time-varying features, with negligible change in novel-view quality.
-      A sparse decoder reconstructs 2D Gaussian surfels that provide geometry for rendering and source-texture reprojection.
-      The complete state includes learned features, sparse occupancy, one full source frame and dynamic-region pixels sampled every fourth frame.
-      On random MultiCamVideo windows, it averages 0.67M 32-bit-equivalent values per 32-frame clip.
-      At this size, it retains novel-view quality comparable to MoVieS and higher PSNR than MCV-fine-tuned C4G.
+      Static latent and appearance features are stored once per clip, and spatially anchored temporal slots compress the time-varying features.
+      The slots use a median 5.0&times; fewer values than per-frame features, with no loss in novel-view quality.
+      A sparse decoder reconstructs 2D Gaussian surfels whose geometry supports both rendering and reprojection of stored source texture.
+      The stored texture keeps the first source frame and compact learned codes for dynamic regions.
+      On random MultiCamVideo windows, the complete state averages 0.40M values per 32-frame clip.
+      At this size, Sparc4D outperforms C4G fine-tuned on the same data while using a 2.3&times; smaller state.
+      It also reaches higher PSNR than the released MoVieS model, whose output is about 570 times larger, with comparable LPIPS.
       Training on synthetic scenes also supports zero-shot reconstruction on DyCheck and Neu3D.
       After domain adaptation, the frozen encoder supports a ManiSkill3 StackCube policy with 81.3% success from 1,000 demonstrations.
     </p>
@@ -153,27 +153,29 @@ footer{padding:28px 16px 40px;text-align:center;color:var(--mute);font-size:14px
   <div class="wrap">
     <h2>Method</h2>
     <figure class="fig">
-      <img src="assets/img/overview.jpg" alt="Sparc4D overview: shared sparse encoder, stored static and coarse codes, temporal slots per cell, cell-local readout, sparse decoder to 2D Gaussian surfels, joint rasterization, stored-texture reprojection">
+      <img src="assets/img/overview.jpg" alt="Sparc4D overview: shared encoding of static, far-field and per-frame dynamic layers; a compact 4D state with temporal slots, occupancy and stored texture; surfel and texture decoding at an observed time">
       <figcaption class="cap">
-        <b>Overview.</b> A shared sparse encoder processes static, coarse and per-frame dynamic observations from a posed monocular clip.
-        Static and coarse codes are stored once.
-        Independent attention modules compress the dynamic latent and appearance codes on the 32<sup>3</sup> and 128<sup>3</sup> grids into two temporal slots per cell.
-        At an observed time <i>t</i>, cell-local readouts recover the dynamic codes, and the appearance code is injected at 128<sup>3</sup>.
-        The three layers merge at joint 2D Gaussian splatting (2DGS) rasterization.
-        Stored texture holds the full first frame and dynamic pixels sampled every fourth frame; depth-consistent reprojection updates colour before background compositing.
+        <b>Overview.</b> <i>Shared encoding:</i> a posed monocular clip is lifted with estimated depth and voxelized into static, far-field and per-frame dynamic layers.
+        A shared sparse encoder maps each layer from 512<sup>3</sup> to a 32<sup>3</sup> latent <b>z</b> and a 128<sup>3</sup> appearance code <b>a</b>.
+        <i>Compact 4D state:</i> static and far-field features are stored once per clip.
+        Temporal slots compress the per-frame dynamic latents and appearance codes of each cell <i>u</i> into two slots.
+        Sparse occupancy and stored texture complete the state, which averages 0.40M values per 32-frame clip.
+        <i>Decoding:</i> at an observed time <i>t</i>, the slots are read out and the shared decoder upsamples the features along the stored occupancy.
+        The 2DGS head emits surfels oriented by the source camera at <i>t</i>.
+        All layers are rasterized jointly in the target camera, and stored texture is reprojected onto the surfels.
       </figcaption>
     </figure>
 
     <div class="steps">
-      <div class="step"><b>1 &middot; Encode</b><p>Estimated depth lifts each frame into sparse 3D observations. Static, coarse and dynamic layers are voxelized and passed through one shared sparse encoder.</p></div>
-      <div class="step"><b>2 &middot; Store</b><p>Static and coarse codes are kept once per clip. At each occupied cell, attention pools the per-frame dynamic codes into two temporal slots. Sparse occupancy and source pixels complete the state.</p></div>
-      <div class="step"><b>3 &middot; Decode</b><p>A query (cell, time) reads the slots back. The sparse decoder follows the stored occupancy and outputs 2D Gaussian surfels. Their rendered depth reprojects the stored texture into the target view.</p></div>
+      <div class="step"><b>1 &middot; Encode</b><p>Estimated depth lifts each frame into sparse 3D observations. Static, far-field and per-frame dynamic layers are voxelized and passed through one shared sparse encoder.</p></div>
+      <div class="step"><b>2 &middot; Store</b><p>Static and far-field features are kept once per clip. At each occupied cell, attention pools the per-frame dynamic latents and appearance codes into two temporal slots. Sparse occupancy and stored texture (the first frame plus learned codes for dynamic regions) complete the state.</p></div>
+      <div class="step"><b>3 &middot; Decode</b><p>A query (cell, time) reads the slots back. The shared decoder follows the stored occupancy and outputs 2D Gaussian surfels. Stored texture is reprojected onto the surfels in the target view.</p></div>
     </div>
 
     <div class="stats">
-      <div class="stat"><div class="v">0.67M</div><div class="k">values per 32-frame clip<br>(MultiCamVideo average)</div></div>
+      <div class="stat"><div class="v">0.40M</div><div class="k">values per 32-frame clip<br>(MultiCamVideo average)</div></div>
       <div class="stat"><div class="v">5.0&times;</div><div class="k">fewer values for time-varying features<br>(median, slots vs per frame)</div></div>
-      <div class="stat"><div class="v">17.39 dB</div><div class="k">novel-view PSNR, random windows<br>(MoVieS 17.26 dB at 719M)</div></div>
+      <div class="stat"><div class="v">17.51 dB</div><div class="k">novel-view PSNR, random windows<br>(MoVieS 17.26 dB at 228M)</div></div>
       <div class="stat"><div class="v">81.3%</div><div class="k">StackCube success<br>from 1,000 demonstrations</div></div>
     </div>
   </div>
@@ -192,33 +194,33 @@ footer{padding:28px 16px 40px;text-align:center;color:var(--mute);font-size:14px
       <button class="tab" role="tab" aria-selected="false" data-panel="p-dycheck">DyCheck (zero-shot)</button>
       <button class="tab" role="tab" aria-selected="false" data-panel="p-neu3d">Neu3D (zero-shot)</button>
     </div>
-    <div class="legend"><span>Baselines use released weights: MoVieS, 4DGT, C4G.</span><span>All renders are 256&times;256 and unretouched.</span></div>
+    <div class="legend"><span>MoVieS and 4DGT use released weights. C4G is fine-tuned on MultiCamVideo in the first tab and uses released weights in the zero-shot tabs.</span><span>All renders are 256&times;256 and unretouched.</span></div>
 
     <div class="panel on" id="p-mcv" role="tabpanel">
-      <div class="cmp-title">Clip starting at frame 0 <span class="tag">&middot; scene 428</span></div>
-      <div class="cmp"><img loading="lazy" src="assets/compare/mcv_first32_0.webp" alt="MultiCamVideo scene 428 comparison"></div>
-      <div class="cmp-title">Clip starting at frame 0 <span class="tag">&middot; scene 1933</span></div>
-      <div class="cmp"><img loading="lazy" src="assets/compare/mcv_first32_1.webp" alt="MultiCamVideo scene 1933 comparison"></div>
-      <div class="cmp-title">Random 32-frame window <span class="tag">&middot; scene 3140</span></div>
-      <div class="cmp"><img loading="lazy" src="assets/compare/mcv_randwin_0.webp" alt="MultiCamVideo scene 3140 comparison"></div>
+      <div class="cmp-title">First 32 frames <span class="tag">&middot; scene 1229</span></div>
+      <div class="cmp"><img loading="lazy" src="assets/compare/mcv_first32_1229.webp" alt="MultiCamVideo scene 1229 comparison"></div>
+      <div class="cmp-title">First 32 frames <span class="tag">&middot; scene 485</span></div>
+      <div class="cmp"><img loading="lazy" src="assets/compare/mcv_first32_485.webp" alt="MultiCamVideo scene 485 comparison"></div>
+      <div class="cmp-title">Random 32-frame window <span class="tag">&middot; scene 1926</span></div>
+      <div class="cmp"><img loading="lazy" src="assets/compare/mcv_randwin_1926.webp" alt="MultiCamVideo scene 1926 comparison"></div>
       <div class="cmp-title">Random 32-frame window <span class="tag">&middot; scene 1845</span></div>
-      <div class="cmp"><img loading="lazy" src="assets/compare/mcv_randwin_1.webp" alt="MultiCamVideo scene 1845 comparison"></div>
-      <p class="cap">MultiCamVideo test clips. These are the paper's qualitative cases, chosen near the median per-clip PSNR difference between Sparc4D and MoVieS, so they are typical rather than best cases.</p>
+      <div class="cmp"><img loading="lazy" src="assets/compare/mcv_randwin_1845.webp" alt="MultiCamVideo scene 1845 comparison"></div>
+      <p class="cap">MultiCamVideo test clips, the cases of the paper's qualitative figures. The target is a held-out camera of the same synthetic scene.</p>
     </div>
 
     <div class="panel" id="p-dycheck" role="tabpanel">
       <div class="cmp-title">paper-windmill</div>
-      <div class="cmp"><img loading="lazy" src="assets/compare/dycheck__paper-windmill__w192.webp" alt="DyCheck paper-windmill comparison"></div>
+      <div class="cmp"><img loading="lazy" src="assets/compare/dycheck_paper-windmill.webp" alt="DyCheck paper-windmill comparison"></div>
       <div class="cmp-title">space-out</div>
-      <div class="cmp"><img loading="lazy" src="assets/compare/dycheck__space-out__w000.webp" alt="DyCheck space-out comparison"></div>
+      <div class="cmp"><img loading="lazy" src="assets/compare/dycheck_space-out.webp" alt="DyCheck space-out comparison"></div>
       <p class="cap">DyCheck iPhone sequences. Sparc4D is trained only on synthetic MultiCamVideo scenes; no method is fine-tuned on DyCheck. The input is the hand-held camera and the target is a fixed camera. Timestamps where the target camera has no frame are skipped. These cases were selected to show visible strengths.</p>
     </div>
 
     <div class="panel" id="p-neu3d" role="tabpanel">
-      <div class="cmp-title">coffee_martini</div>
-      <div class="cmp"><img loading="lazy" src="assets/compare/neu3d__coffee_martini__w128.webp" alt="Neu3D coffee_martini comparison"></div>
       <div class="cmp-title">cook_spinach</div>
-      <div class="cmp"><img loading="lazy" src="assets/compare/neu3d__cook_spinach__w128.webp" alt="Neu3D cook_spinach comparison"></div>
+      <div class="cmp"><img loading="lazy" src="assets/compare/neu3d_cook_spinach.webp" alt="Neu3D cook_spinach comparison"></div>
+      <div class="cmp-title">coffee_martini</div>
+      <div class="cmp"><img loading="lazy" src="assets/compare/neu3d_coffee_martini.webp" alt="Neu3D coffee_martini comparison"></div>
       <p class="cap">Neu3D multi-view sequences, zero-shot. One camera is the input and another camera is the target. These cases were selected to show visible strengths.</p>
     </div>
 
@@ -227,11 +229,11 @@ footer{padding:28px 16px 40px;text-align:center;color:var(--mute);font-size:14px
       <table>
         <thead><tr><th>MultiCamVideo (random windows)</th><th>Trained on MCV</th><th>#Floats</th><th>PSNR&uarr;</th><th>SSIM&uarr;</th><th>LPIPS&darr;</th></tr></thead>
         <tbody>
-          <tr><td>MoVieS</td><td>&ndash;</td><td>719M</td><td class="u">17.26</td><td class="u">0.512</td><td class="b">0.366</td></tr>
+          <tr><td>MoVieS</td><td>&ndash;</td><td>228M</td><td class="u">17.26</td><td class="u">0.512</td><td class="b">0.366</td></tr>
           <tr><td>4DGT</td><td>&ndash;</td><td>26.9M</td><td>14.35</td><td>0.403</td><td>0.550</td></tr>
           <tr><td>C4G</td><td>&ndash;</td><td class="u">0.92M</td><td>13.64</td><td>0.369</td><td>0.596</td></tr>
           <tr><td>C4G</td><td>&check;</td><td class="u">0.92M</td><td>16.51</td><td>0.466</td><td>0.584</td></tr>
-          <tr class="ours"><td>Sparc4D</td><td>&check;</td><td class="b">0.67M</td><td class="b">17.39</td><td class="b">0.519</td><td class="u">0.370</td></tr>
+          <tr class="ours"><td>Sparc4D</td><td>&check;</td><td class="b">0.40M</td><td class="b">17.51</td><td class="b">0.524</td><td class="u">0.367</td></tr>
         </tbody>
       </table>
     </div>
@@ -246,11 +248,11 @@ footer{padding:28px 16px 40px;text-align:center;color:var(--mute);font-size:14px
           <tr><td>4DGT</td><td>~300 h real video</td><td>11.84</td><td>0.277</td><td>0.599</td><td class="b">17.33</td><td class="b">0.530</td><td class="b">0.281</td></tr>
           <tr><td>C4G</td><td>Spring, Kubric, RE10K</td><td>13.52</td><td class="b">0.351</td><td>0.634</td><td>11.78</td><td>0.285</td><td>0.588</td></tr>
           <tr><td>C4G (MCV fine-tuned)</td><td>+ MultiCamVideo</td><td>13.34</td><td>0.340</td><td>0.747</td><td>15.75</td><td>0.443</td><td>0.579</td></tr>
-          <tr class="ours"><td>Sparc4D</td><td>MultiCamVideo (synthetic)</td><td class="u">13.82</td><td>0.323</td><td class="u">0.543</td><td class="u">16.57</td><td class="u">0.465</td><td class="u">0.291</td></tr>
+          <tr class="ours"><td>Sparc4D</td><td>MultiCamVideo (synthetic)</td><td class="u">13.88</td><td>0.319</td><td class="u">0.547</td><td class="u">16.58</td><td class="u">0.465</td><td class="u">0.293</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="note center">Best in bold, second best underlined. #Floats counts the per-clip state; shared network weights are excluded. Full protocols are in the paper.</p>
+    <p class="note center">Best in bold, second best underlined. #Floats counts the fewest stored 32-bit values that render any input timestamp; shared network weights are excluded. Full protocols are in the paper.</p>
   </div>
 </section>
 
